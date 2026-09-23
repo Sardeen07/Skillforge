@@ -1,11 +1,13 @@
 {
   "name": "skillforge",
-  "owner": { "name": "SkillForge team" },
+  "owner": {
+    "name": "SkillForge team"
+  },
   "plugins": [
     {
       "name": "skillforge",
       "source": "./plugin",
-      "description": "Loads only the benchmarked skill fragments your current task needs."
+      "description": "Selects task-relevant instructions from a pinned library and delivers a bounded brief."
     }
   ]
 }

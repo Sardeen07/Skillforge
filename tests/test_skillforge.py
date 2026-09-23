@@ -1,5 +1,5 @@
 """Run with:  python3 -m unittest discover tests"""
-import importlib.util, json, sqlite3, subprocess, tempfile, unittest
+import importlib.util, json, sqlite3, subprocess, sys, tempfile, unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -115,6 +115,91 @@ class ImportPipeline(unittest.TestCase):
         exported = json.loads((sf.LIBRARY / "index.json").read_text())
         self.assertEqual({m["name"] for m in exported["modules"]}, {"coding-core", "demo"})
         self.assertEqual(exported["modules"][1]["source"]["commit"], self.commit)
+
+
+class Portability(unittest.TestCase):
+    """These all passed on Linux and failed on Windows, so they are pinned here."""
+
+    def test_clone_url_expands_only_github_shorthand(self):
+        self.assertEqual(sf.clone_url("obra/superpowers"),
+                         "https://github.com/obra/superpowers.git")
+        self.assertEqual(sf.clone_url("vercel-labs/agent-skills"),
+                         "https://github.com/vercel-labs/agent-skills.git")
+
+    def test_clone_url_leaves_urls_and_local_paths_alone(self):
+        for repo in ("https://github.com/a/b.git", "file:///srv/a", "/srv/upstream",
+                     r"C:\\Users\\dev\\upstream", r"D:\\src\\a\\b"):
+            self.assertEqual(sf.clone_url(repo), repo,
+                             f"{repo} must be usable as a clone target unchanged")
+
+    def test_library_files_are_utf8(self):
+        """A module read as cp1252 crashes the brief instead of degrading."""
+        lib = ROOT / "plugin" / "library"
+        for f in sorted(lib.rglob("*.md")):
+            with self.subTest(file=f.relative_to(lib)):
+                f.read_text(encoding="utf-8")  # raises if it is not valid UTF-8
+
+    def test_compose_prints_a_brief_header(self):
+        """ab.py and SKILL.md both key off this exact header to prove a brief loaded."""
+        out = subprocess.run(
+            [sys.executable, str(ROOT / "plugin/skills/skillforge/scripts/compose.py"),
+             "--mode", "coding", "--session", str(Path(tempfile.mkdtemp()) / "s.json"),
+             "--subtask", "fix a slow postgres query", "--stack", "postgres"],
+            capture_output=True, text=True, encoding="utf-8", check=True)
+        self.assertTrue(out.stdout.startswith("# SkillForge brief:"), out.stdout[:200])
+        self.assertIn("postgres", out.stdout)
+
+
+class ReferenceRules(unittest.TestCase):
+    """The brief must name the rule file, not just the folder it sits in.
+
+    Measured: pointing at a directory got zero reference files opened, and the run
+    missed keyset pagination while data-pagination.md sat unread inside it.
+    """
+
+    def setUp(self):
+        self.index = json.loads(
+            (ROOT / "plugin" / "library" / "index.json").read_text(encoding="utf-8"))
+        self.pg = next(m for m in self.index["modules"] if m["name"] == "postgres")
+
+    def test_matches_rules_on_frontmatter_not_filename(self):
+        """lock-skip-locked.md is found from "workers", which appears only in its tags."""
+        picked = compose.pick_references(self.pg, compose.words("concurrent workers queue"))
+        self.assertIn("modules/postgres/references/lock-skip-locked.md", picked)
+
+    def test_matches_the_pagination_rule_the_benchmark_missed(self):
+        picked = compose.pick_references(self.pg, compose.words("slow pagination on deep pages"))
+        self.assertIn("modules/postgres/references/data-pagination.md", picked)
+
+    def test_skips_scaffolding_and_caps_the_list(self):
+        picked = compose.pick_references(self.pg, compose.words("index query schema table lock data"))
+        self.assertLessEqual(len(picked), 4, "an unbounded list is the folder pointer again")
+        self.assertFalse([r for r in picked if Path(r).name.startswith("_")],
+                         "_template.md and _sections.md are scaffolding, not rules")
+
+    def test_no_match_returns_nothing(self):
+        self.assertEqual(compose.pick_references(self.pg, compose.words("zzzz")), [])
+
+
+class BenchmarkTasks(unittest.TestCase):
+    """A task whose test cannot be failed, or cannot be passed, measures nothing."""
+
+    def test_every_task_has_a_hidden_test_that_fails_on_the_unfixed_fixture(self):
+        tasks = sorted(p for p in (ROOT / "benchmarks" / "tasks").iterdir() if p.is_dir())
+        self.assertTrue(tasks, "no benchmark tasks found")
+        for task in tasks:
+            with self.subTest(task=task.name):
+                self.assertTrue((task / "task.txt").exists())
+                self.assertTrue((task / "test.py").exists())
+                try:
+                    r = subprocess.run([sys.executable, "test.py"], cwd=task,
+                                       capture_output=True, text=True, encoding="utf-8",
+                                       timeout=15)
+                except subprocess.TimeoutExpired:
+                    continue  # binary-search hangs on its own bug; that is a failure
+                self.assertNotEqual(r.returncode, 0,
+                                    f"{task.name}: the hidden test passes on the unfixed "
+                                    f"fixture, so it cannot measure anything")
 
 
 if __name__ == "__main__":

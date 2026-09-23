@@ -1,0 +1,55 @@
+[
+  {
+    "task": "postgres workers queue concurrency",
+    "modules": {
+      "estimated_brief_tokens": 1146,
+      "paths": [
+        "core/coding.md",
+        "modules/postgres/MODULE.md"
+      ]
+    },
+    "rules": {
+      "estimated_brief_tokens": 640,
+      "paths": [
+        "core/coding.md",
+        "modules/postgres/references/lock-skip-locked.md"
+      ]
+    }
+  },
+  {
+    "task": "react independent parallel fetch promises",
+    "modules": {
+      "estimated_brief_tokens": 2219,
+      "paths": [
+        "core/coding.md",
+        "modules/react-performance/MODULE.md"
+      ]
+    },
+    "rules": {
+      "estimated_brief_tokens": 1186,
+      "paths": [
+        "core/coding.md",
+        "modules/react-performance/rules/server-parallel-nested-fetching.md",
+        "modules/react-performance/rules/async-parallel.md",
+        "modules/react-performance/rules/server-parallel-fetching.md"
+      ]
+    }
+  },
+  {
+    "task": "postgres cursor keyset pagination",
+    "modules": {
+      "estimated_brief_tokens": 1146,
+      "paths": [
+        "core/coding.md",
+        "modules/postgres/MODULE.md"
+      ]
+    },
+    "rules": {
+      "estimated_brief_tokens": 641,
+      "paths": [
+        "core/coding.md",
+        "modules/postgres/references/data-pagination.md"
+      ]
+    }
+  }
+]

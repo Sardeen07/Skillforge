@@ -1,0 +1,1 @@
+We run eight fulfilment workers against Postgres, but throughput barely improves past two of them — they seem to spend most of their time waiting rather than working. Separately, the orders report is fine on the first few pages and unusably slow deep into it, and a customer's account page takes seconds to list their own orders. Make this faster. Keep the same behaviour.

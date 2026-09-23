@@ -1,0 +1,13 @@
+# Normalize to LF in the repository. Without this, editing on Windows commits CRLF
+# into the library modules, which changes their content hash and makes `sf.py import`
+# record a new module version for a file nobody edited.
+* text=auto eol=lf
+
+# Keep shell scripts LF whatever the checkout platform: CRLF breaks the shebang.
+*.sh text eol=lf
+
+*.png binary
+*.jpg binary
+*.gif binary
+*.sqlite binary
+*.db binary

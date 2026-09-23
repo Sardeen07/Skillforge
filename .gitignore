@@ -4,3 +4,7 @@ data/*.db
 data/sources/
 __pycache__/
 dist/
+
+# Local benchmark outputs and assistant settings
+data/*.jsonl
+.claude/

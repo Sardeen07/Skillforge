@@ -1,0 +1,412 @@
+[
+  {
+    "task": "the page waits for one fetch to finish before starting the next",
+    "expected": [
+      "react-performance"
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "hit": true,
+    "estimated_tokens": 720
+  },
+  {
+    "task": "importing one helper from our ui package pulls in the entire library",
+    "expected": [
+      "react-performance"
+    ],
+    "picked": [],
+    "hit": false,
+    "estimated_tokens": 268
+  },
+  {
+    "task": "this chart component is enormous and only shows up on one tab",
+    "expected": [
+      "react-performance"
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "hit": true,
+    "estimated_tokens": 1597
+  },
+  {
+    "task": "the analytics script is blocking first paint",
+    "expected": [
+      "react-performance"
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "hit": true,
+    "estimated_tokens": 1318
+  },
+  {
+    "task": "the same user lookup runs four times while rendering one page",
+    "expected": [
+      "react-performance"
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "hit": true,
+    "estimated_tokens": 1590
+  },
+  {
+    "task": "every child redraws whenever the parent updates its state",
+    "expected": [
+      "react-performance"
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "hit": true,
+    "estimated_tokens": 2411
+  },
+  {
+    "task": "we keep a filtered copy of the list in state and sync it with an effect",
+    "expected": [
+      "react-performance"
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "hit": true,
+    "estimated_tokens": 1936
+  },
+  {
+    "task": "typing in the search box freezes the big table",
+    "expected": [
+      "react-performance"
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "hit": false,
+    "estimated_tokens": 671
+  },
+  {
+    "task": "the heading flashes the wrong value on load then corrects itself",
+    "expected": [
+      "react-performance"
+    ],
+    "picked": [
+      "systematic-debugging"
+    ],
+    "hit": false,
+    "estimated_tokens": 2661
+  },
+  {
+    "task": "anyone can invoke our server action without being signed in",
+    "expected": [
+      "react-performance"
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "hit": true,
+    "estimated_tokens": 1287
+  },
+  {
+    "task": "a value computed at module scope is leaking between requests",
+    "expected": [
+      "react-performance"
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "hit": true,
+    "estimated_tokens": 2337
+  },
+  {
+    "task": "finding a matching record inside a loop over thousands of rows is slow",
+    "expected": [
+      "react-performance"
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "hit": true,
+    "estimated_tokens": 878
+  },
+  {
+    "task": "we rebuild the same pattern object on every row we process",
+    "expected": [
+      "react-performance"
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "hit": true,
+    "estimated_tokens": 1085
+  },
+  {
+    "task": "ordering the array in place is mutating the caller's data",
+    "expected": [
+      "react-performance"
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "hit": true,
+    "estimated_tokens": 1695
+  },
+  {
+    "task": "show the shell immediately and stream the slow section in later",
+    "expected": [
+      "react-performance"
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "hit": false,
+    "estimated_tokens": 664
+  },
+  {
+    "task": "we await a flag before a cheap check that would have exited early",
+    "expected": [
+      "react-performance"
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "hit": true,
+    "estimated_tokens": 1415
+  },
+  {
+    "task": "preload the page as soon as someone hovers the link",
+    "expected": [
+      "react-performance"
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "hit": true,
+    "estimated_tokens": 1269
+  },
+  {
+    "task": "reading layout properties in a loop is thrashing the browser",
+    "expected": [
+      "react-performance"
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "hit": true,
+    "estimated_tokens": 1962
+  },
+  {
+    "task": "filtering on status and created date together is slow",
+    "expected": [
+      "postgres"
+    ],
+    "picked": [],
+    "hit": false,
+    "estimated_tokens": 268
+  },
+  {
+    "task": "we only ever read the rows that are not archived but the index covers all of them",
+    "expected": [
+      "postgres"
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "hit": true,
+    "estimated_tokens": 640
+  },
+  {
+    "task": "how do I work out which statements are eating the most time",
+    "expected": [
+      "postgres"
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "hit": false,
+    "estimated_tokens": 903
+  },
+  {
+    "task": "check whether the planner is actually using the index I added",
+    "expected": [
+      "postgres"
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "hit": true,
+    "estimated_tokens": 1104
+  },
+  {
+    "task": "we write ten thousand records one statement at a time",
+    "expected": [
+      "postgres"
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "hit": false,
+    "estimated_tokens": 1900
+  },
+  {
+    "task": "we fetch the author separately for each post in the list",
+    "expected": [
+      "postgres"
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "hit": false,
+    "estimated_tokens": 512
+  },
+  {
+    "task": "paging through results gets slower the deeper you go",
+    "expected": [
+      "postgres"
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "hit": true,
+    "estimated_tokens": 641
+  },
+  {
+    "task": "two workers keep picking up the same job from the queue table",
+    "expected": [
+      "postgres"
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "hit": true,
+    "estimated_tokens": 640
+  },
+  {
+    "task": "one customer can read another customer's records",
+    "expected": [
+      "postgres"
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "hit": false,
+    "estimated_tokens": 750
+  },
+  {
+    "task": "turning on row security made every read crawl",
+    "expected": [
+      "postgres"
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "hit": false,
+    "estimated_tokens": 750
+  },
+  {
+    "task": "we run out of available connections when traffic spikes",
+    "expected": [
+      "postgres"
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "hit": true,
+    "estimated_tokens": 632
+  },
+  {
+    "task": "fix the infinite loop in this binary search",
+    "expected": [
+      "systematic-debugging"
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "hit": false,
+    "estimated_tokens": 671
+  },
+  {
+    "task": "the suite passes on its own but fails when run with everything else",
+    "expected": [
+      "systematic-debugging"
+    ],
+    "picked": [
+      "systematic-debugging"
+    ],
+    "hit": true,
+    "estimated_tokens": 2661
+  },
+  {
+    "task": "we patched it where the error showed up and it broke somewhere else instead",
+    "expected": [
+      "systematic-debugging"
+    ],
+    "picked": [
+      "systematic-debugging"
+    ],
+    "hit": true,
+    "estimated_tokens": 2661
+  },
+  {
+    "task": "our tests mock so much that they still pass when the real code is broken",
+    "expected": [
+      "test-driven-development"
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "hit": false,
+    "estimated_tokens": 891
+  },
+  {
+    "task": "eight workers but throughput is the same as two, they wait on each other",
+    "expected": [
+      "postgres"
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "hit": true,
+    "estimated_tokens": 640
+  },
+  {
+    "task": "our job queue workers keep blocking behind whoever grabbed the row first",
+    "expected": [
+      "postgres"
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "hit": true,
+    "estimated_tokens": 640
+  },
+  {
+    "task": "the report is fine on page 2 and unusable on page 900",
+    "expected": [
+      "postgres"
+    ],
+    "picked": [],
+    "hit": false,
+    "estimated_tokens": 268
+  },
+  {
+    "task": "deleting a customer locks up and scans everything",
+    "expected": [
+      "postgres"
+    ],
+    "picked": [],
+    "hit": false,
+    "estimated_tokens": 268
+  },
+  {
+    "task": "we hold a row lock while calling the payment api",
+    "expected": [
+      "postgres"
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "hit": true,
+    "estimated_tokens": 1057
+  }
+]

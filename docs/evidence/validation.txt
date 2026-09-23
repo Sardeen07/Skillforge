@@ -1,0 +1,161 @@
+$ npm test
+
+> test
+> node forge/py.mjs -m unittest discover tests -v
+
+[none] isolated config; model=None; settings=None; fixture=binary-search
+applied 001_initial.sql
+applied 002_curation.sql
+database at schema version 2: db.sqlite
+imported demo                             /tmp/tmpei_4f1gx/upstream@2c2e566
+database at schema version 2: db.sqlite
+imported demo                             /tmp/tmpei_4f1gx/upstream@2c2e566
+exported 2 modules to plugin/library/index.json
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+test_fixture_excludes_hidden_grader_and_keeps_subdirectories (test_ab.BenchmarkIntegrity.test_fixture_excludes_hidden_grader_and_keeps_subdirectories) ... ok
+test_keep_never_retains_credential_support_directory (test_ab.BenchmarkIntegrity.test_keep_never_retains_credential_support_directory) ... ok
+test_missing_cli_is_retained_as_unknown_cost_error (test_ab.BenchmarkIntegrity.test_missing_cli_is_retained_as_unknown_cost_error) ... ok
+test_native_gets_exactly_eligible_modules (test_ab.BenchmarkIntegrity.test_native_gets_exactly_eligible_modules) ... ok
+test_only_matching_successful_tool_result_proves_delivery (test_ab.BenchmarkIntegrity.test_only_matching_successful_tool_result_proves_delivery) ... ok
+test_prose_and_tool_arguments_do_not_prove_brief (test_ab.BenchmarkIntegrity.test_prose_and_tool_arguments_do_not_prove_brief) ... ok
+test_timeout_is_retained_as_error (test_ab.BenchmarkIntegrity.test_timeout_is_retained_as_error) ... ok
+test_catalog_excludes_scaffolding_and_aggregate_files (test_delivery.Delivery.test_catalog_excludes_scaffolding_and_aggregate_files) ... ok
+test_changed_content_invalidates_cache_without_version_bump (test_delivery.Delivery.test_changed_content_invalidates_cache_without_version_bump) ... ok
+test_delivery_ablation_keeps_selection_fixed (test_delivery.Delivery.test_delivery_ablation_keeps_selection_fixed) ... ok
+test_dependency_cannot_bypass_overlap_group (test_delivery.Delivery.test_dependency_cannot_bypass_overlap_group) ... ok
+test_dependency_cycles_refused (test_delivery.Delivery.test_dependency_cycles_refused) ... ok
+test_dependency_payload_must_fit_before_dependent_is_delivered (test_delivery.Delivery.test_dependency_payload_must_fit_before_dependent_is_delivered) ... ok
+test_exact_serialized_estimate_respects_budget (test_delivery.Delivery.test_exact_serialized_estimate_respects_budget) ... ok
+test_invalid_or_insufficient_budget_fails (test_delivery.Delivery.test_invalid_or_insufficient_budget_fails) ... ok
+test_new_rule_same_module_is_not_hidden_by_session (test_delivery.Delivery.test_new_rule_same_module_is_not_hidden_by_session) ... ok
+test_no_cross_subtask_keyword_leak (test_delivery.Delivery.test_no_cross_subtask_keyword_leak) ... ok
+test_path_traversal_refused (test_delivery.Delivery.test_path_traversal_refused) ... ok
+test_plural_is_one_signal_and_technology_does_not_pull_unrelated_rules (test_delivery.Delivery.test_plural_is_one_signal_and_technology_does_not_pull_unrelated_rules) ... ok
+test_repeated_brief_suppresses_bodies (test_delivery.Delivery.test_repeated_brief_suppresses_bodies) ... ok
+test_stack_alone_does_not_select_modules (test_delivery.Delivery.test_stack_alone_does_not_select_modules) ... ok
+test_symptom_routes_and_delivers_actual_rule (test_delivery.Delivery.test_symptom_routes_and_delivers_actual_rule) ... ok
+test_every_task_has_a_hidden_test_that_fails_on_the_unfixed_fixture (test_skillforge.BenchmarkTasks.test_every_task_has_a_hidden_test_that_fails_on_the_unfixed_fixture) ... ok
+test_budget_includes_core_and_is_enforced (test_skillforge.ComposeRules.test_budget_includes_core_and_is_enforced) ... ok
+test_conflicts_are_refused (test_skillforge.ComposeRules.test_conflicts_are_refused) ... ok
+test_no_match_returns_core_only (test_skillforge.ComposeRules.test_no_match_returns_core_only) ... ok
+test_one_module_per_overlap_group (test_skillforge.ComposeRules.test_one_module_per_overlap_group) ... ok
+test_rejected_and_candidate_modules_are_not_eligible (test_skillforge.ComposeRules.test_rejected_and_candidate_modules_are_not_eligible) ... ok
+test_requirement_over_budget_skips_whole_group (test_skillforge.ComposeRules.test_requirement_over_budget_skips_whole_group) ... ok
+test_requires_are_loaded_and_counted (test_skillforge.ComposeRules.test_requires_are_loaded_and_counted) ... ok
+test_session_does_not_charge_for_already_emitted (test_skillforge.ComposeRules.test_session_does_not_charge_for_already_emitted) ... ok
+test_migrate_import_export_are_repeatable_and_traceable (test_skillforge.ImportPipeline.test_migrate_import_export_are_repeatable_and_traceable) ... ok
+test_clone_url_expands_only_github_shorthand (test_skillforge.Portability.test_clone_url_expands_only_github_shorthand) ... ok
+test_clone_url_leaves_urls_and_local_paths_alone (test_skillforge.Portability.test_clone_url_leaves_urls_and_local_paths_alone) ... ok
+test_compose_prints_a_brief_header (test_skillforge.Portability.test_compose_prints_a_brief_header)
+ab.py and SKILL.md both key off this exact header to prove a brief loaded. ... ok
+test_library_files_are_utf8 (test_skillforge.Portability.test_library_files_are_utf8)
+A module read as cp1252 crashes the brief instead of degrading. ... ok
+test_matches_rules_on_frontmatter_not_filename (test_skillforge.ReferenceRules.test_matches_rules_on_frontmatter_not_filename)
+lock-skip-locked.md is found from "workers", which appears only in its tags. ... ok
+test_matches_the_pagination_rule_the_benchmark_missed (test_skillforge.ReferenceRules.test_matches_the_pagination_rule_the_benchmark_missed) ... ok
+test_no_match_returns_nothing (test_skillforge.ReferenceRules.test_no_match_returns_nothing) ... ok
+test_skips_scaffolding_and_caps_the_list (test_skillforge.ReferenceRules.test_skips_scaffolding_and_caps_the_list) ... ok
+
+----------------------------------------------------------------------
+Ran 40 tests in 15.440s
+
+OK
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.1.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.1.0
+npm notice To update run: npm install -g npm@12.1.0
+npm notice
+
+exit=0
+
+$ npm run retrieval -- --baseline
+
+> retrieval
+> node forge/py.mjs forge/score_retrieval.py --baseline
+
+miss  importing one helper from our ui package pulls in the entire library -> [] expected ['react-performance']
+miss  the analytics script is blocking first paint -> [] expected ['react-performance']
+miss  the same user lookup runs four times while rendering one page -> [] expected ['react-performance']
+miss  every child redraws whenever the parent updates its state -> [] expected ['react-performance']
+miss  we keep a filtered copy of the list in state and sync it with an effect -> [] expected ['react-performance']
+miss  typing in the search box freezes the big table -> ['postgres'] expected ['react-performance']
+miss  the heading flashes the wrong value on load then corrects itself -> ['systematic-debugging'] expected ['react-performance']
+miss  anyone can invoke our server action without being signed in -> [] expected ['react-performance']
+miss  a value computed at module scope is leaking between requests -> [] expected ['react-performance']
+miss  finding a matching record inside a loop over thousands of rows is slow -> [] expected ['react-performance']
+miss  we rebuild the same pattern object on every row we process -> [] expected ['react-performance']
+miss  ordering the array in place is mutating the caller's data -> [] expected ['react-performance']
+miss  show the shell immediately and stream the slow section in later -> [] expected ['react-performance']
+miss  we await a flag before a cheap check that would have exited early -> [] expected ['react-performance']
+miss  preload the page as soon as someone hovers the link -> [] expected ['react-performance']
+miss  reading layout properties in a loop is thrashing the browser -> [] expected ['react-performance']
+miss  filtering on status and created date together is slow -> [] expected ['postgres']
+miss  how do I work out which statements are eating the most time -> [] expected ['postgres']
+miss  we write ten thousand records one statement at a time -> [] expected ['postgres']
+miss  we fetch the author separately for each post in the list -> [] expected ['postgres']
+miss  paging through results gets slower the deeper you go -> [] expected ['postgres']
+miss  one customer can read another customer's records -> [] expected ['postgres']
+miss  turning on row security made every read crawl -> [] expected ['postgres']
+miss  we run out of available connections when traffic spikes -> [] expected ['postgres']
+miss  fix the infinite loop in this binary search -> [] expected ['systematic-debugging']
+miss  our tests mock so much that they still pass when the real code is broken -> ['systematic-debugging'] expected ['test-driven-development']
+miss  eight workers but throughput is the same as two, they wait on each other -> [] expected ['postgres']
+miss  our job queue workers keep blocking behind whoever grabbed the row first -> [] expected ['postgres']
+miss  the report is fine on page 2 and unusable on page 900 -> [] expected ['postgres']
+miss  deleting a customer locks up and scans everything -> [] expected ['postgres']
+miss  we hold a row lock while calling the payment api -> [] expected ['postgres']
+hit 7/38 (18.4%); core-only 28/38
+Development routing only. Baseline estimates exclude wrappers and subsequent rule reads.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+exit=0
+
+$ npm run retrieval -- --min 0.60
+
+> retrieval
+> node forge/py.mjs forge/score_retrieval.py --min 0.60
+
+miss  importing one helper from our ui package pulls in the entire library -> [] expected ['react-performance']
+miss  typing in the search box freezes the big table -> ['postgres'] expected ['react-performance']
+miss  the heading flashes the wrong value on load then corrects itself -> ['systematic-debugging'] expected ['react-performance']
+miss  show the shell immediately and stream the slow section in later -> ['postgres'] expected ['react-performance']
+miss  filtering on status and created date together is slow -> [] expected ['postgres']
+miss  how do I work out which statements are eating the most time -> ['react-performance'] expected ['postgres']
+miss  we write ten thousand records one statement at a time -> ['react-performance'] expected ['postgres']
+miss  we fetch the author separately for each post in the list -> ['react-performance'] expected ['postgres']
+miss  one customer can read another customer's records -> ['react-performance'] expected ['postgres']
+miss  turning on row security made every read crawl -> ['react-performance'] expected ['postgres']
+miss  fix the infinite loop in this binary search -> ['postgres'] expected ['systematic-debugging']
+miss  our tests mock so much that they still pass when the real code is broken -> ['react-performance'] expected ['test-driven-development']
+miss  the report is fine on page 2 and unusable on page 900 -> [] expected ['postgres']
+miss  deleting a customer locks up and scans everything -> [] expected ['postgres']
+hit 24/38 (63.2%); core-only 4/38
+Development routing only. Baseline estimates exclude wrappers and subsequent rule reads.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+exit=0
+
+$ npm run retrieval -- --cases benchmarks/retrieval-negatives.jsonl --stack react,postgres --min 1
+
+> retrieval
+> node forge/py.mjs forge/score_retrieval.py --cases benchmarks/retrieval-negatives.jsonl --stack react,postgres --min 1
+
+hit 6/6 (100.0%); core-only 6/6
+Development routing only. Baseline estimates exclude wrappers and subsequent rule reads.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+exit=0
+
+$ npm run ab -- --dry-run --arms none,native,skillforge,sf-modules,sf-keywords --task benchmarks/tasks/pg-queue-throughput
+
+> ab
+> node forge/py.mjs forge/ab.py --dry-run --arms none,native,skillforge,sf-modules,sf-keywords --task benchmarks/tasks/pg-queue-throughput
+
+[sf-modules] isolated config; model=None; settings=('modules', 'references'); fixture=pg-queue-throughput
+[sf-keywords] isolated config; model=None; settings=('rules', 'keywords'); fixture=pg-queue-throughput
+[none] isolated config; model=None; settings=None; fixture=pg-queue-throughput
+[native] isolated config; model=None; settings=None; fixture=pg-queue-throughput
+[skillforge] isolated config; model=None; settings=('rules', 'references'); fixture=pg-queue-throughput
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+exit=0

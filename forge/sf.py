@@ -10,7 +10,7 @@
 
 Every command is safe to repeat. Token counts are estimates (characters / 4).
 """
-import argparse, fnmatch, hashlib, json, shutil, sqlite3, subprocess, sys
+import argparse, fnmatch, hashlib, json, re, shutil, sqlite3, subprocess, sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -56,7 +56,7 @@ def migrate(con):
         n = int(f.name.split("_")[0])
         if n <= version:
             continue
-        con.executescript(f.read_text())
+        con.executescript(f.read_text(encoding="utf-8"))
         con.execute(f"PRAGMA user_version = {n}")
         print(f"applied {f.name}")
     for table, cols in ADDED_COLUMNS.items():
@@ -69,13 +69,22 @@ def migrate(con):
 
 
 # ---------------------------------------------------------------- import
+GITHUB_SHORTHAND = re.compile(r"^[\w.-]+/[\w.-]+$")
+
+
 def clone_url(repo):
-    return repo if repo.startswith(("/", "file:", "http")) else f"https://github.com/{repo}.git"
+    """Expand GitHub shorthand only; a URL or a local path is already a clone target.
+
+    Matching on a leading "/" is not enough: a Windows absolute path such as
+    C:\\src\\upstream became https://github.com/C:\\src\\upstream.git and every
+    import failed there.
+    """
+    return f"https://github.com/{repo}.git" if GITHUB_SHORTHAND.match(repo) else repo
 
 
 def fetch_source(repo, commit):
     """Check out repo at an exact commit under data/sources (reused if present)."""
-    dest = SOURCES / f"{repo.strip('/').replace('/', '__')}@{commit[:12]}"
+    dest = SOURCES / f"{hashlib.sha256(repo.encode('utf-8')).hexdigest()[:20]}@{commit[:12]}"
     if (dest / ".git").exists():
         return dest
     dest.mkdir(parents=True, exist_ok=True)
@@ -138,7 +147,7 @@ def record_source(con, src, local_path):
                    ON CONFLICT(repo, path) DO UPDATE SET license=excluded.license""",
                 (src["repo"], src["path"], Path(src["path"]).name, src.get("license"), now()))
     skill_id = con.execute("SELECT id FROM skills WHERE repo=? AND path=?", (src["repo"], src["path"])).fetchone()[0]
-    text = (local_path / "SKILL.md").read_text()
+    text = (local_path / "SKILL.md").read_text(encoding="utf-8")
     digest = hashlib.sha256(text.encode()).hexdigest()
     row = con.execute("SELECT id FROM skill_versions WHERE skill_id=? AND commit_sha=?",
                       (skill_id, src["commit"])).fetchone()
@@ -150,10 +159,10 @@ def record_source(con, src, local_path):
 
 
 def import_curation(con, curation_path):
-    cur = json.loads(Path(curation_path).read_text())
+    cur = json.loads(Path(curation_path).read_text(encoding="utf-8"))
     mode = cur["mode"]
     core = cur["core"]
-    core_text = (LIBRARY / core["path"]).read_text()
+    core_text = (LIBRARY / core["path"]).read_text(encoding="utf-8")
     upsert_module(con, core, "core", mode, core["path"], core_text)
     con.execute("""INSERT INTO mode_configs (mode, core_module, budget_tokens) VALUES (?,?,?)
                    ON CONFLICT(mode) DO UPDATE SET core_module=excluded.core_module,
@@ -173,7 +182,8 @@ def import_curation(con, curation_path):
         repo_license = checkout / "LICENSE"
         if repo_license.exists() and not any(dest.glob("LICENSE*")):
             shutil.copy2(repo_license, dest / "LICENSE")
-        upsert_module(con, spec, "module", mode, str(main.relative_to(LIBRARY)), main.read_text(), sv_id)
+        upsert_module(con, spec, "module", mode, str(main.relative_to(LIBRARY)),
+                      main.read_text(encoding="utf-8"), sv_id)
         print(f"imported {spec['name']:32} {src['repo']}@{src['commit'][:7]}")
     con.commit()
 
@@ -219,7 +229,8 @@ def export(con):
         refs = sorted(str(p.relative_to(LIBRARY)) for p in folder.rglob("*")
                       if p.is_file() and p.name not in ("MODULE.md", "SOURCE.json", "LICENSE")
                       and not p.name.startswith("LICENSE")) if m["kind"] == "module" else []
-        source = json.loads((folder / "SOURCE.json").read_text()) if (folder / "SOURCE.json").exists() else None
+        source = (json.loads((folder / "SOURCE.json").read_text(encoding="utf-8"))
+                  if (folder / "SOURCE.json").exists() else None)
         modules.append({
             "name": m["name"], "version": m["version"], "kind": m["kind"], "mode": m["mode"],
             "capability": m["capability"], "overlap_group": m["overlap_group"],
@@ -229,7 +240,7 @@ def export(con):
              for r in con.execute("SELECT * FROM mode_configs")}
     index = {"generated_at": now(), "token_estimate": "characters / 4 (estimate, not a measured token count)",
              "modes": modes, "modules": modules}
-    (LIBRARY / "index.json").write_text(json.dumps(index, indent=2) + "\n")
+    (LIBRARY / "index.json").write_text(json.dumps(index, indent=2) + "\n", encoding="utf-8")
     print(f"exported {len(modules)} modules to plugin/library/index.json")
 
 

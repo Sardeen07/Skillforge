@@ -3,8 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "python3 -m unittest discover tests -v",
-    "compose:demo": "python3 plugin/skills/skillforge/scripts/compose.py --mode coding --subtask \"fix the failing bug\""
+    "test": "node forge/py.mjs -m unittest discover tests -v",
+    "retrieval": "node forge/py.mjs forge/score_retrieval.py",
+    "compose:demo": "node forge/py.mjs plugin/skills/skillforge/scripts/compose.py --mode coding --subtask \"fix the failing bug\"",
+    "ab": "node forge/py.mjs forge/ab.py"
   },
   "devDependencies": { "typescript": "^5.0.0", "tsx": "^4.0.0" }
 }

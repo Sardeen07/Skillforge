@@ -1,0 +1,1 @@
+search() in broken.py hangs forever on some inputs instead of returning. Fix it.

@@ -1,0 +1,6 @@
+{"mode":"coding","task":"rewrite README wording","expect":[]}
+{"mode":"coding","task":"correct a spelling mistake","expect":[]}
+{"mode":"coding","task":"rename the license heading","expect":[]}
+{"mode":"coding","task":"translate the welcome message into French","expect":[]}
+{"mode":"coding","task":"format the changelog bullets","expect":[]}
+{"mode":"coding","task":"alphabetize the contributor names","expect":[]}

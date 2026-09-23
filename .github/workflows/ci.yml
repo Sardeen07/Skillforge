@@ -1,9 +1,20 @@
 name: ci
 on: [push, pull_request]
 jobs:
-  compose:
-    runs-on: ubuntu-latest
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - run: python3 -c "import json; json.load(open('plugin/library/index.json'))"
-      - run: python3 plugin/skills/skillforge/scripts/compose.py --mode coding "fix bug reproduce"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test
+      - run: npm run retrieval -- --min 0.60
+      - run: npm run retrieval -- --cases benchmarks/retrieval-negatives.jsonl --stack react,postgres --min 1
+      - run: npm run compose:demo

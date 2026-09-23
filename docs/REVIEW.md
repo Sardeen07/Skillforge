@@ -1,0 +1,129 @@
+# SkillForge review and implementation
+
+## Conclusion
+
+SkillForge has a plausible benefit as a local rule retriever that supplies useful
+instructions directly and bounds their context cost. The uploaded benchmark result
+does not establish that it beats either no skills or ordinary native skills.
+
+The complete uploaded local project was the implementation base. GitHub HEAD at
+inspection was `fa3964d`, which lacked the local benchmark runner, tasks, scorecard,
+and reference-picker changes. The local ZIP reproduced 18 passing tests and 7/38
+routing hits. The quoted 6/12 versus 6/12 and native 8/12 are user-supplied results;
+raw transcripts/results for those runs were not included. They were not reproduced.
+
+## What changed
+
+| Change | Why it matters | Relevant files |
+| --- | --- | --- |
+| Reference-aware retrieval | Reaches specialized guidance from symptoms, even without a module keyword | `delivery.py`, `compose.py` |
+| Complete rules in the brief | Avoids paying for a table of contents plus separate reads before getting guidance | `delivery.py` |
+| Complete serialized-output budget | Counts rule bodies, headings and provenance, rather than just stale module estimates | `delivery.py` |
+| Content-addressed, explicit session cache | Prevents shared temp state from suppressing instructions in a fresh session; new rules in the same module still load | `compose.py`, `delivery.py` |
+| Exact duplicate suppression | Identical complete payloads are emitted once per brief; this is not semantic deduplication | `delivery.py` |
+| Cycle and dependency overlap checks | Rejects dependency cycles and overlap violations instead of recursion failure or conflicting providers | `compose.py` |
+| Comparable native inventory | Native installs exported provisional/preferred modules only, instead of also getting the excluded verification module | `forge/ab.py` |
+| Structured activation evidence | Requires a compose tool result instead of matching a mention anywhere in the transcript | `forge/ab.py` |
+| Explicit model, seeded order, saved attempts | Records errors, hashes, cache/input/output usage and unknown costs without dropping failed attempts | `forge/ab.py` |
+| Independent routing/delivery arms | Allows changing one intervention at a time instead of attributing a combined change to one feature | `forge/ab.py` |
+| Windows-friendly source cache directory | Hashes repository identifiers so Windows drive colons cannot become directory-name components | `forge/sf.py` |
+| Tests in both CI operating systems | Runs unit tests, positive/negative retrieval gates and a composer smoke test | `.github/workflows/ci.yml` |
+
+The original `compose()`/`pick_references()`/`render()` remain available for baseline
+inspection and existing tests. The installed CLI uses `build_brief()` for bounded
+delivery. All imported guidance, source metadata and task graders retain their
+original text. The original module status and score fields were not promoted. Marketplace metadata
+missing from the ZIP was retained from GitHub; descriptions no longer claim an
+unproven benchmark win.
+
+## Measured locally
+
+| Measurement | Uploaded local baseline | Updated code |
+| --- | ---: | ---: |
+| Existing 38-case development routing set | 7/38 (18.4%) | 24/38 (63.2%) |
+| Original routing hits retained | 7 | 7 |
+| Core-only cases on that set | 28/38 | 4/38 |
+| New unrelated-task regression cases, with React/Postgres stack hints | Not measured | 6/6 abstain |
+
+The 38 cases were not edited. The new negative set is a development regression
+fixture, not an independent holdout. The corpus and cases were inspected while
+building retrieval. Do not publish these numbers as unbiased generalization results.
+CI's 60% routing floor guards the observed development result, not product quality.
+
+Full per-case predictions are in `docs/evidence/retrieval-before.json` and
+`retrieval-after.json`, including all misses. `delivery-examples.json` records these
+illustrative serialized brief estimates (characters / 4):
+
+| Explicit task | Modules plus paths | Inline rules |
+| --- | ---: | ---: |
+| Postgres queue workers | 1,146 | 640 |
+| React independent parallel fetches | 2,219 | 1,186 |
+| Postgres keyset pagination | 1,146 | 641 |
+
+These are selected examples, not aggregate token savings. The modules column does
+not include subsequent reference reads. Actual tokenization, cache effects, router
+turns, reasoning tokens, latency and coding quality were not measured. Absolute
+reference-path length can slightly change the modules column on another machine.
+
+All 40 tests passed on Linux. Validation commands and final test output are in `docs/evidence/validation.txt`.
+Claude Code was not installed in this environment. No paid agent runs occurred;
+runner behavior was checked with mocks and all-arm dry runs. Windows CI is configured
+but was not executed here.
+
+## Remaining weaknesses and product decisions
+
+1. **Routing still misses 14/38.** Ten misses select the wrong module and four select
+   none. Generic words such as "table", "row" and "loop" cross domains. A core-only
+   response is preferable to confidently loading unrelated advice. Next measure
+   precision and abstention on fresh mixed-domain tasks with confirmed stack context.
+2. **Lexical retrieval is not semantic search.** It uses title/tag/intro term overlap,
+   inverse document frequency, a two-distinct-term gate or a rare explicit tag, and
+   deterministic ordering. Single/plural variants count once. No task-specific
+   synonym list was added. Evaluate an embedding retriever only against this cheaper
+   baseline, including latency and dependency cost.
+3. **Budget allocation is greedy.** Modules are selected before serialization; whole
+   rules that cannot fit are skipped and logged. It is not a global optimal packer.
+   Four rules per module may be too few for a compound task. Inspect unit audit output
+   and use concrete separate sub-tasks. Dependency payloads stay whole.
+4. **Compaction is extractive.** It removes unneeded indexes and selects complete
+   references. It does not rewrite or semantically merge overlapping advice. This
+   avoids claiming equivalence for an unvalidated summary. Related React rules may
+   still duplicate concepts. Add manually reviewed compact variants only when a
+   held-out behavioral suite can detect omitted constraints.
+5. **The graders are weak evidence.** Postgres and React use static pattern checks.
+   A commented SQL example can satisfy some checks; an unused cursor function may
+   count despite unchanged report behavior; transaction control through helper
+   calls is not fully modeled. Passing those checks does not prove queue correctness,
+   API compatibility, idempotency, or performance. Their files were deliberately
+   left unchanged, so this patch does not move the scoring target.
+6. **Reference examples are incomplete applications.** Moving an HTTP payment call
+   outside a transaction also needs an atomic job claim, retry policy and idempotency.
+   Native and SkillForge share the same upstream content. Retrieval cannot fix
+   incorrect or incomplete guidance by itself.
+7. **Scores in the database are still provisional.** Do not insert development
+   routing hit rates into module quality scores. A single score cannot describe all
+   models/tasks. Promotion needs versioned task outcomes and a native comparison.
+8. **Isolation is practical, not adversarial.** Separate projects/configs prevent
+   accidental plugin leakage. Tools still run on the same host. Hidden tests are
+   withheld from the working directory, not secured against a hostile agent.
+
+The recommended positioning is: **one task-specific instruction brief from a
+pinned library, with observable selection and controlled context size**. Better
+code per dollar is the hypothesis to test, not the marketing claim yet. If native
+skills match quality at lower cost, keep native as the default and offer SkillForge
+for the larger libraries or specialized tasks where it demonstrates a benefit.
+
+## Review and commit
+
+The delivered archive contains the full project, including the local changes that
+were absent from GitHub. It excludes runtime caches, personal assistant settings,
+credentials, and Git history. `changes-from-local.patch` contains only this review's
+text changes relative to the uploaded local tree. It uses LF-normalized text.
+
+Work on a new branch of your existing checkout. Copy the complete archive's project
+files over that checkout, keeping its `.git` directory. Review `git diff` and
+`git status`, run the commands in `validation.txt`, then stage intended files.
+There is no need to initialize a new repository or replace your Git history.
+
+Suggested commit message: `Add bounded rule delivery and auditable benchmark arms`.
+No commit or push was made to your remote repository.
