@@ -1,0 +1,8 @@
+{
+  "repo": "supabase/agent-skills",
+  "commit": "8331f910845103c08d51f6ca1d86ebb7d1f745e3",
+  "path": "skills/supabase-postgres-best-practices",
+  "license": "MIT",
+  "modified": false,
+  "note": "Original text; SKILL.md renamed to MODULE.md"
+}

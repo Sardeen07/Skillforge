@@ -1,5 +1,6 @@
 node_modules/
 .env
 data/*.db
+data/sources/
 __pycache__/
 dist/

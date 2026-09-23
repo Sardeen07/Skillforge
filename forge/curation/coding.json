@@ -1,0 +1,67 @@
+{
+  "mode": "coding",
+  "budget_tokens": 5000,
+  "core": {
+    "name": "coding-core",
+    "path": "core/coding.md",
+    "status": "provisional",
+    "notes": "Authored for SkillForge; inspired by Ponytail (MIT) and Superpowers verification-before-completion (MIT). New text, so it does not inherit their benchmark results."
+  },
+  "modules": [
+    {
+      "name": "systematic-debugging",
+      "source": {"repo": "obra/superpowers", "commit": "5bf4e78011075bcfc0dc295f0724994cd123ee71",
+                 "path": "skills/systematic-debugging", "license": "MIT"},
+      "exclude": ["test-*.md", "CREATION-LOG.md"],
+      "capability": "root-cause debugging",
+      "overlap_group": "debugging",
+      "applies": ["bug", "error", "fail", "failing", "failure", "crash", "broken", "exception", "traceback",
+                  "debug", "regression", "unexpected", "wrong", "flaky", "investigate", "why"],
+      "mentions": [
+        {"target": "test-driven-development", "reason": "Step 4 says to use the TDD skill for a failing test"},
+        {"target": "verification-before-completion", "reason": "Says to verify before claiming success; coding-core covers this"}
+      ],
+      "status": "provisional"
+    },
+    {
+      "name": "test-driven-development",
+      "source": {"repo": "obra/superpowers", "commit": "5bf4e78011075bcfc0dc295f0724994cd123ee71",
+                 "path": "skills/test-driven-development", "license": "MIT"},
+      "capability": "test-first development",
+      "overlap_group": "testing",
+      "applies": ["test", "tdd", "coverage", "unit", "spec", "assert", "pytest", "jest", "vitest"],
+      "status": "provisional"
+    },
+    {
+      "name": "verification-before-completion",
+      "source": {"repo": "obra/superpowers", "commit": "5bf4e78011075bcfc0dc295f0724994cd123ee71",
+                 "path": "skills/verification-before-completion", "license": "MIT"},
+      "capability": "evidence before success claims",
+      "overlap_group": "verification",
+      "applies": ["verify", "done", "complete", "ship", "release"],
+      "status": "candidate",
+      "notes": "Kept out of the export: coding-core has a one-line version. Promote only if benchmarks show the full workflow helps."
+    },
+    {
+      "name": "react-performance",
+      "source": {"repo": "vercel-labs/agent-skills", "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+                 "path": "skills/react-best-practices", "license": "MIT"},
+      "exclude": ["*.zip"],
+      "capability": "React and Next.js performance",
+      "overlap_group": "react-perf",
+      "applies": ["react", "nextjs", "next", "component", "render", "rerender", "hook", "jsx", "tsx", "bundle",
+                  "hydration", "suspense", "memo"],
+      "status": "provisional"
+    },
+    {
+      "name": "postgres",
+      "source": {"repo": "supabase/agent-skills", "commit": "8331f910845103c08d51f6ca1d86ebb7d1f745e3",
+                 "path": "skills/supabase-postgres-best-practices", "license": "MIT"},
+      "capability": "Postgres schema, queries, indexes, RLS",
+      "overlap_group": "postgres",
+      "applies": ["postgres", "postgresql", "sql", "query", "database", "db", "schema", "index", "migration",
+                  "table", "rls", "supabase", "pg", "explain"],
+      "status": "provisional"
+    }
+  ]
+}
