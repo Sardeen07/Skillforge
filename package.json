@@ -1,0 +1,7 @@
+{
+  "name": "skillforge-forge",
+  "private": true,
+  "type": "module",
+  "scripts": { "test:compose": "python3 plugin/skills/skillforge/scripts/compose.py --mode coding \"fix bug reproduce\"" },
+  "devDependencies": { "typescript": "^5.0.0", "tsx": "^4.0.0" }
+}

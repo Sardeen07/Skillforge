@@ -1,0 +1,29 @@
+{
+  "generated_by": "forge/build-library.ts (placeholder entries until the pipeline runs)",
+  "skills": [
+    {
+      "id": "ponytail",
+      "type": "external",
+      "modes": ["coding"],
+      "tags": ["simple", "minimal", "code", "feature"],
+      "description": "Pushes agents toward the simplest implementation that keeps validation and safety.",
+      "install": "/plugin marketplace add DietrichGebert/ponytail",
+      "license": "MIT",
+      "source": "https://github.com/DietrichGebert/ponytail",
+      "risk": "low",
+      "score": 0
+    },
+    {
+      "id": "example-debugging",
+      "type": "fragment",
+      "path": "fragments/debugging/example-debugging.md",
+      "modes": ["coding", "debugging"],
+      "tags": ["bug", "reproduce", "debug", "fix"],
+      "description": "Reproduce first, then isolate, then fix with a regression test.",
+      "license": "MIT",
+      "source": "placeholder",
+      "risk": "low",
+      "score": 0
+    }
+  ]
+}

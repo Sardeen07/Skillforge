@@ -1,0 +1,11 @@
+{
+  "name": "skillforge",
+  "owner": { "name": "SkillForge team" },
+  "plugins": [
+    {
+      "name": "skillforge",
+      "source": "./plugin",
+      "description": "Loads only the benchmarked skill fragments your current task needs."
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "name": "skillforge",
+  "version": "0.1.0",
+  "description": "A Claude skill that maximizes session efficiency by composing vetted skills based on task needs."
+}
