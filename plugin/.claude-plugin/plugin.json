@@ -1,5 +1,5 @@
 {
   "name": "skillforge",
   "version": "0.1.0",
-  "description": "Composes task-relevant provisional instructions into a bounded coding brief."
+  "description": "Delivers matching curated coding rules on every prompt, within a bounded brief."
 }

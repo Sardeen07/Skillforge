@@ -3,6 +3,7 @@ import importlib.util, json, sqlite3, subprocess, sys, tempfile, unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "plugin/skills/skillforge/scripts"))
 
 
 def load(name, path):
@@ -144,41 +145,43 @@ class Portability(unittest.TestCase):
         out = subprocess.run(
             [sys.executable, str(ROOT / "plugin/skills/skillforge/scripts/compose.py"),
              "--mode", "coding", "--session", str(Path(tempfile.mkdtemp()) / "s.json"),
-             "--subtask", "fix a slow postgres query", "--stack", "postgres"],
+             "--subtask", "postgres workers block each other in the job queue", "--stack", "postgres"],
             capture_output=True, text=True, encoding="utf-8", check=True)
         self.assertTrue(out.stdout.startswith("# SkillForge brief:"), out.stdout[:200])
-        self.assertIn("postgres", out.stdout)
+        self.assertIn("postgres/lock-skip-locked", out.stdout)
 
 
 class ReferenceRules(unittest.TestCase):
-    """The brief must name the rule file, not just the folder it sits in.
+    """Rules are reached from the reported symptom, and the list stays short.
 
     Measured: pointing at a directory got zero reference files opened, and the run
     missed keyset pagination while data-pagination.md sat unread inside it.
     """
 
     def setUp(self):
+        import retrieval
+        self.r = retrieval
         self.index = json.loads(
             (ROOT / "plugin" / "library" / "index.json").read_text(encoding="utf-8"))
-        self.pg = next(m for m in self.index["modules"] if m["name"] == "postgres")
+        self.ix = retrieval.Index(retrieval.load_rules(self.index, ROOT / "plugin" / "library"))
+
+    def ids(self, text):
+        return [r["id"] for _, r in self.r.rank(self.index, self.ix, [text])[0][1]]
 
     def test_matches_rules_on_frontmatter_not_filename(self):
-        """lock-skip-locked.md is found from "workers", which appears only in its tags."""
-        picked = compose.pick_references(self.pg, compose.words("concurrent workers queue"))
-        self.assertIn("modules/postgres/references/lock-skip-locked.md", picked)
+        """lock-skip-locked.md is found from "workers", which appears in its tags, not its name."""
+        self.assertIn("postgres/lock-skip-locked", self.ids("concurrent workers queue"))
 
     def test_matches_the_pagination_rule_the_benchmark_missed(self):
-        picked = compose.pick_references(self.pg, compose.words("slow pagination on deep pages"))
-        self.assertIn("modules/postgres/references/data-pagination.md", picked)
+        self.assertIn("postgres/data-pagination", self.ids("slow pagination on deep pages"))
 
     def test_skips_scaffolding_and_caps_the_list(self):
-        picked = compose.pick_references(self.pg, compose.words("index query schema table lock data"))
+        picked = self.ids("index query schema table lock data")
         self.assertLessEqual(len(picked), 4, "an unbounded list is the folder pointer again")
-        self.assertFalse([r for r in picked if Path(r).name.startswith("_")],
-                         "_template.md and _sections.md are scaffolding, not rules")
+        self.assertFalse([r for r in picked if "/_" in r], "_template.md and _sections.md are scaffolding")
 
     def test_no_match_returns_nothing(self):
-        self.assertEqual(compose.pick_references(self.pg, compose.words("zzzz")), [])
+        self.assertEqual(self.ids("zzzz"), [])
 
 
 class BenchmarkTasks(unittest.TestCase):
@@ -194,7 +197,7 @@ class BenchmarkTasks(unittest.TestCase):
                 try:
                     r = subprocess.run([sys.executable, "test.py"], cwd=task,
                                        capture_output=True, text=True, encoding="utf-8",
-                                       timeout=15)
+                                       timeout=300 if "pgserver" in (task / "test.py").read_text(encoding="utf-8") else 15)
                 except subprocess.TimeoutExpired:
                     continue  # binary-search hangs on its own bug; that is a failure
                 self.assertNotEqual(r.returncode, 0,

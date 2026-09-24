@@ -1,0 +1,70 @@
+[
+  {
+    "task": "the orders page is slow",
+    "expected": [],
+    "needs": [],
+    "picked": [
+      "postgres"
+    ],
+    "rules": [
+      "postgres/data-pagination"
+    ],
+    "module_hit": false,
+    "score": 0.0,
+    "precision": 0.0,
+    "relevant": 0,
+    "unnecessary": 1,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 642
+  },
+  {
+    "task": "continue",
+    "expected": [],
+    "needs": [],
+    "picked": [],
+    "rules": [],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": null,
+    "relevant": 0,
+    "unnecessary": 0,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 268
+  },
+  {
+    "task": "fix that",
+    "expected": [],
+    "needs": [],
+    "picked": [],
+    "rules": [],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": null,
+    "relevant": 0,
+    "unnecessary": 0,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 268
+  },
+  {
+    "task": "ok do it",
+    "expected": [],
+    "needs": [],
+    "picked": [],
+    "rules": [],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": null,
+    "relevant": 0,
+    "unnecessary": 0,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 268
+  }
+]

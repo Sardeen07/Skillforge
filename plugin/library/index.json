@@ -16,6 +16,8 @@
       "capability": null,
       "overlap_group": null,
       "applies": [],
+      "technologies": [],
+      "rules": {},
       "status": "provisional",
       "score": null,
       "est_tokens": 193,
@@ -49,6 +51,17 @@
         "pg",
         "explain"
       ],
+      "technologies": [
+        "postgres",
+        "postgresql",
+        "sql",
+        "supabase",
+        "pg",
+        "psql",
+        "plpgsql",
+        "rls"
+      ],
+      "rules": {},
       "status": "provisional",
       "score": null,
       "est_tokens": 807,
@@ -124,6 +137,15 @@
         "suspense",
         "memo"
       ],
+      "technologies": [
+        "react",
+        "reactjs",
+        "nextjs",
+        "jsx",
+        "tsx",
+        "rsc"
+      ],
+      "rules": {},
       "status": "provisional",
       "score": null,
       "est_tokens": 1812,
@@ -242,6 +264,74 @@
         "investigate",
         "why"
       ],
+      "technologies": [],
+      "rules": {
+        "phase-1-root-cause-investigation": {
+          "requires": [
+            "overview"
+          ]
+        },
+        "phase-2-pattern-analysis": {
+          "requires": [
+            "phase-1-root-cause-investigation"
+          ]
+        },
+        "phase-3-hypothesis-and-testing": {
+          "requires": [
+            "phase-2-pattern-analysis"
+          ]
+        },
+        "phase-4-implementation": {
+          "requires": [
+            "phase-3-hypothesis-and-testing"
+          ]
+        },
+        "red-flags-stop-and-follow-process": {
+          "requires": [
+            "overview"
+          ]
+        },
+        "common-rationalizations": {
+          "requires": [
+            "overview"
+          ]
+        },
+        "condition-based-waiting#implementation": {
+          "requires": [
+            "condition-based-waiting#overview"
+          ]
+        },
+        "defense-in-depth#the-four-layers": {
+          "requires": [
+            "defense-in-depth#overview"
+          ]
+        },
+        "defense-in-depth#example-from-session": {
+          "requires": [
+            "defense-in-depth#the-four-layers"
+          ]
+        },
+        "root-cause-tracing#the-tracing-process": {
+          "requires": [
+            "root-cause-tracing#overview"
+          ]
+        },
+        "root-cause-tracing#adding-stack-traces": {
+          "requires": [
+            "root-cause-tracing#the-tracing-process"
+          ]
+        },
+        "root-cause-tracing#real-example-empty-projectdir": {
+          "requires": [
+            "root-cause-tracing#the-tracing-process"
+          ]
+        },
+        "root-cause-tracing#key-principle": {
+          "requires": [
+            "root-cause-tracing#overview"
+          ]
+        }
+      },
       "status": "provisional",
       "score": null,
       "est_tokens": 2360,
@@ -292,6 +382,69 @@
         "jest",
         "vitest"
       ],
+      "technologies": [],
+      "rules": {
+        "red-green-refactor": {
+          "requires": [
+            "overview"
+          ]
+        },
+        "red-write-failing-test": {
+          "requires": [
+            "red-green-refactor"
+          ]
+        },
+        "green-minimal-code": {
+          "requires": [
+            "red-write-failing-test"
+          ]
+        },
+        "verify-green-watch-it-pass": {
+          "requires": [
+            "green-minimal-code"
+          ]
+        },
+        "good-tests": {
+          "requires": [
+            "overview"
+          ]
+        },
+        "common-rationalizations": {
+          "requires": [
+            "overview"
+          ]
+        },
+        "red-flags-stop-and-start-over": {
+          "requires": [
+            "overview"
+          ]
+        },
+        "example-bug-fix": {
+          "requires": [
+            "red-green-refactor"
+          ]
+        },
+        "writing-good-tests#principle-1-name-the-break": {
+          "requires": [
+            "writing-good-tests#overview"
+          ]
+        },
+        "writing-good-tests#principle-2-exercise-the-real-thing": {
+          "requires": [
+            "writing-good-tests#overview"
+          ]
+        },
+        "writing-good-tests#quick-reference": {
+          "requires": [
+            "writing-good-tests#overview"
+          ]
+        },
+        "writing-good-tests#warning-signs": {
+          "requires": [
+            "writing-good-tests#overview"
+          ]
+        }
+      },
       "status": "provisional",
       "score": null,
       "est_tokens": 2389,

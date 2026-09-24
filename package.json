@@ -5,8 +5,10 @@
   "scripts": {
     "test": "node forge/py.mjs -m unittest discover tests -v",
     "retrieval": "node forge/py.mjs forge/score_retrieval.py",
-    "compose:demo": "node forge/py.mjs plugin/skills/skillforge/scripts/compose.py --mode coding --subtask \"fix the failing bug\"",
-    "ab": "node forge/py.mjs forge/ab.py"
+    "compose:demo": "node forge/py.mjs plugin/skills/skillforge/scripts/compose.py --subtask \"workers block each other in the job queue\"",
+    "catalog:demo": "node forge/py.mjs plugin/skills/skillforge/scripts/compose.py --catalog",
+    "ab": "node forge/py.mjs forge/ab.py",
+    "graders": "node forge/py.mjs forge/validate_graders.py"
   },
   "devDependencies": { "typescript": "^5.0.0", "tsx": "^4.0.0" }
 }

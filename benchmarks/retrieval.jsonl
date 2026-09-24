@@ -1,38 +1,39 @@
-{"mode": "coding", "task": "the page waits for one fetch to finish before starting the next", "expect": ["react-performance"]}
-{"mode": "coding", "task": "importing one helper from our ui package pulls in the entire library", "expect": ["react-performance"]}
-{"mode": "coding", "task": "this chart component is enormous and only shows up on one tab", "expect": ["react-performance"]}
-{"mode": "coding", "task": "the analytics script is blocking first paint", "expect": ["react-performance"]}
-{"mode": "coding", "task": "the same user lookup runs four times while rendering one page", "expect": ["react-performance"]}
-{"mode": "coding", "task": "every child redraws whenever the parent updates its state", "expect": ["react-performance"]}
-{"mode": "coding", "task": "we keep a filtered copy of the list in state and sync it with an effect", "expect": ["react-performance"]}
-{"mode": "coding", "task": "typing in the search box freezes the big table", "expect": ["react-performance"]}
-{"mode": "coding", "task": "the heading flashes the wrong value on load then corrects itself", "expect": ["react-performance"]}
-{"mode": "coding", "task": "anyone can invoke our server action without being signed in", "expect": ["react-performance"]}
-{"mode": "coding", "task": "a value computed at module scope is leaking between requests", "expect": ["react-performance"]}
-{"mode": "coding", "task": "finding a matching record inside a loop over thousands of rows is slow", "expect": ["react-performance"]}
-{"mode": "coding", "task": "we rebuild the same pattern object on every row we process", "expect": ["react-performance"]}
-{"mode": "coding", "task": "ordering the array in place is mutating the caller's data", "expect": ["react-performance"]}
-{"mode": "coding", "task": "show the shell immediately and stream the slow section in later", "expect": ["react-performance"]}
-{"mode": "coding", "task": "we await a flag before a cheap check that would have exited early", "expect": ["react-performance"]}
-{"mode": "coding", "task": "preload the page as soon as someone hovers the link", "expect": ["react-performance"]}
-{"mode": "coding", "task": "reading layout properties in a loop is thrashing the browser", "expect": ["react-performance"]}
-{"mode": "coding", "task": "filtering on status and created date together is slow", "expect": ["postgres"]}
-{"mode": "coding", "task": "we only ever read the rows that are not archived but the index covers all of them", "expect": ["postgres"]}
-{"mode": "coding", "task": "how do I work out which statements are eating the most time", "expect": ["postgres"]}
-{"mode": "coding", "task": "check whether the planner is actually using the index I added", "expect": ["postgres"]}
-{"mode": "coding", "task": "we write ten thousand records one statement at a time", "expect": ["postgres"]}
-{"mode": "coding", "task": "we fetch the author separately for each post in the list", "expect": ["postgres"]}
-{"mode": "coding", "task": "paging through results gets slower the deeper you go", "expect": ["postgres"]}
-{"mode": "coding", "task": "two workers keep picking up the same job from the queue table", "expect": ["postgres"]}
-{"mode": "coding", "task": "one customer can read another customer's records", "expect": ["postgres"]}
-{"mode": "coding", "task": "turning on row security made every read crawl", "expect": ["postgres"]}
-{"mode": "coding", "task": "we run out of available connections when traffic spikes", "expect": ["postgres"]}
-{"mode": "coding", "task": "fix the infinite loop in this binary search", "expect": ["systematic-debugging"]}
-{"mode": "coding", "task": "the suite passes on its own but fails when run with everything else", "expect": ["systematic-debugging"]}
-{"mode": "coding", "task": "we patched it where the error showed up and it broke somewhere else instead", "expect": ["systematic-debugging"]}
-{"mode": "coding", "task": "our tests mock so much that they still pass when the real code is broken", "expect": ["test-driven-development"]}
-{"mode": "coding", "task": "eight workers but throughput is the same as two, they wait on each other", "expect": ["postgres"]}
-{"mode": "coding", "task": "our job queue workers keep blocking behind whoever grabbed the row first", "expect": ["postgres"]}
-{"mode": "coding", "task": "the report is fine on page 2 and unusable on page 900", "expect": ["postgres"]}
-{"mode": "coding", "task": "deleting a customer locks up and scans everything", "expect": ["postgres"]}
-{"mode": "coding", "task": "we hold a row lock while calling the payment api", "expect": ["postgres"]}
+{"mode": "coding", "task": "the page waits for one fetch to finish before starting the next", "expect": ["react-performance"], "rules": [["react-performance/async-parallel", "react-performance/server-parallel-fetching", "react-performance/async-dependencies"]]}
+{"mode": "coding", "task": "importing one helper from our ui package pulls in the entire library", "expect": ["react-performance"], "rules": [["react-performance/bundle-barrel-imports"]]}
+{"mode": "coding", "task": "this chart component is enormous and only shows up on one tab", "expect": ["react-performance"], "rules": [["react-performance/bundle-dynamic-imports", "react-performance/bundle-conditional"]]}
+{"mode": "coding", "task": "the analytics script is blocking first paint", "expect": ["react-performance"], "rules": [["react-performance/bundle-defer-third-party", "react-performance/rendering-script-defer-async"]]}
+{"mode": "coding", "task": "the same user lookup runs four times while rendering one page", "expect": ["react-performance"], "rules": [["react-performance/server-cache-react", "react-performance/client-swr-dedup"]]}
+{"mode": "coding", "task": "every child redraws whenever the parent updates its state", "expect": ["react-performance"], "rules": [["react-performance/rerender-memo"]]}
+{"mode": "coding", "task": "we keep a filtered copy of the list in state and sync it with an effect", "expect": ["react-performance"], "rules": [["react-performance/rerender-derived-state-no-effect"]]}
+{"mode": "coding", "task": "typing in the search box freezes the big table", "expect": ["react-performance"], "rules": [["react-performance/rerender-use-deferred-value", "react-performance/rerender-transitions"]]}
+{"mode": "coding", "task": "the heading flashes the wrong value on load then corrects itself", "expect": ["react-performance"], "rules": [["react-performance/rendering-hydration-no-flicker"]]}
+{"mode": "coding", "task": "anyone can invoke our server action without being signed in", "expect": ["react-performance"], "rules": [["react-performance/server-auth-actions"]]}
+{"mode": "coding", "task": "a value computed at module scope is leaking between requests", "expect": ["react-performance"], "rules": [["react-performance/server-no-shared-module-state"]]}
+{"mode": "coding", "task": "finding a matching record inside a loop over thousands of rows is slow", "expect": ["react-performance"], "rules": [["react-performance/js-index-maps", "react-performance/js-set-map-lookups"]]}
+{"mode": "coding", "task": "we rebuild the same pattern object on every row we process", "expect": ["react-performance"], "rules": [["react-performance/js-hoist-regexp"]]}
+{"mode": "coding", "task": "ordering the array in place is mutating the caller's data", "expect": ["react-performance"], "rules": [["react-performance/js-tosorted-immutable"]]}
+{"mode": "coding", "task": "show the shell immediately and stream the slow section in later", "expect": ["react-performance"], "rules": [["react-performance/async-suspense-boundaries"]]}
+{"mode": "coding", "task": "we await a flag before a cheap check that would have exited early", "expect": ["react-performance"], "rules": [["react-performance/async-cheap-condition-before-await"]]}
+{"mode": "coding", "task": "preload the page as soon as someone hovers the link", "expect": ["react-performance"], "rules": [["react-performance/bundle-preload"]]}
+{"mode": "coding", "task": "reading layout properties in a loop is thrashing the browser", "expect": ["react-performance"], "rules": [["react-performance/js-batch-dom-css"]]}
+{"mode": "coding", "task": "filtering on status and created date together is slow", "expect": ["postgres"], "rules": [["postgres/query-composite-indexes"]]}
+{"mode": "coding", "task": "we only ever read the rows that are not archived but the index covers all of them", "expect": ["postgres"], "rules": [["postgres/query-partial-indexes"]]}
+{"mode": "coding", "task": "how do I work out which statements are eating the most time", "expect": ["postgres"], "rules": [["postgres/monitor-pg-stat-statements"]]}
+{"mode": "coding", "task": "check whether the planner is actually using the index I added", "expect": ["postgres"], "rules": [["postgres/monitor-explain-analyze"]]}
+{"mode": "coding", "task": "we write ten thousand records one statement at a time", "expect": ["postgres"], "rules": [["postgres/data-batch-inserts"]]}
+{"mode": "coding", "task": "we fetch the author separately for each post in the list", "expect": ["postgres"], "rules": [["postgres/data-n-plus-one"]]}
+{"mode": "coding", "task": "paging through results gets slower the deeper you go", "expect": ["postgres"], "rules": [["postgres/data-pagination"]]}
+{"mode": "coding", "task": "two workers keep picking up the same job from the queue table", "expect": ["postgres"], "rules": [["postgres/lock-skip-locked"]]}
+{"mode": "coding", "task": "one customer can read another customer's records", "expect": ["postgres"], "rules": [["postgres/security-rls-basics"]]}
+{"mode": "coding", "task": "turning on row security made every read crawl", "expect": ["postgres"], "rules": [["postgres/security-rls-performance"]]}
+{"mode": "coding", "task": "we run out of available connections when traffic spikes", "expect": ["postgres"], "rules": [["postgres/conn-pooling", "postgres/conn-limits"]]}
+{"mode": "coding", "task": "fix the infinite loop in this binary search", "expect": ["systematic-debugging"], "rules": [["systematic-debugging#*"]]}
+{"mode": "coding", "task": "the suite passes on its own but fails when run with everything else", "expect": ["systematic-debugging"], "rules": [["systematic-debugging/root-cause-tracing#*", "systematic-debugging/condition-based-waiting#*"]]}
+{"mode": "coding", "task": "we patched it where the error showed up and it broke somewhere else instead", "expect": ["systematic-debugging"], "rules": [["systematic-debugging/root-cause-tracing#*", "systematic-debugging/defense-in-depth#*"]]}
+{"mode": "coding", "task": "our tests mock so much that they still pass when the real code is broken", "expect": ["test-driven-development"], "rules": [["test-driven-development/writing-good-tests#*"]]}
+{"mode": "coding", "task": "eight workers but throughput is the same as two, they wait on each other", "expect": ["postgres"], "rules": [["postgres/lock-skip-locked"]]}
+{"mode": "coding", "task": "our job queue workers keep blocking behind whoever grabbed the row first", "expect": ["postgres"], "rules": [["postgres/lock-skip-locked"]]}
+{"mode": "coding", "task": "the report is fine on page 2 and unusable on page 900", "expect": ["postgres"], "rules": [["postgres/data-pagination"]]}
+{"mode": "coding", "task": "deleting a customer locks up and scans everything", "expect": ["postgres"], "rules": [["postgres/schema-foreign-key-indexes"]]}
+{"mode": "coding", "task": "we hold a row lock while calling the payment api", "expect": ["postgres"], "rules": [["postgres/lock-short-transactions"]]}
+{"mode": "coding", "task": "We run eight fulfilment workers against Postgres, but throughput barely improves past two of them \u2014 they seem to spend most of their time waiting rather than working. Separately, the orders report is fine on the first few pages and unusably slow deep into it, and a customer's account page takes seconds to list their own orders. Make this faster. Keep the same behaviour.", "expect": ["postgres"], "rules": [["postgres/lock-skip-locked"], ["postgres/data-pagination"], ["postgres/schema-foreign-key-indexes"]], "note": "pg-queue-throughput/task.txt verbatim; the short-transaction defect is only visible in the code, so it is not expected from the text"}

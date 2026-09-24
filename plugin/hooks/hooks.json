@@ -1,0 +1,12 @@
+{
+  "description": "SkillForge delivery experiment. Off unless SKILLFORGE_HOOK is brief, catalog or fixed.",
+  "hooks": {
+    "UserPromptSubmit": [
+      {"hooks": [{"type": "command", "command": "sh \"${CLAUDE_PLUGIN_ROOT}/hooks/run-hook.sh\"", "timeout": 15}]}
+    ],
+    "SessionStart": [
+      {"matcher": "compact|clear|resume",
+       "hooks": [{"type": "command", "command": "sh \"${CLAUDE_PLUGIN_ROOT}/hooks/run-hook.sh\"", "timeout": 15}]}
+    ]
+  }
+}

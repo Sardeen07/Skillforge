@@ -23,6 +23,8 @@ EXPORT_STATUSES = ("provisional", "preferred")
 
 # Columns added to tables that already exist (SQLite lacks ADD COLUMN IF NOT EXISTS).
 ADDED_COLUMNS = {
+    "modules": {"technologies": "TEXT",  # JSON list; a strong retrieval prior when named
+                "rule_meta": "TEXT"},    # JSON {rule: {requires, conflicts, evidence}}, hand-declared
     "skill_versions": {"local_path": "TEXT"},
     "tasks": {"suite": "TEXT"},  # dev | heldout
     "runs": {"composition_id": "INTEGER REFERENCES compositions(id)", "arm": "TEXT",
@@ -119,17 +121,22 @@ def upsert_module(con, spec, kind, mode, path, text, skill_version_id=None):
                       (spec["name"], digest)).fetchone()
     if row:
         module_id = row["id"]
-        con.execute("UPDATE modules SET status=?, applies=?, capability=?, overlap_group=?, notes=? WHERE id=?",
-                    (spec.get("status", "candidate"), json.dumps(spec.get("applies", [])),
-                     spec.get("capability"), spec.get("overlap_group"), spec.get("notes"), module_id))
+        con.execute("UPDATE modules SET status=?, applies=?, technologies=?, rule_meta=?, capability=?, overlap_group=?, "
+                    "notes=? WHERE id=?", (spec.get("status", "candidate"), json.dumps(spec.get("applies", [])),
+                                  json.dumps(spec.get("technologies", [])), json.dumps(spec.get("rules", {})),
+                                  spec.get("capability"),
+                                  spec.get("overlap_group"), spec.get("notes"), module_id))
     else:
         prev = con.execute("SELECT MAX(version) FROM modules WHERE name=?", (spec["name"],)).fetchone()[0]
         module_id = con.execute(
-            """INSERT INTO modules (name, version, kind, mode, capability, overlap_group, applies, path,
-                                    content_hash, est_tokens, status, compacted, notes, created_at)
-               VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+            """INSERT INTO modules (name, version, kind, mode, capability, overlap_group, applies, technologies,
+                                    rule_meta, path, content_hash, est_tokens, status, compacted, notes,
+                                    created_at)
+               VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
             (spec["name"], (prev or 0) + 1, kind, mode, spec.get("capability"), spec.get("overlap_group"),
-             json.dumps(spec.get("applies", [])), path, digest, est_tokens(text),
+             json.dumps(spec.get("applies", [])), json.dumps(spec.get("technologies", [])),
+             json.dumps(spec.get("rules", {})), path, digest,
+             est_tokens(text),
              spec.get("status", "candidate"), int(spec.get("compacted", False)), spec.get("notes"), now())).lastrowid
     con.execute("DELETE FROM module_relations WHERE module_id=?", (module_id,))
     for kind_name in ("requires", "mentions", "conflicts"):
@@ -234,7 +241,9 @@ def export(con):
         modules.append({
             "name": m["name"], "version": m["version"], "kind": m["kind"], "mode": m["mode"],
             "capability": m["capability"], "overlap_group": m["overlap_group"],
-            "applies": json.loads(m["applies"]), "status": m["status"], "score": m["score"],
+            "applies": json.loads(m["applies"]), "technologies": json.loads(m["technologies"] or "[]"),
+            "rules": json.loads(m["rule_meta"] or "{}"),
+            "status": m["status"], "score": m["score"],
             "est_tokens": m["est_tokens"], "path": m["path"], "references": refs, "source": source, **rels})
     modes = {r["mode"]: {"core": r["core_module"], "budget_tokens": r["budget_tokens"]}
              for r in con.execute("SELECT * FROM mode_configs")}

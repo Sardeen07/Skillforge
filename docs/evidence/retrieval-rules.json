@@ -1,0 +1,1052 @@
+[
+  {
+    "task": "the page waits for one fetch to finish before starting the next",
+    "expected": [
+      "react-performance"
+    ],
+    "needs": [
+      [
+        "react-performance/async-parallel",
+        "react-performance/server-parallel-fetching",
+        "react-performance/async-dependencies"
+      ]
+    ],
+    "picked": [
+      "postgres",
+      "react-performance"
+    ],
+    "rules": [
+      "react-performance/async-suspense-boundaries",
+      "react-performance/server-parallel-fetching",
+      "react-performance/rendering-resource-hints",
+      "postgres/lock-skip-locked"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 0.25,
+    "relevant": 1,
+    "unnecessary": 3,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 2409
+  },
+  {
+    "task": "importing one helper from our ui package pulls in the entire library",
+    "expected": [
+      "react-performance"
+    ],
+    "needs": [
+      [
+        "react-performance/bundle-barrel-imports"
+      ]
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "rules": [
+      "react-performance/bundle-barrel-imports",
+      "react-performance/bundle-defer-third-party"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 0.5,
+    "relevant": 1,
+    "unnecessary": 1,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 1270
+  },
+  {
+    "task": "this chart component is enormous and only shows up on one tab",
+    "expected": [
+      "react-performance"
+    ],
+    "needs": [
+      [
+        "react-performance/bundle-dynamic-imports",
+        "react-performance/bundle-conditional"
+      ]
+    ],
+    "picked": [],
+    "rules": [],
+    "module_hit": false,
+    "score": 0.0,
+    "precision": null,
+    "relevant": 0,
+    "unnecessary": 0,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 268
+  },
+  {
+    "task": "the analytics script is blocking first paint",
+    "expected": [
+      "react-performance"
+    ],
+    "needs": [
+      [
+        "react-performance/bundle-defer-third-party",
+        "react-performance/rendering-script-defer-async"
+      ]
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "rules": [
+      "react-performance/rendering-script-defer-async",
+      "react-performance/bundle-defer-third-party",
+      "react-performance/server-after-nonblocking"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 0.6666666666666666,
+    "relevant": 2,
+    "unnecessary": 1,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 1584
+  },
+  {
+    "task": "the same user lookup runs four times while rendering one page",
+    "expected": [
+      "react-performance"
+    ],
+    "needs": [
+      [
+        "react-performance/server-cache-react",
+        "react-performance/client-swr-dedup"
+      ]
+    ],
+    "picked": [],
+    "rules": [],
+    "module_hit": false,
+    "score": 0.0,
+    "precision": null,
+    "relevant": 0,
+    "unnecessary": 0,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 268
+  },
+  {
+    "task": "every child redraws whenever the parent updates its state",
+    "expected": [
+      "react-performance"
+    ],
+    "needs": [
+      [
+        "react-performance/rerender-memo"
+      ]
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "rules": [
+      "react-performance/rerender-functional-setstate",
+      "react-performance/rerender-no-inline-components"
+    ],
+    "module_hit": true,
+    "score": 0.0,
+    "precision": 0.0,
+    "relevant": 0,
+    "unnecessary": 2,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 1619
+  },
+  {
+    "task": "we keep a filtered copy of the list in state and sync it with an effect",
+    "expected": [
+      "react-performance"
+    ],
+    "needs": [
+      [
+        "react-performance/rerender-derived-state-no-effect"
+      ]
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "rules": [
+      "react-performance/rerender-use-deferred-value"
+    ],
+    "module_hit": true,
+    "score": 0.0,
+    "precision": 0.0,
+    "relevant": 0,
+    "unnecessary": 1,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 772
+  },
+  {
+    "task": "typing in the search box freezes the big table",
+    "expected": [
+      "react-performance"
+    ],
+    "needs": [
+      [
+        "react-performance/rerender-use-deferred-value",
+        "react-performance/rerender-transitions"
+      ]
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "rules": [
+      "postgres/query-index-types"
+    ],
+    "module_hit": false,
+    "score": 0.0,
+    "precision": 0.0,
+    "relevant": 0,
+    "unnecessary": 1,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 683
+  },
+  {
+    "task": "the heading flashes the wrong value on load then corrects itself",
+    "expected": [
+      "react-performance"
+    ],
+    "needs": [
+      [
+        "react-performance/rendering-hydration-no-flicker"
+      ]
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "rules": [
+      "react-performance/rendering-hydration-no-flicker"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 1.0,
+    "relevant": 1,
+    "unnecessary": 0,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 887
+  },
+  {
+    "task": "anyone can invoke our server action without being signed in",
+    "expected": [
+      "react-performance"
+    ],
+    "needs": [
+      [
+        "react-performance/server-auth-actions"
+      ]
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "rules": [
+      "react-performance/server-auth-actions"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 1.0,
+    "relevant": 1,
+    "unnecessary": 0,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 968
+  },
+  {
+    "task": "a value computed at module scope is leaking between requests",
+    "expected": [
+      "react-performance"
+    ],
+    "needs": [
+      [
+        "react-performance/server-no-shared-module-state"
+      ]
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "rules": [
+      "react-performance/server-no-shared-module-state",
+      "react-performance/server-hoist-static-io",
+      "react-performance/server-cache-lru"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 0.3333333333333333,
+    "relevant": 1,
+    "unnecessary": 2,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 2264
+  },
+  {
+    "task": "finding a matching record inside a loop over thousands of rows is slow",
+    "expected": [
+      "react-performance"
+    ],
+    "needs": [
+      [
+        "react-performance/js-index-maps",
+        "react-performance/js-set-map-lookups"
+      ]
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "rules": [
+      "postgres/query-partial-indexes"
+    ],
+    "module_hit": false,
+    "score": 0.0,
+    "precision": 0.0,
+    "relevant": 0,
+    "unnecessary": 1,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 640
+  },
+  {
+    "task": "we rebuild the same pattern object on every row we process",
+    "expected": [
+      "react-performance"
+    ],
+    "needs": [
+      [
+        "react-performance/js-hoist-regexp"
+      ]
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "rules": [
+      "postgres/lock-skip-locked"
+    ],
+    "module_hit": false,
+    "score": 0.0,
+    "precision": 0.0,
+    "relevant": 0,
+    "unnecessary": 1,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 642
+  },
+  {
+    "task": "ordering the array in place is mutating the caller's data",
+    "expected": [
+      "react-performance"
+    ],
+    "needs": [
+      [
+        "react-performance/js-tosorted-immutable"
+      ]
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "rules": [
+      "react-performance/js-tosorted-immutable",
+      "react-performance/js-length-check-first"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 0.5,
+    "relevant": 1,
+    "unnecessary": 1,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 1229
+  },
+  {
+    "task": "show the shell immediately and stream the slow section in later",
+    "expected": [
+      "react-performance"
+    ],
+    "needs": [
+      [
+        "react-performance/async-suspense-boundaries"
+      ]
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "rules": [
+      "react-performance/async-suspense-boundaries"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 1.0,
+    "relevant": 1,
+    "unnecessary": 0,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 931
+  },
+  {
+    "task": "we await a flag before a cheap check that would have exited early",
+    "expected": [
+      "react-performance"
+    ],
+    "needs": [
+      [
+        "react-performance/async-cheap-condition-before-await"
+      ]
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "rules": [
+      "react-performance/async-cheap-condition-before-await",
+      "react-performance/async-defer-await",
+      "react-performance/js-length-check-first"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 0.3333333333333333,
+    "relevant": 1,
+    "unnecessary": 2,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 1675
+  },
+  {
+    "task": "preload the page as soon as someone hovers the link",
+    "expected": [
+      "react-performance"
+    ],
+    "needs": [
+      [
+        "react-performance/bundle-preload"
+      ]
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "rules": [
+      "react-performance/bundle-preload",
+      "react-performance/rendering-resource-hints"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 0.5,
+    "relevant": 1,
+    "unnecessary": 1,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 1262
+  },
+  {
+    "task": "reading layout properties in a loop is thrashing the browser",
+    "expected": [
+      "react-performance"
+    ],
+    "needs": [
+      [
+        "react-performance/js-batch-dom-css"
+      ]
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "rules": [
+      "react-performance/js-batch-dom-css",
+      "react-performance/js-cache-property-access"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 0.5,
+    "relevant": 1,
+    "unnecessary": 1,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 1286
+  },
+  {
+    "task": "filtering on status and created date together is slow",
+    "expected": [
+      "postgres"
+    ],
+    "needs": [
+      [
+        "postgres/query-composite-indexes"
+      ]
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "rules": [
+      "postgres/query-partial-indexes",
+      "postgres/query-composite-indexes",
+      "postgres/query-covering-indexes"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 0.3333333333333333,
+    "relevant": 1,
+    "unnecessary": 2,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 1399
+  },
+  {
+    "task": "we only ever read the rows that are not archived but the index covers all of them",
+    "expected": [
+      "postgres"
+    ],
+    "needs": [
+      [
+        "postgres/query-partial-indexes"
+      ]
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "rules": [
+      "postgres/query-covering-indexes",
+      "postgres/monitor-explain-analyze"
+    ],
+    "module_hit": true,
+    "score": 0.0,
+    "precision": 0.0,
+    "relevant": 0,
+    "unnecessary": 2,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 1023
+  },
+  {
+    "task": "how do I work out which statements are eating the most time",
+    "expected": [
+      "postgres"
+    ],
+    "needs": [
+      [
+        "postgres/monitor-pg-stat-statements"
+      ]
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "rules": [
+      "postgres/monitor-pg-stat-statements"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 1.0,
+    "relevant": 1,
+    "unnecessary": 0,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 660
+  },
+  {
+    "task": "check whether the planner is actually using the index I added",
+    "expected": [
+      "postgres"
+    ],
+    "needs": [
+      [
+        "postgres/monitor-explain-analyze"
+      ]
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "rules": [
+      "postgres/monitor-vacuum-analyze"
+    ],
+    "module_hit": true,
+    "score": 0.0,
+    "precision": 0.0,
+    "relevant": 0,
+    "unnecessary": 1,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 682
+  },
+  {
+    "task": "we write ten thousand records one statement at a time",
+    "expected": [
+      "postgres"
+    ],
+    "needs": [
+      [
+        "postgres/data-batch-inserts"
+      ]
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "rules": [
+      "postgres/monitor-pg-stat-statements"
+    ],
+    "module_hit": true,
+    "score": 0.0,
+    "precision": 0.0,
+    "relevant": 0,
+    "unnecessary": 1,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 660
+  },
+  {
+    "task": "we fetch the author separately for each post in the list",
+    "expected": [
+      "postgres"
+    ],
+    "needs": [
+      [
+        "postgres/data-n-plus-one"
+      ]
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "rules": [
+      "react-performance/server-parallel-nested-fetching",
+      "react-performance/rendering-content-visibility"
+    ],
+    "module_hit": false,
+    "score": 0.0,
+    "precision": 0.0,
+    "relevant": 0,
+    "unnecessary": 2,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 796
+  },
+  {
+    "task": "paging through results gets slower the deeper you go",
+    "expected": [
+      "postgres"
+    ],
+    "needs": [
+      [
+        "postgres/data-pagination"
+      ]
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "rules": [
+      "postgres/data-pagination"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 1.0,
+    "relevant": 1,
+    "unnecessary": 0,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 642
+  },
+  {
+    "task": "two workers keep picking up the same job from the queue table",
+    "expected": [
+      "postgres"
+    ],
+    "needs": [
+      [
+        "postgres/lock-skip-locked"
+      ]
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "rules": [
+      "postgres/lock-skip-locked"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 1.0,
+    "relevant": 1,
+    "unnecessary": 0,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 642
+  },
+  {
+    "task": "one customer can read another customer's records",
+    "expected": [
+      "postgres"
+    ],
+    "needs": [
+      [
+        "postgres/security-rls-basics"
+      ]
+    ],
+    "picked": [
+      "postgres",
+      "react-performance"
+    ],
+    "rules": [
+      "react-performance/js-cache-storage",
+      "postgres/monitor-explain-analyze"
+    ],
+    "module_hit": true,
+    "score": 0.0,
+    "precision": 0.0,
+    "relevant": 0,
+    "unnecessary": 2,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 1110
+  },
+  {
+    "task": "turning on row security made every read crawl",
+    "expected": [
+      "postgres"
+    ],
+    "needs": [
+      [
+        "postgres/security-rls-performance"
+      ]
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "rules": [
+      "postgres/security-rls-basics",
+      "postgres/security-rls-performance"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 0.5,
+    "relevant": 1,
+    "unnecessary": 1,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 1208
+  },
+  {
+    "task": "we run out of available connections when traffic spikes",
+    "expected": [
+      "postgres"
+    ],
+    "needs": [
+      [
+        "postgres/conn-pooling",
+        "postgres/conn-limits"
+      ]
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "rules": [
+      "postgres/conn-limits"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 1.0,
+    "relevant": 1,
+    "unnecessary": 0,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 630
+  },
+  {
+    "task": "fix the infinite loop in this binary search",
+    "expected": [
+      "systematic-debugging"
+    ],
+    "needs": [
+      [
+        "systematic-debugging#*"
+      ]
+    ],
+    "picked": [],
+    "rules": [],
+    "module_hit": false,
+    "score": 0.0,
+    "precision": null,
+    "relevant": 0,
+    "unnecessary": 0,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 268
+  },
+  {
+    "task": "the suite passes on its own but fails when run with everything else",
+    "expected": [
+      "systematic-debugging"
+    ],
+    "needs": [
+      [
+        "systematic-debugging/root-cause-tracing#*",
+        "systematic-debugging/condition-based-waiting#*"
+      ]
+    ],
+    "picked": [
+      "test-driven-development"
+    ],
+    "rules": [
+      "test-driven-development/verify-green-watch-it-pass"
+    ],
+    "module_hit": false,
+    "score": 0.0,
+    "precision": 0.0,
+    "relevant": 0,
+    "unnecessary": 1,
+    "supporting": [
+      "test-driven-development/overview",
+      "test-driven-development/red-green-refactor",
+      "test-driven-development/red-write-failing-test",
+      "test-driven-development/green-minimal-code"
+    ],
+    "supporting_tokens": 890,
+    "dependencies_complete": true,
+    "estimated_tokens": 1709
+  },
+  {
+    "task": "we patched it where the error showed up and it broke somewhere else instead",
+    "expected": [
+      "systematic-debugging"
+    ],
+    "needs": [
+      [
+        "systematic-debugging/root-cause-tracing#*",
+        "systematic-debugging/defense-in-depth#*"
+      ]
+    ],
+    "picked": [],
+    "rules": [],
+    "module_hit": false,
+    "score": 0.0,
+    "precision": null,
+    "relevant": 0,
+    "unnecessary": 0,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 268
+  },
+  {
+    "task": "our tests mock so much that they still pass when the real code is broken",
+    "expected": [
+      "test-driven-development"
+    ],
+    "needs": [
+      [
+        "test-driven-development/writing-good-tests#*"
+      ]
+    ],
+    "picked": [
+      "test-driven-development"
+    ],
+    "rules": [
+      "test-driven-development/writing-good-tests#principle-2-exercise-the-real-thing",
+      "test-driven-development/example-bug-fix",
+      "test-driven-development/red-write-failing-test",
+      "test-driven-development/writing-good-tests#quick-reference"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 0.5,
+    "relevant": 2,
+    "unnecessary": 2,
+    "supporting": [
+      "test-driven-development/writing-good-tests#overview",
+      "test-driven-development/overview",
+      "test-driven-development/red-green-refactor"
+    ],
+    "supporting_tokens": 548,
+    "dependencies_complete": true,
+    "estimated_tokens": 2977
+  },
+  {
+    "task": "eight workers but throughput is the same as two, they wait on each other",
+    "expected": [
+      "postgres"
+    ],
+    "needs": [
+      [
+        "postgres/lock-skip-locked"
+      ]
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "rules": [
+      "postgres/lock-skip-locked"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 1.0,
+    "relevant": 1,
+    "unnecessary": 0,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 642
+  },
+  {
+    "task": "our job queue workers keep blocking behind whoever grabbed the row first",
+    "expected": [
+      "postgres"
+    ],
+    "needs": [
+      [
+        "postgres/lock-skip-locked"
+      ]
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "rules": [
+      "postgres/lock-skip-locked"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 1.0,
+    "relevant": 1,
+    "unnecessary": 0,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 642
+  },
+  {
+    "task": "the report is fine on page 2 and unusable on page 900",
+    "expected": [
+      "postgres"
+    ],
+    "needs": [
+      [
+        "postgres/data-pagination"
+      ]
+    ],
+    "picked": [],
+    "rules": [],
+    "module_hit": false,
+    "score": 0.0,
+    "precision": null,
+    "relevant": 0,
+    "unnecessary": 0,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 268
+  },
+  {
+    "task": "deleting a customer locks up and scans everything",
+    "expected": [
+      "postgres"
+    ],
+    "needs": [
+      [
+        "postgres/schema-foreign-key-indexes"
+      ]
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "rules": [
+      "postgres/schema-foreign-key-indexes",
+      "postgres/schema-partitioning",
+      "postgres/query-missing-indexes",
+      "postgres/query-covering-indexes"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 0.25,
+    "relevant": 1,
+    "unnecessary": 3,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 1840
+  },
+  {
+    "task": "we hold a row lock while calling the payment api",
+    "expected": [
+      "postgres"
+    ],
+    "needs": [
+      [
+        "postgres/lock-short-transactions"
+      ]
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "rules": [
+      "postgres/lock-short-transactions"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 1.0,
+    "relevant": 1,
+    "unnecessary": 0,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 643
+  },
+  {
+    "task": "We run eight fulfilment workers against Postgres, but throughput barely improves past two of them \u2014 they seem to spend most of their time waiting rather than working. Separately, the orders report is fine on the first few pages and unusably slow deep into it, and a customer's account page takes seconds to list their own orders. Make this faster. Keep the same behaviour.",
+    "expected": [
+      "postgres"
+    ],
+    "needs": [
+      [
+        "postgres/lock-skip-locked"
+      ],
+      [
+        "postgres/data-pagination"
+      ],
+      [
+        "postgres/schema-foreign-key-indexes"
+      ]
+    ],
+    "picked": [
+      "postgres"
+    ],
+    "rules": [
+      "postgres/lock-skip-locked",
+      "postgres/lock-deadlock-prevention",
+      "postgres/query-missing-indexes",
+      "postgres/schema-foreign-key-indexes"
+    ],
+    "module_hit": true,
+    "score": 0.6666666666666666,
+    "precision": 0.6,
+    "relevant": 3,
+    "unnecessary": 2,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 2310
+  }
+]

@@ -5,7 +5,7 @@ One folder per task repo, each with a hidden `test.py` that `forge/ab.py` copies
 
 | Task | Checks | Use |
 |---|---|---|
-| `pg-queue-throughput` | 4 | The discriminating task. Every defect has a plausible wrong fix. |
+| `pg-queue-throughput` | 4 | The discriminating task. Every defect has a plausible wrong fix. Grader v2 checks behavior against a real Postgres. |
 | `react-waterfall` | 3 | End-to-end smoke test. All arms now solve it; keep it, don't draw conclusions from it. |
 | `binary-search` | 1 | Harness smoke test only. Solved in three tool calls with no skills. |
 
@@ -49,8 +49,23 @@ Rule 1 is enforced by `BenchmarkTasks` in `tests/`. Rules 2 and 3 need a human.
    real, the fixture must answer it — here by documenting the reaper in `ops/reaper.md`
    that already requeues stalled jobs — so the intended fix is unambiguously correct.
 
-Write the reference solution before you trust the task. All three failures above were
+Write the reference solution before you trust the task, and commit it under
+`benchmarks/solutions/<task>/` with broken variants. All three failures above were
 found that way, and each one had silently flattened a benchmark.
+
+## Proving the grader, and the expert selection
+
+Two things live **outside** this folder, so an agent under test never sees them and a
+grader never reads their files:
+
+- `benchmarks/solutions/<task>/`: correct solutions and plausible broken ones.
+  `npm run graders` checks the grader gives correct ones full marks and fails each
+  broken one on the checks it targets (other failures may overlap and are reported).
+  `pg-queue-throughput` is validated in both grader modes, including permanent
+  negatives for fixes written only in comments. `react-waterfall` and `binary-search`
+  are not validated yet.
+- `benchmarks/expert/<task>.json`: the rules a developer would hand over for this task,
+  chosen before seeing any model output. The `sf-expert` arm delivers exactly these.
 
 ## Adding a task
 
@@ -64,6 +79,10 @@ benchmarks/tasks/<name>/
 Phrase `task.txt` by symptom, never by remedy — naming the fix hands every arm the
 answer and collapses the difference you are trying to measure.
 
+Prefer behavior over text: run the code against the real dependency (a throwaway
+database, a server) and observe the outcome. Where a static check is unavoidable, read
+the code's syntax tree or its SQL literals with comments removed, never the raw file:
+grader v1 of `pg-queue-throughput` gave full marks to a fix that existed only in a comment.
 Prefer AST or parser checks over regex where a regex would be fooled by control flow.
 The `short-transaction` check walks statements precisely because the fixture commits
 early on one branch, and a positional "between BEGIN and COMMIT" regex called that a pass.

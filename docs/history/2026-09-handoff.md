@@ -1,3 +1,6 @@
+> **Archived.** Superseded by [STATUS.md](../../STATUS.md). Paths and numbers below describe the
+> code as it was then (module-first routing, 40 tests); evidence files moved to `history/evidence/`.
+
 # Latest handoff: bounded rule delivery review
 
 The notes below describe the previous local session and are retained as history.

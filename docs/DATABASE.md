@@ -1,5 +1,9 @@
 # Database setup and current limits
 
+**Decision:** the SQLite database is a build-time tool for curating the library. It
+is off the runtime path and off the benchmark path, by design, until an ingestion
+command exists (see [ROADMAP.md](../ROADMAP.md)).
+
 The installed plugin reads the committed `plugin/library/index.json` and module
 files. It does not require a database, API key, Node package install, or network
 request to compose a brief. Python 3.10+ is required by this implementation.

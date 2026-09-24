@@ -1,54 +1,98 @@
 # SkillForge
 
-SkillForge selects task-relevant instructions from a pinned skill library and delivers them in one bounded brief. Better model outcomes and lower total cost remain unproven.
+SkillForge picks the few curated coding rules that fit a task and hands them to Claude
+within a fixed size budget.
 
-Claude already loads skills on demand. SkillForge's job is deciding **which** instructions deserve to load: one installed entry instead of many, one provider per capability, and only modules that earn their tokens.
+**Hypothesis, not a result:** handing over a small, well-chosen set of rules gets better
+code per dollar than native skill loading, at least once a library is large enough for
+native selection to struggle. Nothing here shows that yet. Published results point
+both ways: some benchmarks report large average gains from curated skills, while
+others report little gain on software-engineering tasks, with most skills changing
+nothing. So *which* guidance is curated may matter as much as how it is retrieved.
+See [STATUS.md](STATUS.md).
 
-> Status: working pipeline, **not yet benchmarked**. Every module is `provisional` until runs recorded in the database show it helps.
+> Status: working pipeline, **not yet benchmarked against native skills**. Every rule's
+> evidence status is `untested` until measured runs show it helps.
 
 ## How it works
 
-- **Coding core** (~200 tokens, estimated) loads for every coding task: `plugin/library/core/coding.md`.
-- **Modules** sit on disk until a sub-task needs them: debugging, testing, React performance, Postgres.
-- The composer picks at most one module per overlap group, per sub-task, within a token budget, and may pick none.
-- Library modules are stored as `MODULE.md` (not `SKILL.md`) so Claude Code never registers them as separate skills.
+- **Rules are the unit.** A rule is one curated reference file (e.g.
+  `postgres/lock-skip-locked`) or one section of a procedural guide (e.g.
+  `systematic-debugging/phase-1-root-cause-investigation`). The library has 132.
+- **Each rule carries metadata**, declared by hand in `forge/curation/coding.json`:
+  applicability (technologies), `requires` (steps that must come with it), `conflicts`,
+  provenance (pinned source and license) and evidence status. A later step of a
+  procedure is delivered together with the steps before it, or not at all.
+- **Retrieval** (`retrieval.py`) is BM25 over each rule's title, tags and text. A
+  technology named in the prompt, or found in the project's manifests, reorders and
+  demotes rules. It never selects a rule on its own. When the evidence is weak, or split
+  between technologies, nothing is delivered.
+- **Delivery is the open question**, so it is a switch, not a decision
+  (`SKILLFORGE_HOOK`):
+
+  | Variant | What enters context | Default |
+  |---|---|---|
+  | `off` | Only the SkillForge skill; Claude decides when to call it | yes |
+  | `brief` | A hook injects the selected rules on each prompt that matches | |
+  | `catalog` | A hook injects a one-line-per-rule catalog once; Claude fetches rules by ID | |
+  | `fixed` | A hook injects a fixed rule list (the expert-selection experiment arm) | |
+
+  Catalog plus brief together is not built; it is worth building only if both do well
+  on their own. Injection only puts text in context. It does not show that the model
+  used it.
+- **Bounded.** A hook brief is capped at `SKILLFORGE_HOOK_BUDGET` estimated tokens
+  (default 2,400, about 9,600 characters). A reported Claude Code behavior cuts hook
+  output above 10,000 characters to a preview. That has not been reproduced here, so
+  the cap is a conservative setting, not a verified limit.
 
 ## Install (Claude Code)
 ```
 /plugin marketplace add Sardeen07/Skillforge
 /plugin install skillforge@skillforge
 ```
+Requires Python 3.10+ on the PATH (`python3`, `python` or `py`). The hook is off
+unless you set `SKILLFORGE_HOOK`. With it on and no usable Python, it does nothing
+rather than blocking your prompt.
 
-## Building the library
+## Try it
 
-Requires Python 3.10+, git and Node (Node only for the `npm` wrappers). From the repo root:
-
-```
-py=forge/py.mjs                                          # picks python3 or python for you
-node $py forge/sf.py migrate                             # create/upgrade data/skillforge.db
-node $py forge/sf.py import forge/curation/coding.json   # pin sources, copy modules, record them
-node $py forge/sf.py list                                # modules, status, overlap group, est. tokens
-node $py forge/sf.py trace systematic-debugging          # module -> exact source repo/commit
-node $py forge/sf.py export                              # write plugin/library/index.json
-
-npm test                                                 # rule, pipeline and portability tests
-npm run retrieval                                        # routing scorecard
-npm run ab -- --task benchmarks/tasks/pg-queue-throughput --repeats 3 --model YOUR_MODEL_ID
+```sh
+py=forge/py.mjs      # picks a working python3 or python for you
+node $py plugin/skills/skillforge/scripts/compose.py "Our Postgres workers wait on each other. Deep report pages are slow."
+node $py plugin/skills/skillforge/scripts/compose.py --catalog
+node $py plugin/skills/skillforge/scripts/compose.py --rule postgres/data-pagination
+node $py plugin/skills/skillforge/scripts/compose.py --status      # what the last brief delivered, and why
 ```
 
-Call `python3` (macOS/Linux) or `python` (Windows) directly if you prefer. Do not
-hardcode `python3` in anything the agent runs: on Windows it is usually a Microsoft
-Store alias that prints "Python was not found" **and exits 0**, so the failure is
-silent — this masked an entire benchmark arm until it was caught.
+## Measure it
 
-All commands are safe to repeat. To add or change a module, edit `forge/curation/coding.json`, then import and export again.
+```sh
+python -m pip install -r requirements-dev.txt        # embedded Postgres for the behavioral grader (use a .venv)
+npm test                                              # 89 unit, hook, session, runner and grader tests
+npm run graders                                       # do graders pass correct solutions and fail broken ones?
+npm run retrieval                                     # rule recall@4, precision, dependency completeness
+npm run retrieval -- --baseline                       # the old keyword module selector, for comparison
+npm run retrieval -- --cases benchmarks/retrieval-negatives.jsonl --stack react,postgres
+npm run retrieval -- --cases benchmarks/retrieval-ambiguous.jsonl   # vague prompts and follow-ups
+npm run retrieval -- --cases benchmarks/retrieval-mixed.jsonl       # prompts naming two technologies
+npm run ab -- --dry-run --arms none,native,sf-hook,sf-catalog,sf-expert
+```
 
-Try the composer:
-```
-node forge/py.mjs plugin/skills/skillforge/scripts/compose.py --mode coding \
-  --subtask "find why the search list rerenders" --subtask "fix the bug" --stack react
-```
-Selection reasons and misses are logged to `~/.skillforge/compose.log`, not the brief.
+The routing scorecard scores the rules the brief actually delivers, not the module
+chosen. It classifies every delivered rule as relevant, unnecessary, or supporting (a
+declared dependency), and counts prompts that got no guidance, because recall alone
+rises just by delivering more and precision alone rises by staying silent. Current development numbers are in [STATUS.md](STATUS.md); they come from cases
+seen while tuning, so they are optimistic until a held-out set is scored
+([benchmarks/heldout/](benchmarks/heldout/README.md)).
+
+`forge/ab.py` runs real Claude Code sessions in isolated throwaway projects. Arms:
+`none`, `native` (the same modules as ordinary skills), `skillforge` (skill only),
+`sf-modules` (delivery ablation), `sf-hook`, `sf-catalog`, and `sf-expert` (rules a
+developer chose for the task in advance, delivered the same way as `sf-hook`).
+`--crowd DIR` (repeatable) installs extra skills in every arm, and `--task` can be
+repeated for a suite; results are summarized per task. Paid runs
+need an explicit `--model`, a behavioral grader, and a reviewed expert list for
+`sf-expert`; `--freeze` locks the conditions across reruns. Read [docs/BENCHMARK_PROTOCOL.md](docs/BENCHMARK_PROTOCOL.md) first.
 
 ## Current coding library
 
@@ -61,77 +105,28 @@ Selection reasons and misses are logged to `~/.skillforge/compose.log`, not the 
 | postgres | supabase/agent-skills @ 8331f91 (MIT) | provisional |
 | verification-before-completion | obra/superpowers @ 5bf4e78 (MIT) | candidate (not exported; core covers it) |
 
-## Benchmarking
+Modules keep their original text, license and attribution (see each `SOURCE.json`).
+Library modules are stored as `MODULE.md`, not `SKILL.md`, so Claude Code never
+registers them as separate skills. Procedural guides are split into sections when
+loaded; the files themselves are not edited.
 
-`forge/ab.py` runs one task across three default arms, each in a throwaway project with its own
-`CLAUDE_CONFIG_DIR`, so the machine's installed plugins cannot leak in:
+## Building the library
 
-| Arm | Gets |
-|---|---|
-| `none` | nothing — the floor |
-| `native` | the library's modules installed as ordinary skills |
-| `skillforge` | the real `plugin/`, so the router calls `compose.py` |
+The pipeline is **curation database → versioned export → lightweight runtime**.
+`forge/sf.py` pins sources at exact commits, records them in a local SQLite database,
+and exports `plugin/library/index.json`, including rule relations. The plugin reads
+only the export. Benchmark runs stay as raw JSONL evidence until an ingestion step
+is worth building. See [docs/DATABASE.md](docs/DATABASE.md). To add or change a
+module, edit `forge/curation/coding.json`, then `import` and `export` again.
 
-```
-npm run ab -- --task benchmarks/tasks/pg-queue-throughput --repeats 3 --model YOUR_MODEL_ID
-```
-
-Read the `brief` column first. `skill_used` only means the router was invoked; `brief`
-means a compose tool result contained a brief header; it can still be core-only. A missing `brief` means delivery was not verified. Keep that attempt in the
-report and inspect its transcript; do not discard inconvenient outcomes.
-
-Then read `score` before `cost`: cheaper but wrong is not cheaper.
-
-**A task only discriminates when the model's default answer is wrong.** See
-`benchmarks/tasks/README.md` — `react-waterfall` is solved at full marks by every arm,
-including `none`, so it measures prompt size rather than skill quality.
-
-The `runs` table has fields for arm, composition, model, settings, task version, tokens
-(including cached), cost, and pass / fail / harness error. The current runner
-writes JSONL and does not populate that table automatically. Unknowns stay empty.
+Do not hardcode `python3` in anything the agent runs: on Windows it is often a
+Microsoft Store alias that prints "Python was not found" **and exits 0**.
 
 ## Repo layout
-- `plugin/`: what users install (router skill, composer, library)
-- `forge/`: library builder (`sf.py`, migrations, curation files, crawler stub)
-- `tests/`: composer rules and import pipeline tests
-- `data/`: local SQLite database and pinned source checkouts (gitignored)
-
-## Credits
-Modules keep their original text, license and attribution; see each module's `SOURCE.json`.
-
-## Rule delivery and controlled experiments
-
-The default now retrieves rule titles, tags and introductory symptoms locally, then
-inlines up to four complete matching rules per selected module. It omits that
-module's index when rules match; procedural guides and required modules stay whole.
-No LLM call, embeddings service, or database is needed at runtime. Source files,
-licenses and attribution remain intact. This is extractive selection, not semantic
-summarization. Cross-module semantic deduplication is not implemented.
-
-```sh
-npm run retrieval -- --baseline
-npm run retrieval
-npm run retrieval -- --cases benchmarks/retrieval-negatives.jsonl --stack react,postgres
-node forge/py.mjs plugin/skills/skillforge/scripts/compose.py --subtask "workers block each other in the queue" --explain data/selection.json
-npm run ab -- --dry-run --arms none,native,skillforge,sf-modules,sf-keywords
-```
-
-- `--delivery rules|modules` changes inline rules versus full modules plus rule paths.
-- `--routing references|keywords` changes retrieval versus the original keyword mechanism.
-- `--budget` limits the complete serialized brief using `ceil(characters / 4)`,
-  including provenance. This is an estimate, not a tokenizer-enforced limit.
-- `--explain FILE` records delivered, cached, duplicate and budget-skipped units.
-- Session caching is **off by default**. Use a unique `--session FILE` only within
-  one conversation. Keys hash individual file contents, so new rules from a
-  previously used module still load. Use `--reset` after compaction.
-
-The runner requires an explicit `--model` for actual runs. It appends attempts to
-`data/ab-results.jsonl` including hashes, settings, errors and unknown costs. Use a
-new output filename for each experiment. `--keep` retains transcripts and task
-outputs; temporary copied credential directories are removed on every exit.
-The native arm includes the same exported eligible modules, without the SkillForge
-router or authored core. It no longer includes the excluded verification candidate.
-
-See [review and measured evidence](docs/REVIEW.md),
-[experiment protocol](docs/BENCHMARK_PROTOCOL.md), and
-[database setup](docs/DATABASE.md). No new model A/B results are claimed.
+- `plugin/`: what users install (hook, skill, retriever, library)
+- `forge/`: library builder (`sf.py`), A/B runner (`ab.py`), routing scorecard, grader validator, crawler stub
+- `benchmarks/`: routing cases, coding tasks with hidden graders, and, kept outside the task
+  folders so the agent never sees them, reference/broken solutions and expert rule selections
+- `tests/`: retrieval, delivery, hook, runner and builder tests
+- `docs/`: protocol and database notes; `docs/history/` holds earlier handoffs and reviews
+- [STATUS.md](STATUS.md): where things stand. [ROADMAP.md](ROADMAP.md): what is not built.

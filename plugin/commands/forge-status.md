@@ -1,4 +1,7 @@
 ---
-description: Show which SkillForge fragments are loaded and why
+description: Show what the most recent SkillForge brief delivered, and why
 ---
-List the fragments and external plugins from the most recent SkillForge brief, with one line each on why it was picked.
+Run `python3 "${CLAUDE_PLUGIN_ROOT}/skills/skillforge/scripts/compose.py" --status`
+(on Windows use a working Python 3.10+, often `python`). Report its output: for each part
+of the prompt, which rules matched and their scores (or that it abstained), then which
+units were delivered, skipped as already delivered this session, or dropped for budget.

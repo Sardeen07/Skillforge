@@ -1,0 +1,109 @@
+[
+  {
+    "task": "Fix the React request waterfall and the Postgres pagination query.",
+    "expected": [
+      "react-performance",
+      "postgres"
+    ],
+    "needs": [
+      [
+        "react-performance/async-parallel",
+        "react-performance/server-parallel-fetching",
+        "react-performance/async-dependencies"
+      ],
+      [
+        "postgres/data-pagination"
+      ]
+    ],
+    "picked": [
+      "postgres",
+      "react-performance"
+    ],
+    "rules": [
+      "react-performance/async-api-routes",
+      "postgres/data-pagination",
+      "react-performance/server-cache-react",
+      "postgres/conn-pooling"
+    ],
+    "module_hit": true,
+    "score": 0.5,
+    "precision": 0.25,
+    "relevant": 1,
+    "unnecessary": 3,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 1935
+  },
+  {
+    "task": "The React page fetches user and posts one after the other, and the Postgres report gets slower on deep pages.",
+    "expected": [
+      "react-performance",
+      "postgres"
+    ],
+    "needs": [
+      [
+        "react-performance/async-parallel",
+        "react-performance/server-parallel-fetching",
+        "react-performance/async-dependencies"
+      ],
+      [
+        "postgres/data-pagination"
+      ]
+    ],
+    "picked": [
+      "react-performance"
+    ],
+    "rules": [
+      "react-performance/server-parallel-fetching",
+      "react-performance/rerender-no-inline-components",
+      "react-performance/rendering-resource-hints",
+      "react-performance/server-cache-react"
+    ],
+    "module_hit": true,
+    "score": 0.5,
+    "precision": 0.25,
+    "relevant": 1,
+    "unnecessary": 3,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 2541
+  },
+  {
+    "task": "Our Next.js page awaits each fetch in sequence. Separately, deleting a customer in Postgres scans the whole orders table.",
+    "expected": [
+      "react-performance",
+      "postgres"
+    ],
+    "needs": [
+      [
+        "react-performance/async-parallel",
+        "react-performance/server-parallel-fetching",
+        "react-performance/async-dependencies"
+      ],
+      [
+        "postgres/schema-foreign-key-indexes"
+      ]
+    ],
+    "picked": [
+      "postgres",
+      "react-performance"
+    ],
+    "rules": [
+      "react-performance/server-parallel-fetching",
+      "postgres/schema-foreign-key-indexes",
+      "react-performance/bundle-analyzable-paths",
+      "postgres/query-missing-indexes"
+    ],
+    "module_hit": true,
+    "score": 1.0,
+    "precision": 0.25,
+    "relevant": 2,
+    "unnecessary": 6,
+    "supporting": [],
+    "supporting_tokens": 0,
+    "dependencies_complete": true,
+    "estimated_tokens": 4136
+  }
+]

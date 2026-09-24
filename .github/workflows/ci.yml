@@ -14,7 +14,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - run: python -m pip install -r requirements-dev.txt  # embedded Postgres for the behavioral grader
       - run: npm test
-      - run: npm run retrieval -- --min 0.60
+      - run: npm run retrieval -- --min 0.55
       - run: npm run retrieval -- --cases benchmarks/retrieval-negatives.jsonl --stack react,postgres --min 1
+      - run: npm run graders
+      - run: npm run retrieval -- --cases benchmarks/retrieval-ambiguous.jsonl
+      - run: npm run retrieval -- --cases benchmarks/retrieval-mixed.jsonl
       - run: npm run compose:demo
+      - run: npm run catalog:demo

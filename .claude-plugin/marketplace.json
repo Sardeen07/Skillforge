@@ -7,7 +7,7 @@
     {
       "name": "skillforge",
       "source": "./plugin",
-      "description": "Selects task-relevant instructions from a pinned library and delivers a bounded brief."
+      "description": "Delivers matching curated coding rules on every prompt, within a bounded brief."
     }
   ]
 }

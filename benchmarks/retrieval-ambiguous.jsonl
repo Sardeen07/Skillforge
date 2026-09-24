@@ -1,0 +1,4 @@
+{"mode":"coding","task":"the orders page is slow","expect":[],"note":"could be a query, the network, or rendering; nothing in the prompt says which, so abstaining is correct"}
+{"mode":"coding","task":"continue","expect":[],"note":"follow-up: rules delivered earlier in the conversation still apply; nothing new to add"}
+{"mode":"coding","task":"fix that","expect":[],"note":"follow-up"}
+{"mode":"coding","task":"ok do it","expect":[],"note":"follow-up"}

@@ -6,8 +6,11 @@
 // `python` is not portable either: on many Linux distros it does not exist. So probe.
 import { spawnSync } from "node:child_process";
 
-const candidates = process.platform === "win32" ? ["python", "py", "python3"]
-                                                : ["python3", "python"];
+// A project .venv comes first: it holds the grader's embedded Postgres (requirements-dev.txt).
+import { existsSync } from "node:fs";
+const venv = process.platform === "win32" ? ".venv/Scripts/python.exe" : ".venv/bin/python";
+const candidates = [...(existsSync(venv) ? [venv] : []),
+                    ...(process.platform === "win32" ? ["python", "py", "python3"] : ["python3", "python"])];
 
 function works(exe) {
   const r = spawnSync(exe, ["-c", "import sys; print('supported' if sys.version_info >= (3, 10) else 'unsupported')"],
