@@ -8,4 +8,5 @@ dist/
 
 # Local benchmark outputs and assistant settings
 data/*.jsonl
+data/*-runs/
 .claude/

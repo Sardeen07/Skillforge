@@ -61,6 +61,33 @@ class BenchmarkIntegrity(unittest.TestCase):
                 ab.run_one('none', ROOT / 'benchmarks/tasks/binary-search', 'task', 'Skill', 1, True, True)
             self.assertTrue(dest.exists()); self.assertFalse(support.exists())
 
+    def test_grader_checks_are_recorded_individually(self):
+        out = ('GRADER: v2 behavioral\nPASS  skip-locked          concurrent workers take distinct jobs\n'
+               'FAIL  short-transaction    the job\'s row lock is still held while the payment call runs\n'
+               'SCORE: 1/2\n')
+        checks = ab.grade_checks(out)
+        self.assertEqual([(c['name'], c['passed']) for c in checks], [('skip-locked', True), ('short-transaction', False)])
+        self.assertIn('payment call', checks[1]['reason'])
+
+    def test_skills_invoked_come_from_skill_tool_calls_only(self):
+        out = events({'type': 'text', 'text': 'I will use the postgres skill'},
+                     {'type': 'tool_use', 'id': '1', 'name': 'Skill', 'input': {'skill': 'postgres'}},
+                     {'type': 'tool_use', 'id': '2', 'name': 'Bash', 'input': {'command': 'ls'}})
+        self.assertEqual(ab.skills_invoked(out), ['postgres'])
+
+    def test_attempt_is_saved_without_credentials(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); dest = root / 'dest'; support = root / 'support'; saved = root / 'saved'
+            dest.mkdir(); support.mkdir()
+            with patch.object(ab.tempfile, 'mkdtemp', side_effect=[str(dest), str(support)]), \
+                 patch.object(ab.subprocess, 'run', side_effect=FileNotFoundError('missing cli')):
+                row = ab.run_one('none', ROOT / 'benchmarks/tasks/binary-search', 'task', 'Skill', 1, False, False,
+                                 save_to=saved)
+            self.assertEqual(row['artifacts'], str(saved))
+            self.assertTrue(any(saved.iterdir()))
+            self.assertFalse(list(saved.rglob('.credentials.json')))
+            self.assertFalse(dest.exists()); self.assertFalse(support.exists())
+
     def test_hook_evidence_comes_from_the_hook_log_only(self):
         log = chr(10).join(json.dumps(e) for e in [
             {'source': 'hook', 'units': [{'module': 'coding-core', 'result': 'delivered'},

@@ -20,6 +20,10 @@ sf-expert selection nobody has reviewed. --freeze FILE records the task, grader,
 guidance inventory, expert lists, model and budget on first use and refuses to run
 if any of them has changed since.
 
+Every attempt's final project files, transcript, grader output and hook log are saved
+under --artifacts (default: next to --output), so a result can be inspected or rescored
+later; each row records its per-check outcomes and the skills Claude invoked.
+
 This is process/config isolation, not a hostile-agent security sandbox. --keep
 retains project output and transcripts, never copied credential directories.
 """
@@ -41,6 +45,7 @@ ROOT = Path(__file__).resolve().parents[1]
 MODULES = ROOT / 'plugin/library/modules'
 CREDS = Path.home() / '.claude/.credentials.json'
 SCORE = re.compile(r'SCORE:\s*(\d+)\s*/\s*(\d+)')
+CHECK = re.compile(r'^(PASS|FAIL)\s+(\S+)\s+(.*)$', re.M)
 ARMS = {'none': None, 'native': None,
         'skillforge': {'SKILLFORGE_HOOK': 'off', 'SKILLFORGE_DELIVERY': 'rules'},
         'sf-modules': {'SKILLFORGE_HOOK': 'off', 'SKILLFORGE_DELIVERY': 'modules'},
@@ -236,6 +241,35 @@ def rule_fetches(stdout):
     return n
 
 
+def grade_checks(text):
+    """[{name, passed, reason}] from the grader's `PASS|FAIL  name  reason` lines."""
+    return [dict(name=name, passed=verdict == 'PASS', reason=reason.strip())
+            for verdict, name, reason in CHECK.findall(text)]
+
+
+def skills_invoked(stdout):
+    """Skills Claude called through the Skill tool, in order (native's evidence of use)."""
+    out = []
+    for line in stdout.splitlines():
+        try: event = json.loads(line)
+        except json.JSONDecodeError: continue
+        content = event.get('message', {}).get('content', [])
+        for block in content if isinstance(content, list) else []:
+            if isinstance(block, dict) and block.get('type') == 'tool_use' and block.get('name') == 'Skill':
+                out.append(str(block.get('input', {}).get('skill') or block.get('input', {}).get('command') or '?'))
+    return out
+
+
+def save_artifacts(dest, save_to):
+    """Copy the attempt's project (final code, transcript, grade, hook log) out of temp."""
+    try:
+        shutil.copytree(dest, save_to, dirs_exist_ok=True,
+                        ignore=shutil.ignore_patterns('__pycache__', 'node_modules', '.venv'))
+        return str(save_to)
+    except OSError as exc:
+        return f'not saved: {exc}'
+
+
 def activation_events(stdout):
     """Count only actual tool calls and their successful tool results, not prose."""
     calls = {}
@@ -265,14 +299,15 @@ def activation_events(stdout):
     return activated, bool(delivered), result
 
 
-def run_one(arm, task_dir, task, tools, timeout, dry, keep, model=None, crowd=None):
+def run_one(arm, task_dir, task, tools, timeout, dry, keep, model=None, crowd=None, save_to=None):
     dest = Path(tempfile.mkdtemp(prefix=f'sf-{arm}-'))
     support = Path(tempfile.mkdtemp(prefix=f'sfsup-{arm}-'))
     started = time.monotonic()
     row = dict(arm=arm, status='harness_error', error=None, score=None, passed=None,
                cost=None, turns=None, input_tokens=None, output_tokens=None,
                cache_read=None, cache_write=None, activated=False, brief=False,
-               hook_briefs=0, catalogs=0, rule_fetches=0, dir=str(dest) if keep else None)
+               hook_briefs=0, catalogs=0, rule_fetches=0, dir=str(dest) if keep else None,
+               checks=[], failed_checks=[], skills_invoked=[], artifacts=None)
     log = support / 'compose.jsonl'  # outside the project, so the agent under test cannot read it
     try:
         extra = setup(arm, task_dir, dest, support, crowd)
@@ -297,6 +332,7 @@ def run_one(arm, task_dir, task, tools, timeout, dry, keep, model=None, crowd=No
         (dest / 'transcript.jsonl').write_text(proc.stdout, encoding='utf-8')
         (dest / 'stderr.txt').write_text(proc.stderr, encoding='utf-8')
         row['activated'], row['brief'], result = activation_events(proc.stdout)
+        row['skills_invoked'] = skills_invoked(proc.stdout)
         log_text = log.read_text(encoding='utf-8') if log.exists() else ''
         row['hook_briefs'], row['catalogs'] = hook_evidence(log_text)
         row['rule_fetches'] = rule_fetches(proc.stdout)
@@ -306,7 +342,7 @@ def run_one(arm, task_dir, task, tools, timeout, dry, keep, model=None, crowd=No
         if ARMS[arm] and ARMS[arm]['SKILLFORGE_HOOK'] in ('brief', 'fixed'):
             row['delivery_check'] = check_delivery(delivered, library_digests(),
                                                    expert_rules(task_dir) if arm == 'sf-expert' else None)
-        if keep: (dest / 'compose.jsonl').write_text(log_text, encoding='utf-8')
+        if keep or save_to: (dest / 'compose.jsonl').write_text(log_text, encoding='utf-8')
         if result:
             usage = result.get('usage', {})
             row.update(cost=result.get('total_cost_usd'), turns=result.get('num_turns'),
@@ -325,6 +361,8 @@ def run_one(arm, task_dir, task, tools, timeout, dry, keep, model=None, crowd=No
             row.update(status='grader_timeout', passed=False, error='grader timed out; no fabricated score')
             return row
         (dest / 'grade.txt').write_text(test.stdout + test.stderr, encoding='utf-8')
+        row['checks'] = grade_checks(test.stdout)
+        row['failed_checks'] = [c['name'] for c in row['checks'] if not c['passed']]
         header = re.search(r'^GRADER: (.+)$', test.stdout, re.M)
         row['grader'] = header[1] if header else 'unversioned'
         match = SCORE.search(test.stdout)
@@ -349,6 +387,7 @@ def run_one(arm, task_dir, task, tools, timeout, dry, keep, model=None, crowd=No
     finally:
         row['elapsed_seconds'] = round(time.monotonic() - started, 3)
         shutil.rmtree(support, ignore_errors=True)  # includes credentials even with --keep
+        if save_to and not dry: row['artifacts'] = save_artifacts(dest, save_to)
         if not keep: shutil.rmtree(dest, ignore_errors=True)
 
 
@@ -362,6 +401,7 @@ def main():
     ap.add_argument('--model', help='explicit model ID; required for paid runs')
     ap.add_argument('--seed', type=int, default=0)
     ap.add_argument('--output', default='data/ab-results.jsonl')
+    ap.add_argument('--artifacts', help='where each attempt is saved (default: <output without .jsonl>-runs)')
     ap.add_argument('--dry-run', action='store_true')
     ap.add_argument('--keep', action='store_true')
     ap.add_argument('--allow-static-grader', action='store_true',
@@ -395,6 +435,8 @@ def main():
                   runner_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
     rows = []; rng = random.Random(a.seed)
     path = Path(a.output)
+    artifacts = Path(a.artifacts) if a.artifacts else path.with_name(path.stem + '-runs')
+    stamp = time.strftime('%Y%m%d-%H%M%S')  # appending to an output file must not overwrite older attempts
     if not a.dry_run: path.parent.mkdir(parents=True, exist_ok=True)
     for task_dir in task_dirs:
         task = (task_dir / 'task.txt').read_text(encoding='utf-8').strip()
@@ -402,14 +444,16 @@ def main():
                         scorer_sha256=hashlib.sha256((task_dir / 'test.py').read_bytes()).hexdigest())
         for repeat in range(a.repeats):
             for arm in rng.sample(arms, len(arms)):
-                row = run_one(arm, task_dir, task, a.tools, a.timeout, a.dry_run, a.keep, a.model, a.crowd)
+                save_to = artifacts / task_dir.name / f'{stamp}-r{repeat + 1}-{arm}'
+                row = run_one(arm, task_dir, task, a.tools, a.timeout, a.dry_run, a.keep, a.model, a.crowd, save_to)
                 if row is None: continue
                 row.update(metadata, repeat=repeat + 1, settings=ARMS[arm])
                 rows.append(row)
                 if not a.dry_run:
                     with path.open('a', encoding='utf-8') as f: f.write(json.dumps(row) + '\n')
                 print(f"[{task_dir.name}/{arm}] status={row['status']} score={row['score']} cost={row['cost']} "
-                      f"brief={row['brief']} rule_fetches={row['rule_fetches']}")
+                      f"brief={row['brief']} rule_fetches={row['rule_fetches']} "
+                      f"failed={','.join(row['failed_checks']) or '-'} skills={','.join(row['skills_invoked']) or '-'}")
     for task_dir in task_dirs:
         print(f'\n{task_dir.name}:')
         for arm in arms:
@@ -425,12 +469,18 @@ def main():
                   f"median known cost={statistics.median(costs) if costs else 'unknown'} "
                   f"(unknown {len(group) - len(costs)}), median seconds={statistics.median(seconds) if seconds else 'unknown'}, "
                   f"graders={sorted({r.get('grader', '?') for r in valid})}")
+            failures = {}
+            for r in valid:
+                for name in r.get('failed_checks', []): failures[name] = failures.get(name, 0) + 1
+            if failures:
+                print('    failed checks: ' + ', '.join(f'{n} {c}/{len(valid)}' for n, c in sorted(failures.items())))
             if ARMS[arm] and any(not r['brief'] for r in group):
                 print('  WARNING: delivery not verified in some attempts; inspect transcripts and keep them in the report.')
             bad = [r['delivery_check'] for r in group if r.get('delivery_check', 'ok') != 'ok']
             if bad:
                 print(f'  WARNING: {len(bad)} attempt(s) did not receive the intended rules intact ({bad[0]}); '
                       'their outcomes do not measure this arm.')
+    if rows and not a.dry_run: print(f'\nEach attempt is saved under {artifacts}')
     if any(r['status'] != 'ok' for r in rows): sys.exit(1)
 
 
