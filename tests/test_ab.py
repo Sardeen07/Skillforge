@@ -129,8 +129,16 @@ class BenchmarkIntegrity(unittest.TestCase):
                            capture_output=True, text=True)
             self.assertFalse(out.exists())
     def test_paid_expert_runs_need_a_reviewer(self):
-        self.assertFalse(ab.expert_reviewed(ROOT / 'benchmarks/tasks/pg-queue-throughput'),
-                         'the committed list has not been reviewed yet; update this test when it is')
+        # The committed list was reviewed (Ali, 2026-09-23), so paid sf-expert runs are allowed.
+        self.assertTrue(ab.expert_reviewed(ROOT / 'benchmarks/tasks/pg-queue-throughput'))
+        # An unreviewed list must still block paid runs.
+        with tempfile.TemporaryDirectory() as tmp:
+            (Path(tmp) / 'demo.json').write_text('{"rules": [], "review": {"reviewed_by": null}}', encoding='utf-8')
+            original, ab.EXPERT = ab.EXPERT, Path(tmp)
+            try:
+                self.assertFalse(ab.expert_reviewed(Path(tmp) / 'demo'))
+            finally:
+                ab.EXPERT = original
 
     def test_delivery_check_catches_missing_and_altered_rules(self):
         digests = ab.library_digests()
