@@ -36,6 +36,14 @@ NAMED_BOOST, OTHER_TECH, OFF_STACK, ON_STACK = 2.0, 0.2, 0.5, 1.2
 # within this ratio, the part is ambiguous ("the orders page is slow": query or render?)
 # and nothing is delivered for it rather than guessing.
 AMBIGUOUS = 0.8
+# OFF by default (0): measured on the dev set, 1 raised precision 42%->48% but cut recall
+# 58%->50% and left 10/39 prompts with no guidance, so it mostly suppressed output.
+# With no technology named and no project stack, a rule from a technology-specific module
+# must also match this many distinct prompt words in its title and tags (the fields written
+# to describe the rule). Body-only matches on generic words ("table", "search", "record")
+# otherwise pull in a rule from the wrong technology.
+MIN_FIELD_HITS = int(__import__('os').environ.get('SKILLFORGE_MIN_FIELD_HITS', '0'))
+EXPANDED_WEIGHT = 0.5  # weight of a query word recovered by expand() relative to one the prompt wrote
 MIN_SECTION, MAX_SECTION = 500, 3500  # characters, for splitting procedural guides
 
 
@@ -179,15 +187,41 @@ class Index:
         df = Counter(t for d in self.docs for t in d)
         n = len(rules)
         self.idf = {t: math.log(1 + (n - c + 0.5) / (c + 0.5)) for t, c in df.items()}
+        self.fields = [set(terms(f"{r['title']} {r['tags']}")) for r in rules]
+
+    def expand(self, wanted):
+        """{term: weight}. A comparative form on either side of the match gets one more
+        chance: the prompt says "deep" and the rule says "deeper", or the other way round.
+        The other form is kept only if the library contains it, at half weight, because it
+        can also be a coincidence ("caller" -> "call"). Checking the vocabulary means no
+        unrelated word is invented."""
+        out = {t: 1.0 for t in wanted}
+        for t in wanted:
+            candidates = [t + 'er', t + 'est']
+            if t.endswith('er') and len(t) >= 6:
+                candidates.append(stem(t[:-2]))
+            elif t.endswith('est') and len(t) >= 7:
+                candidates.append(stem(t[:-3]))
+            for base in candidates:
+                if base in self.idf and base not in out:
+                    out[base] = EXPANDED_WEIGHT
+        return out
+
+    def field_hits(self, rule_id, wanted):
+        """How many distinct prompt words appear in the rule's title and tags."""
+        for rule, fields in zip(self.rules, self.fields):
+            if rule['id'] == rule_id:
+                return len(wanted.keys() & fields)
+        return 0
 
     def scores(self, query):
-        wanted = set(terms(query))
+        wanted = self.expand(set(terms(query)))
         out = []
         for rule, doc, length in zip(self.rules, self.docs, self.lengths):
             s = 0.0
-            for t in wanted & doc.keys():
+            for t in wanted.keys() & doc.keys():
                 tf = doc[t]
-                s += self.idf[t] * tf * (K1 + 1) / (tf + K1 * (1 - B + B * length / self.avg))
+                s += wanted[t] * self.idf[t] * tf * (K1 + 1) / (tf + K1 * (1 - B + B * length / self.avg))
             out.append((s, rule))
         return out
 
@@ -230,6 +264,10 @@ def rank(index_data, idx, parts, stack=()):
         scored = [(s * prior(r['module'], named, stack_terms, techs), s, r)
                   for s, r in idx.scores(part) if s >= MIN_SCORE]
         scored = [x for x in scored if x[0] >= MIN_SCORE]
+        if not named and not stack_terms and MIN_FIELD_HITS:
+            wanted = idx.expand(set(terms(part)))
+            scored = [x for x in scored if not techs.get(x[2]['module'])
+                      or idx.field_hits(x[2]['id'], wanted) >= MIN_FIELD_HITS]
         scored.sort(key=lambda x: (-x[0], x[2]['id']))
         if not named and ambiguous(scored, techs):
             ranked.append((part, []))

@@ -183,6 +183,23 @@ class ReferenceRules(unittest.TestCase):
     def test_no_match_returns_nothing(self):
         self.assertEqual(self.ids("zzzz"), [])
 
+    def test_comparative_reaches_the_base_word_the_library_uses(self):
+        """The prompt says "deep", the library says "deeper": found, at half weight."""
+        words = self.ix.expand({"deep"})
+        self.assertEqual(words["deep"], 1.0)
+        self.assertEqual(words["deeper"], self.r.EXPANDED_WEIGHT)
+
+    def test_expansion_never_invents_words_the_library_lacks(self):
+        words = self.ix.expand({"zzzzer", "qqqqest"})
+        self.assertEqual(set(words), {"zzzzer", "qqqqest"})
+
+    def test_expanded_word_never_outweighs_a_written_one(self):
+        words = self.ix.expand({"deeper", "deep"})
+        self.assertEqual((words["deep"], words["deeper"]), (1.0, 1.0), "words the prompt wrote keep full weight")
+
+    def test_deeper_pages_finds_the_pagination_rule(self):
+        self.assertIn("postgres/data-pagination", self.ids("postgres reports get slower the deeper the page"))
+
 
 class BenchmarkTasks(unittest.TestCase):
     """A task whose test cannot be failed, or cannot be passed, measures nothing."""
