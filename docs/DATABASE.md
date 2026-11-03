@@ -6,7 +6,7 @@ command exists (see [ROADMAP.md](../ROADMAP.md)).
 
 The installed plugin reads the committed `plugin/library/index.json` and module
 files. It does not require a database, API key, Node package install, or network
-request to compose a brief. Python 3.10+ is required by this implementation.
+request to compose a brief. Python 3.9+ is required by this implementation.
 
 The local SQLite database is for building and curating the library:
 

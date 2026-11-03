@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-23T02:51:13+00:00",
+  "library_digest": "86a12593ddfa534a",
   "token_estimate": "characters / 4 (estimate, not a measured token count)",
   "modes": {
     "coding": {
@@ -29,6 +29,1565 @@
       "conflicts": []
     },
     {
+      "name": "accessibility",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Web accessibility (WCAG 2.2) for components and pages",
+      "overlap_group": "accessibility",
+      "applies": [
+        "accessibility",
+        "a11y",
+        "screen reader",
+        "keyboard",
+        "aria",
+        "wcag",
+        "contrast"
+      ],
+      "technologies": [],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1432,
+      "path": "modules/accessibility/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/accessibility/RULES.md",
+        "license": "MIT",
+        "checked_against": "WCAG 2.2 and WAI-ARIA Authoring Practices Guide",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "android",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Android with Jetpack Compose: state, lifecycle and performance",
+      "overlap_group": "android",
+      "applies": [
+        "android",
+        "jetpack compose",
+        "viewmodel",
+        "room",
+        "workmanager",
+        "kotlin"
+      ],
+      "technologies": [
+        "android"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1255,
+      "path": "modules/android/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/android/RULES.md",
+        "license": "MIT",
+        "checked_against": "Android Developers documentation (Compose, architecture guide), 2025",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "angular",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Angular change detection, RxJS and signals",
+      "overlap_group": "angular",
+      "applies": [
+        "angular",
+        "rxjs",
+        "signals",
+        "observable",
+        "component"
+      ],
+      "technologies": [
+        "angular"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1126,
+      "path": "modules/angular/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/angular/RULES.md",
+        "license": "MIT",
+        "checked_against": "Angular 19 documentation (angular.dev) and RxJS 7",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "api-design",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "HTTP and REST API design",
+      "overlap_group": "api-design",
+      "applies": [
+        "api",
+        "rest",
+        "http",
+        "endpoint",
+        "status code",
+        "pagination",
+        "versioning"
+      ],
+      "technologies": [],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1522,
+      "path": "modules/api-design/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/api-design/RULES.md",
+        "license": "MIT",
+        "checked_against": "RFC 9110 (HTTP Semantics), RFC 9457 (Problem Details), Google API design guide",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "architecture",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "System design, architecture patterns and SOLID design",
+      "overlap_group": "architecture",
+      "applies": [
+        "architecture",
+        "system design",
+        "design patterns",
+        "solid",
+        "microservices",
+        "monolith",
+        "scalability"
+      ],
+      "technologies": [],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1560,
+      "path": "modules/architecture/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/architecture/RULES.md",
+        "license": "MIT",
+        "checked_against": "martinfowler.com, microservices.io, AWS Builders' Library",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "auth",
+      "version": 2,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Authentication, sessions, tokens and authorization",
+      "overlap_group": "auth",
+      "applies": [
+        "authentication",
+        "authorization",
+        "login",
+        "jwt",
+        "oauth",
+        "session",
+        "password",
+        "permissions"
+      ],
+      "technologies": [],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1862,
+      "path": "modules/auth/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/auth/RULES.md",
+        "license": "MIT",
+        "checked_against": "OWASP ASVS 4.0.3, OWASP cheat sheets, RFC 8725 (JWT BCP), OAuth 2.0 Security BCP (RFC 9700)",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "c",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "C memory safety and secure coding",
+      "overlap_group": "c",
+      "applies": [
+        "c",
+        "malloc",
+        "pointer",
+        "buffer",
+        "string"
+      ],
+      "technologies": [
+        "c"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1198,
+      "path": "modules/c/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/c/RULES.md",
+        "license": "MIT",
+        "checked_against": "SEI CERT C Coding Standard and cppreference (C17)",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "ci-cd",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "CI/CD pipelines and GitHub Actions security and speed",
+      "overlap_group": "ci-cd",
+      "applies": [
+        "ci",
+        "cd",
+        "pipeline",
+        "github actions",
+        "workflow",
+        "deploy",
+        "release"
+      ],
+      "technologies": [
+        "ci-cd",
+        "github-actions"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1443,
+      "path": "modules/ci-cd/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/ci-cd/RULES.md",
+        "license": "MIT",
+        "checked_against": "GitHub Actions documentation (security hardening, caching), 2025",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "cloud",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Cloud (AWS, GCP, Azure) security, cost and serverless",
+      "overlap_group": "cloud",
+      "applies": [
+        "aws",
+        "gcp",
+        "azure",
+        "cloud",
+        "s3",
+        "lambda",
+        "iam",
+        "serverless",
+        "storage"
+      ],
+      "technologies": [
+        "cloud"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1603,
+      "path": "modules/cloud/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/cloud/RULES.md",
+        "license": "MIT",
+        "checked_against": "AWS Well-Architected Framework, Google Cloud Architecture Framework, Azure Well-Architected Framework",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "code-quality",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Clean code, refactoring and code review",
+      "overlap_group": "code-quality",
+      "applies": [
+        "refactoring",
+        "clean code",
+        "code review",
+        "readability",
+        "naming",
+        "technical debt"
+      ],
+      "technologies": [],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 943,
+      "path": "modules/code-quality/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/code-quality/RULES.md",
+        "license": "MIT",
+        "checked_against": "Refactoring (2nd ed.) catalog at refactoring.com, Google engineering practices (code review)",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "concurrency",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Concurrency correctness across languages",
+      "overlap_group": "concurrency",
+      "applies": [
+        "concurrency",
+        "threads",
+        "race condition",
+        "deadlock",
+        "locks",
+        "async",
+        "parallelism"
+      ],
+      "technologies": [],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1241,
+      "path": "modules/concurrency/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/concurrency/RULES.md",
+        "license": "MIT",
+        "checked_against": "Java Concurrency in Practice principles, Go memory model, Rust Book chapter 16",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "cpp",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Modern C++ resource safety and correctness",
+      "overlap_group": "cpp",
+      "applies": [
+        "cpp",
+        "c++",
+        "raii",
+        "stl",
+        "templates",
+        "cmake"
+      ],
+      "technologies": [
+        "cpp"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1532,
+      "path": "modules/cpp/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/cpp/RULES.md",
+        "license": "MIT",
+        "checked_against": "C++ Core Guidelines and cppreference (C++20)",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "csharp",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "C# and .NET async, resources and data access",
+      "overlap_group": "csharp",
+      "applies": [
+        "csharp",
+        "dotnet",
+        "async",
+        "linq",
+        "entity framework",
+        "asp.net"
+      ],
+      "technologies": [
+        "csharp"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1370,
+      "path": "modules/csharp/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/csharp/RULES.md",
+        "license": "MIT",
+        "checked_against": "Microsoft Learn .NET 8 documentation",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "database-design",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Schema design, indexing strategy, transactions and migrations",
+      "overlap_group": "database-design",
+      "applies": [
+        "database",
+        "schema",
+        "index",
+        "migration",
+        "transaction",
+        "normalization",
+        "concurrency"
+      ],
+      "technologies": [],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1546,
+      "path": "modules/database-design/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/database-design/RULES.md",
+        "license": "MIT",
+        "checked_against": "PostgreSQL 17 documentation, Use The Index Luke, Designing Data-Intensive Applications",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "distributed-systems",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Distributed systems, caching and background jobs",
+      "overlap_group": "distributed-systems",
+      "applies": [
+        "distributed",
+        "microservices",
+        "cache",
+        "queue",
+        "retry",
+        "background job",
+        "idempotency",
+        "scalability"
+      ],
+      "technologies": [],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1644,
+      "path": "modules/distributed-systems/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/distributed-systems/RULES.md",
+        "license": "MIT",
+        "checked_against": "AWS Builders' Library, Google SRE book, Martin Kleppmann's Designing Data-Intensive Applications",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "django",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Django ORM performance, security and migrations",
+      "overlap_group": "django",
+      "applies": [
+        "django",
+        "orm",
+        "queryset",
+        "migrations",
+        "drf",
+        "admin"
+      ],
+      "technologies": [
+        "django"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1167,
+      "path": "modules/django/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/django/RULES.md",
+        "license": "MIT",
+        "checked_against": "Django 5.1 documentation",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "docker",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Container images: size, security and build speed",
+      "overlap_group": "docker",
+      "applies": [
+        "docker",
+        "dockerfile",
+        "container",
+        "image",
+        "compose",
+        "build"
+      ],
+      "technologies": [
+        "docker"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1147,
+      "path": "modules/docker/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/docker/RULES.md",
+        "license": "MIT",
+        "checked_against": "Docker documentation (build best practices, 2025)",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "error-handling",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Error handling and resilience in application code",
+      "overlap_group": "error-handling",
+      "applies": [
+        "error handling",
+        "exceptions",
+        "retries",
+        "validation",
+        "failure",
+        "logging errors"
+      ],
+      "technologies": [],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1051,
+      "path": "modules/error-handling/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/error-handling/RULES.md",
+        "license": "MIT",
+        "checked_against": "OWASP Error Handling Cheat Sheet, AWS Builders' Library, language documentation",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "fastapi",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "FastAPI correctness, async and validation",
+      "overlap_group": "fastapi",
+      "applies": [
+        "fastapi",
+        "pydantic",
+        "async",
+        "dependency injection",
+        "uvicorn"
+      ],
+      "technologies": [
+        "fastapi"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1003,
+      "path": "modules/fastapi/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/fastapi/RULES.md",
+        "license": "MIT",
+        "checked_against": "FastAPI 0.115 and Pydantic 2 documentation",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "flask",
+      "version": 2,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Flask application structure and security",
+      "overlap_group": "flask",
+      "applies": [
+        "flask",
+        "blueprint",
+        "jinja",
+        "werkzeug",
+        "app factory"
+      ],
+      "technologies": [
+        "flask"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 737,
+      "path": "modules/flask/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/flask/RULES.md",
+        "license": "MIT",
+        "checked_against": "Flask 3.0 documentation",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "flutter",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Flutter widget performance, state and async safety",
+      "overlap_group": "flutter",
+      "applies": [
+        "flutter",
+        "dart",
+        "widget",
+        "setstate",
+        "riverpod",
+        "bloc"
+      ],
+      "technologies": [
+        "flutter"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1008,
+      "path": "modules/flutter/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/flutter/RULES.md",
+        "license": "MIT",
+        "checked_against": "Flutter 3.24 and Dart 3 documentation",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "frontend-architecture",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Front-end state management and component architecture",
+      "overlap_group": "frontend-architecture",
+      "applies": [
+        "state management",
+        "components",
+        "server state",
+        "forms",
+        "design system"
+      ],
+      "technologies": [],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 938,
+      "path": "modules/frontend-architecture/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/frontend-architecture/RULES.md",
+        "license": "MIT",
+        "checked_against": "React documentation (react.dev), TanStack Query documentation",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "go",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Go concurrency, errors and services",
+      "overlap_group": "go",
+      "applies": [
+        "go",
+        "golang",
+        "goroutine",
+        "channel",
+        "context",
+        "module"
+      ],
+      "technologies": [
+        "go"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1589,
+      "path": "modules/go/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/go/RULES.md",
+        "license": "MIT",
+        "checked_against": "Effective Go, Go standard library docs (Go 1.23)",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "graphql",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "GraphQL schema design, performance and security",
+      "overlap_group": "graphql",
+      "applies": [
+        "graphql",
+        "resolver",
+        "schema",
+        "apollo",
+        "dataloader",
+        "mutation"
+      ],
+      "technologies": [
+        "graphql"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1033,
+      "path": "modules/graphql/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/graphql/RULES.md",
+        "license": "MIT",
+        "checked_against": "graphql.org best practices and GraphQL over HTTP specification",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "html-css",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Semantic HTML, layout and CSS maintainability",
+      "overlap_group": "html-css",
+      "applies": [
+        "html",
+        "css",
+        "layout",
+        "flexbox",
+        "grid",
+        "responsive",
+        "forms"
+      ],
+      "technologies": [
+        "html-css"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1217,
+      "path": "modules/html-css/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/html-css/RULES.md",
+        "license": "MIT",
+        "checked_against": "MDN Web Docs and WHATWG HTML Living Standard",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "java",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Java correctness, concurrency and resource handling",
+      "overlap_group": "java",
+      "applies": [
+        "java",
+        "jvm",
+        "maven",
+        "gradle",
+        "junit"
+      ],
+      "technologies": [
+        "java"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1628,
+      "path": "modules/java/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/java/RULES.md",
+        "license": "MIT",
+        "checked_against": "Java SE 21 API documentation",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "javascript",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "JavaScript language pitfalls and async correctness",
+      "overlap_group": "javascript",
+      "applies": [
+        "javascript",
+        "js",
+        "promise",
+        "async",
+        "await",
+        "array",
+        "object"
+      ],
+      "technologies": [
+        "javascript"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1881,
+      "path": "modules/javascript/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/javascript/RULES.md",
+        "license": "MIT",
+        "checked_against": "MDN Web Docs and ECMAScript 2025",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "kotlin",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Kotlin null safety and coroutines",
+      "overlap_group": "kotlin",
+      "applies": [
+        "kotlin",
+        "coroutine",
+        "flow",
+        "suspend",
+        "null safety"
+      ],
+      "technologies": [
+        "kotlin"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1182,
+      "path": "modules/kotlin/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/kotlin/RULES.md",
+        "license": "MIT",
+        "checked_against": "Kotlin documentation (Kotlin 2.x, kotlinx.coroutines 1.8)",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "kubernetes",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Kubernetes workloads: reliability, resources and security",
+      "overlap_group": "kubernetes",
+      "applies": [
+        "kubernetes",
+        "k8s",
+        "pod",
+        "deployment",
+        "helm",
+        "probes",
+        "ingress"
+      ],
+      "technologies": [
+        "kubernetes"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1402,
+      "path": "modules/kubernetes/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/kubernetes/RULES.md",
+        "license": "MIT",
+        "checked_against": "Kubernetes 1.31 documentation",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "linux-networking",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Linux shell scripting, processes and networking fundamentals",
+      "overlap_group": "linux-networking",
+      "applies": [
+        "linux",
+        "bash",
+        "shell",
+        "systemd",
+        "tcp",
+        "dns",
+        "tls",
+        "nginx",
+        "network"
+      ],
+      "technologies": [
+        "linux",
+        "networking"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1221,
+      "path": "modules/linux-networking/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/linux-networking/RULES.md",
+        "license": "MIT",
+        "checked_against": "Bash manual, man7.org Linux man pages, nginx documentation, RFC 8446 (TLS 1.3)",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "llm-apps",
+      "version": 2,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "LLM applications: prompts, RAG, agents, tools, evaluation, cost and security",
+      "overlap_group": "llm-apps",
+      "applies": [
+        "llm",
+        "prompt",
+        "rag",
+        "embeddings",
+        "vector database",
+        "agent",
+        "tool calling",
+        "evaluation",
+        "tokens"
+      ],
+      "technologies": [
+        "llm"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 3762,
+      "path": "modules/llm-apps/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/llm-apps/RULES.md",
+        "license": "MIT",
+        "checked_against": "Anthropic and OpenAI platform documentation, OWASP Top 10 for LLM Applications (2025)",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "ml-engineering",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Machine learning training, evaluation and deployment hygiene",
+      "overlap_group": "ml-engineering",
+      "applies": [
+        "machine learning",
+        "training",
+        "model",
+        "dataset",
+        "pytorch",
+        "sklearn",
+        "evaluation"
+      ],
+      "technologies": [
+        "ml"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 958,
+      "path": "modules/ml-engineering/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/ml-engineering/RULES.md",
+        "license": "MIT",
+        "checked_against": "scikit-learn 1.5 and PyTorch 2.x documentation",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "mobile-architecture",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Mobile app architecture, offline-first sync and mobile performance",
+      "overlap_group": "mobile-architecture",
+      "applies": [
+        "mobile",
+        "offline",
+        "sync",
+        "push notifications",
+        "deep links",
+        "battery",
+        "app performance"
+      ],
+      "technologies": [
+        "mobile"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1124,
+      "path": "modules/mobile-architecture/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/mobile-architecture/RULES.md",
+        "license": "MIT",
+        "checked_against": "Android architecture guide, Apple App Store Review Guidelines, web.dev offline cookbook",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "mongodb",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "MongoDB data modeling, indexing and safety",
+      "overlap_group": "mongodb",
+      "applies": [
+        "mongodb",
+        "mongo",
+        "mongoose",
+        "document",
+        "aggregation",
+        "index"
+      ],
+      "technologies": [
+        "mongodb"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1184,
+      "path": "modules/mongodb/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/mongodb/RULES.md",
+        "license": "MIT",
+        "checked_against": "MongoDB 8.0 manual",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "mysql",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "MySQL/InnoDB schema, indexing and locking",
+      "overlap_group": "mysql",
+      "applies": [
+        "mysql",
+        "mariadb",
+        "innodb",
+        "index",
+        "transaction",
+        "replication"
+      ],
+      "technologies": [
+        "mysql"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1065,
+      "path": "modules/mysql/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/mysql/RULES.md",
+        "license": "MIT",
+        "checked_against": "MySQL 8.4 Reference Manual",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "nextjs",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Next.js App Router data, caching and security",
+      "overlap_group": "nextjs",
+      "applies": [
+        "nextjs",
+        "next",
+        "app router",
+        "server actions",
+        "middleware",
+        "vercel"
+      ],
+      "technologies": [
+        "nextjs"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1565,
+      "path": "modules/nextjs/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/nextjs/RULES.md",
+        "license": "MIT",
+        "checked_against": "Next.js 15 documentation",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "node-express",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Node.js and Express services in production",
+      "overlap_group": "node-express",
+      "applies": [
+        "node",
+        "express",
+        "middleware",
+        "event loop",
+        "npm",
+        "server"
+      ],
+      "technologies": [
+        "node",
+        "express"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1474,
+      "path": "modules/node-express/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/node-express/RULES.md",
+        "license": "MIT",
+        "checked_against": "Node.js 22 documentation and Express 5 guides",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "observability",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Logging, metrics, tracing and alerting",
+      "overlap_group": "observability",
+      "applies": [
+        "logging",
+        "metrics",
+        "tracing",
+        "monitoring",
+        "alerting",
+        "opentelemetry",
+        "slo"
+      ],
+      "technologies": [
+        "observability"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1152,
+      "path": "modules/observability/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/observability/RULES.md",
+        "license": "MIT",
+        "checked_against": "OpenTelemetry documentation, Google SRE book and workbook",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "performance-profiling",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Performance profiling, algorithmic complexity and memory management",
+      "overlap_group": "performance-profiling",
+      "applies": [
+        "profiling",
+        "memory leak",
+        "cpu",
+        "latency",
+        "complexity",
+        "optimization",
+        "benchmark"
+      ],
+      "technologies": [],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1063,
+      "path": "modules/performance-profiling/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/performance-profiling/RULES.md",
+        "license": "MIT",
+        "checked_against": "Brendan Gregg's methodology (USE method), language profiler documentation",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "php",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Secure, typed modern PHP and Laravel",
+      "overlap_group": "php",
+      "applies": [
+        "php",
+        "laravel",
+        "composer",
+        "pdo",
+        "symfony"
+      ],
+      "technologies": [
+        "php"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1165,
+      "path": "modules/php/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/php/RULES.md",
+        "license": "MIT",
+        "checked_against": "PHP 8.3 manual, Laravel 11 documentation, OWASP cheat sheets",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
       "name": "postgres",
       "version": 1,
       "kind": "module",
@@ -52,16 +1611,34 @@
         "explain"
       ],
       "technologies": [
-        "postgres",
-        "postgresql",
-        "sql",
-        "supabase",
-        "pg",
-        "psql",
-        "plpgsql",
-        "rls"
+        "postgres"
       ],
-      "rules": {},
+      "rules": {
+        "data-pagination": {
+          "keywords": "paging through results gets slower deeper page deep pages page 2 page 900 large offset pagination"
+        },
+        "query-missing-indexes": {
+          "keywords": "filter status and created date together is slow planner not using index query plan explain analyze"
+        },
+        "schema-foreign-key-indexes": {
+          "keywords": "deleting customer scans entire orders table foreign key customer_id index delete cascade"
+        },
+        "monitor-explain-analyze": {
+          "keywords": "check whether planner uses index added statements eating most time query plan explain analyze"
+        },
+        "monitor-pg-stat-statements": {
+          "keywords": "which statements consume time query frequency total execution time pg_stat_statements"
+        },
+        "data-n-plus-one": {
+          "keywords": "fetch author separately for each post repeated query per row N plus one"
+        },
+        "security-rls-performance": {
+          "keywords": "row security policy made every read crawl slow rls policy query performance"
+        },
+        "lock-skip-locked": {
+          "keywords": "workers wait on each other queue throughput worker claim locked rows skip locked"
+        }
+      },
       "status": "provisional",
       "score": null,
       "est_tokens": 807,
@@ -116,6 +1693,167 @@
       "conflicts": []
     },
     {
+      "name": "python",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Python correctness, idioms and runtime pitfalls",
+      "overlap_group": "python",
+      "applies": [
+        "python",
+        "pip",
+        "pytest",
+        "asyncio",
+        "typing",
+        "dataclass"
+      ],
+      "technologies": [
+        "python"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 3178,
+      "path": "modules/python/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/python/RULES.md",
+        "license": "MIT",
+        "checked_against": "Python 3.13 documentation",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "react-composition",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "React component composition patterns",
+      "overlap_group": "react-composition",
+      "applies": [
+        "react",
+        "component",
+        "composition",
+        "props",
+        "context"
+      ],
+      "technologies": [
+        "react"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 720,
+      "path": "modules/react-composition/MODULE.md",
+      "references": [
+        "modules/react-composition/README.md",
+        "modules/react-composition/metadata.json",
+        "modules/react-composition/rules/_template.md",
+        "modules/react-composition/rules/architecture-avoid-boolean-props.md",
+        "modules/react-composition/rules/architecture-compound-components.md",
+        "modules/react-composition/rules/patterns-children-over-render-props.md",
+        "modules/react-composition/rules/patterns-explicit-variants.md",
+        "modules/react-composition/rules/react19-no-forwardref.md",
+        "modules/react-composition/rules/state-context-interface.md",
+        "modules/react-composition/rules/state-decouple-implementation.md",
+        "modules/react-composition/rules/state-lift-state.md"
+      ],
+      "source": {
+        "repo": "vercel-labs/agent-skills",
+        "commit": "1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62",
+        "path": "skills/composition-patterns",
+        "license": "MIT",
+        "modified": false,
+        "note": "Original text; SKILL.md renamed to MODULE.md"
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "react-native",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "React Native and Expo performance and UI",
+      "overlap_group": "react-native",
+      "applies": [
+        "react native",
+        "expo",
+        "mobile",
+        "flatlist",
+        "reanimated"
+      ],
+      "technologies": [
+        "react-native"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1109,
+      "path": "modules/react-native/MODULE.md",
+      "references": [
+        "modules/react-native/README.md",
+        "modules/react-native/metadata.json",
+        "modules/react-native/rules/_template.md",
+        "modules/react-native/rules/animation-derived-value.md",
+        "modules/react-native/rules/animation-gesture-detector-press.md",
+        "modules/react-native/rules/animation-gpu-properties.md",
+        "modules/react-native/rules/design-system-compound-components.md",
+        "modules/react-native/rules/fonts-config-plugin.md",
+        "modules/react-native/rules/imports-design-system-folder.md",
+        "modules/react-native/rules/js-hoist-intl.md",
+        "modules/react-native/rules/list-performance-callbacks.md",
+        "modules/react-native/rules/list-performance-function-references.md",
+        "modules/react-native/rules/list-performance-images.md",
+        "modules/react-native/rules/list-performance-inline-objects.md",
+        "modules/react-native/rules/list-performance-item-expensive.md",
+        "modules/react-native/rules/list-performance-item-memo.md",
+        "modules/react-native/rules/list-performance-item-types.md",
+        "modules/react-native/rules/list-performance-virtualize.md",
+        "modules/react-native/rules/monorepo-native-deps-in-app.md",
+        "modules/react-native/rules/monorepo-single-dependency-versions.md",
+        "modules/react-native/rules/navigation-native-navigators.md",
+        "modules/react-native/rules/react-compiler-destructure-functions.md",
+        "modules/react-native/rules/react-compiler-reanimated-shared-values.md",
+        "modules/react-native/rules/react-state-dispatcher.md",
+        "modules/react-native/rules/react-state-fallback.md",
+        "modules/react-native/rules/react-state-minimize.md",
+        "modules/react-native/rules/rendering-no-falsy-and.md",
+        "modules/react-native/rules/rendering-text-in-text-component.md",
+        "modules/react-native/rules/scroll-position-no-state.md",
+        "modules/react-native/rules/state-ground-truth.md",
+        "modules/react-native/rules/ui-expo-image.md",
+        "modules/react-native/rules/ui-image-gallery.md",
+        "modules/react-native/rules/ui-measure-views.md",
+        "modules/react-native/rules/ui-menus.md",
+        "modules/react-native/rules/ui-native-modals.md",
+        "modules/react-native/rules/ui-pressable.md",
+        "modules/react-native/rules/ui-safe-area-scroll.md",
+        "modules/react-native/rules/ui-scrollview-content-inset.md",
+        "modules/react-native/rules/ui-styling.md"
+      ],
+      "source": {
+        "repo": "vercel-labs/agent-skills",
+        "commit": "1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62",
+        "path": "skills/react-native-skills",
+        "license": "MIT",
+        "modified": false,
+        "note": "Original text; SKILL.md renamed to MODULE.md"
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
       "name": "react-performance",
       "version": 1,
       "kind": "module",
@@ -139,13 +1877,28 @@
       ],
       "technologies": [
         "react",
-        "reactjs",
-        "nextjs",
-        "jsx",
-        "tsx",
-        "rsc"
+        "nextjs"
       ],
-      "rules": {},
+      "rules": {
+        "rerender-memo": {
+          "keywords": "every child redraws whenever parent updates state; child rerenders parent state updates unnecessary rerender memoize props"
+        },
+        "bundle-barrel-imports": {
+          "keywords": "importing one helper from ui package pulls entire library bundle tree shaking barrel index side effects"
+        },
+        "async-parallel": {
+          "keywords": "waits for one fetch request to finish before starting next sequential waterfall independent parallel"
+        },
+        "server-parallel-fetching": {
+          "keywords": "server fetches requests sequentially await waterfall independent Promise.all parallel"
+        },
+        "js-hoist-regexp": {
+          "keywords": "rebuild same pattern regular expression object for every row process compile once outside loop"
+        },
+        "js-index-maps": {
+          "keywords": "find matching record inside loop thousands rows repeated lookup map index constant time"
+        }
+      },
       "status": "provisional",
       "score": null,
       "est_tokens": 1812,
@@ -234,6 +1987,394 @@
         "license": "MIT",
         "modified": false,
         "note": "Original text; SKILL.md renamed to MODULE.md"
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "redis",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Redis caching, data structures and operations",
+      "overlap_group": "redis",
+      "applies": [
+        "redis",
+        "cache",
+        "ttl",
+        "rate limit",
+        "pub sub",
+        "session store"
+      ],
+      "technologies": [
+        "redis"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1293,
+      "path": "modules/redis/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/redis/RULES.md",
+        "license": "MIT",
+        "checked_against": "Redis 7.4 documentation",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "ruby",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Ruby and Rails correctness, security and performance",
+      "overlap_group": "ruby",
+      "applies": [
+        "ruby",
+        "rails",
+        "activerecord",
+        "rspec",
+        "sidekiq"
+      ],
+      "technologies": [
+        "ruby"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1153,
+      "path": "modules/ruby/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/ruby/RULES.md",
+        "license": "MIT",
+        "checked_against": "Ruby 3.3 documentation and Rails 7.2 guides",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "rust",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Idiomatic Rust ownership, errors and async",
+      "overlap_group": "rust",
+      "applies": [
+        "rust",
+        "cargo",
+        "borrow",
+        "lifetime",
+        "tokio",
+        "serde"
+      ],
+      "technologies": [
+        "rust"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1409,
+      "path": "modules/rust/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/rust/RULES.md",
+        "license": "MIT",
+        "checked_against": "The Rust Book, Rust API Guidelines, Tokio docs (Rust 1.8x)",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "security",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Application security (OWASP Top 10) across languages",
+      "overlap_group": "security",
+      "applies": [
+        "security",
+        "vulnerability",
+        "injection",
+        "xss",
+        "csrf",
+        "ssrf",
+        "secrets",
+        "owasp"
+      ],
+      "technologies": [],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 2236,
+      "path": "modules/security/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/security/RULES.md",
+        "license": "MIT",
+        "checked_against": "OWASP Top 10 (2021), OWASP ASVS 4.0.3, OWASP Cheat Sheet Series",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "spring-boot",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Spring Boot transactions, JPA and configuration",
+      "overlap_group": "spring-boot",
+      "applies": [
+        "spring",
+        "spring boot",
+        "jpa",
+        "hibernate",
+        "transactional",
+        "bean"
+      ],
+      "technologies": [
+        "spring"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1327,
+      "path": "modules/spring-boot/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/spring-boot/RULES.md",
+        "license": "MIT",
+        "checked_against": "Spring Boot 3.3 and Spring Framework 6.1 reference documentation",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "sql",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Portable SQL query correctness and performance",
+      "overlap_group": "sql",
+      "applies": [
+        "sql",
+        "query",
+        "join",
+        "index",
+        "select",
+        "aggregate"
+      ],
+      "technologies": [
+        "sql"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1753,
+      "path": "modules/sql/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/sql/RULES.md",
+        "license": "MIT",
+        "checked_against": "PostgreSQL 17, MySQL 8.4 and SQLite 3.46 documentation (portable behaviour)",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "sqlite",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "SQLite concurrency, durability and performance",
+      "overlap_group": "sqlite",
+      "applies": [
+        "sqlite",
+        "wal",
+        "embedded database",
+        "local database"
+      ],
+      "technologies": [
+        "sqlite"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 964,
+      "path": "modules/sqlite/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/sqlite/RULES.md",
+        "license": "MIT",
+        "checked_against": "SQLite 3.46 documentation",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "svelte",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Svelte 5 runes and SvelteKit data loading",
+      "overlap_group": "svelte",
+      "applies": [
+        "svelte",
+        "sveltekit",
+        "runes",
+        "load",
+        "store"
+      ],
+      "technologies": [
+        "svelte"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 831,
+      "path": "modules/svelte/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/svelte/RULES.md",
+        "license": "MIT",
+        "checked_against": "Svelte 5 and SvelteKit 2 documentation",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "swift",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Swift language safety and concurrency",
+      "overlap_group": "swift",
+      "applies": [
+        "swift",
+        "ios",
+        "optional",
+        "actor",
+        "async",
+        "xcode"
+      ],
+      "technologies": [
+        "swift"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1291,
+      "path": "modules/swift/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/swift/RULES.md",
+        "license": "MIT",
+        "checked_against": "The Swift Programming Language (Swift 6) and Apple developer documentation",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "swiftui-uikit",
+      "version": 2,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "SwiftUI and UIKit state, rendering and performance",
+      "overlap_group": "swiftui-uikit",
+      "applies": [
+        "swiftui",
+        "uikit",
+        "ios",
+        "view",
+        "observable",
+        "table view",
+        "collection view"
+      ],
+      "technologies": [
+        "swiftui",
+        "uikit"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1227,
+      "path": "modules/swiftui-uikit/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/swiftui-uikit/RULES.md",
+        "license": "MIT",
+        "checked_against": "Apple developer documentation (SwiftUI, UIKit; iOS 18)",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
       },
       "requires": [],
       "mentions": [],
@@ -365,6 +2506,82 @@
       "conflicts": []
     },
     {
+      "name": "tailwind",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Tailwind CSS configuration and maintainable utilities",
+      "overlap_group": "tailwind",
+      "applies": [
+        "tailwind",
+        "utility classes",
+        "classnames",
+        "design tokens"
+      ],
+      "technologies": [
+        "tailwind"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 772,
+      "path": "modules/tailwind/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/tailwind/RULES.md",
+        "license": "MIT",
+        "checked_against": "Tailwind CSS v4 documentation",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "terraform",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Terraform state, modules and safe changes",
+      "overlap_group": "terraform",
+      "applies": [
+        "terraform",
+        "hcl",
+        "state",
+        "module",
+        "plan",
+        "infrastructure as code"
+      ],
+      "technologies": [
+        "terraform"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1051,
+      "path": "modules/terraform/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/terraform/RULES.md",
+        "license": "MIT",
+        "checked_against": "Terraform 1.9 documentation (developer.hashicorp.com)",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
       "name": "test-driven-development",
       "version": 1,
       "kind": "module",
@@ -459,6 +2676,158 @@
         "license": "MIT",
         "modified": false,
         "note": "Original text; SKILL.md renamed to MODULE.md"
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "testing",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Test strategy, isolation, mocks and reliability",
+      "overlap_group": "testing",
+      "applies": [
+        "testing",
+        "unit test",
+        "integration test",
+        "mock",
+        "flaky",
+        "coverage",
+        "e2e"
+      ],
+      "technologies": [],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1453,
+      "path": "modules/testing/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/testing/RULES.md",
+        "license": "MIT",
+        "checked_against": "martinfowler.com testing articles, Google Testing Blog, pytest and Jest documentation",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "typescript",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "TypeScript type safety and configuration",
+      "overlap_group": "typescript",
+      "applies": [
+        "typescript",
+        "types",
+        "tsconfig",
+        "generics",
+        "interface"
+      ],
+      "technologies": [
+        "typescript"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1844,
+      "path": "modules/typescript/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/typescript/RULES.md",
+        "license": "MIT",
+        "checked_against": "TypeScript 5.x handbook",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "vue",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Vue 3 reactivity, components and performance",
+      "overlap_group": "vue",
+      "applies": [
+        "vue",
+        "nuxt",
+        "pinia",
+        "composition api",
+        "reactivity"
+      ],
+      "technologies": [
+        "vue"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1117,
+      "path": "modules/vue/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/vue/RULES.md",
+        "license": "MIT",
+        "checked_against": "Vue 3.5 documentation",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "web-performance",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Core Web Vitals and front-end loading performance",
+      "overlap_group": "web-performance",
+      "applies": [
+        "web vitals",
+        "lcp",
+        "inp",
+        "cls",
+        "bundle",
+        "lighthouse",
+        "page load"
+      ],
+      "technologies": [],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1150,
+      "path": "modules/web-performance/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/web-performance/RULES.md",
+        "license": "MIT",
+        "checked_against": "web.dev Core Web Vitals guidance (2025)",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
       },
       "requires": [],
       "mentions": [],

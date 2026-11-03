@@ -7,21 +7,47 @@ extractive selection, not a claim of measured model improvement.
 import copy
 import fnmatch
 import hashlib
+import json
 from pathlib import Path
 
-from retrieval import Index, interleave, load_rules, rank, read_safe, split_prompt, tokens
+from retrieval import Context, Taxonomy, interleave, load_rules, rank, read_safe, split_prompt, tokens
 
 NOTICE = ('\nApply guidance only where it fits the task; preserve required behavior. '
           'Examples are not complete application designs. '
           'Only the units below were delivered in this call.\n')
 
 
-def library(index, root, mode):
+_CONTEXTS = {}
+
+
+def _fingerprint(index, root, mode):
+    """Identity of a loaded library: the index content plus each rule file's size and mtime.
+    A changed file therefore rebuilds the in-process cache instead of serving stale text."""
+    h = hashlib.sha256(json.dumps(index, sort_keys=True, default=str).encode('utf-8'))
+    h.update(f'{Path(root).resolve()}|{mode}'.encode('utf-8'))
+    for m in index.get('modules', []):
+        for rel in [m.get('path', ''), *m.get('references', [])]:
+            try:
+                st = (Path(root) / rel).stat()
+                h.update(f'{rel}:{st.st_size}:{st.st_mtime_ns}'.encode('utf-8'))
+            except OSError:
+                h.update(f'{rel}:missing'.encode('utf-8'))
+    return h.hexdigest()
+
+
+def library(index, root, mode, with_context=False):
+    """(mode config, rules[, retrieval context]). Loaded rules and the BM25 index are
+    cached per process, keyed by the library fingerprint."""
     cfg = index['modes'].get(mode)
     if cfg is None:
         raise ValueError(f"unknown mode: {mode!r}; available: {', '.join(index['modes'])}")
-    rules = load_rules(index, root, mode)
-    return cfg, rules
+    key = _fingerprint(index, root, mode)
+    if key not in _CONTEXTS:
+        rules = load_rules(index, root, mode)
+        _CONTEXTS.clear()
+        _CONTEXTS[key] = (rules, Context(index, rules, root) if rules else None)
+    rules, context = _CONTEXTS[key]
+    return (cfg, rules, context) if with_context else (cfg, rules)
 
 
 def closure(rule, by_id, active=()):
@@ -54,7 +80,7 @@ def build_brief(index, root, mode, subtasks, stack=(), budget=None, emitted=(), 
         raise ValueError('unknown delivery mode')
     root = Path(root)
     index = copy.deepcopy(index)
-    cfg, rules = library(index, root, mode)
+    cfg, rules, context = library(index, root, mode, with_context=True)
     by_id = {r['id']: r for r in rules}
     budget = cfg['budget_tokens'] if budget is None else budget
     if budget <= 0:
@@ -66,7 +92,7 @@ def build_brief(index, root, mode, subtasks, stack=(), budget=None, emitted=(), 
         ranked = [('(fixed selection)', [(None, by_id[i]) for i in rule_ids])]
     else:
         parts = [p for task in subtasks for p in (split_prompt(task) if split else [task])]
-        ranked = rank(index, Index(rules), parts, stack) if rules and parts else []
+        ranked = rank(index, None, parts, stack, context=context) if rules and parts else []
     picked = interleave(ranked)
     by_name = {m['name']: m for m in index['modules']}
     core = by_name.get(cfg['core'])
@@ -78,14 +104,13 @@ def build_brief(index, root, mode, subtasks, stack=(), budget=None, emitted=(), 
         raise ValueError('budget too small for brief envelope')
 
     def block(module, path, body, rule=None, required_by=None):
-        source = module.get('source') or {}
-        notes = [f"Source: {source['repo']}@{source['commit'][:12]}"] if source else []
+        notes = [attribution(module)] if module.get('source') else []
         if rule:
-            notes.append(f"Evidence: {rule.get('evidence', 'untested')}")
+            notes.append(f"evidence: {rule.get('evidence', 'untested')}")
             if required_by:
-                notes.append(f'Included because {required_by} depends on it')
+                notes.append(f'needed by {required_by}')
         title = f"{rule['id']}: {rule['title']}" if rule else f"{module['name']} / {path}"
-        origin = '\n' + '. '.join(notes) if notes else ''
+        origin = '\n_' + ' · '.join(n for n in notes if n) + '_' if notes else ''
         return f'\n## {title}{origin}\n\n{body.strip()}\n'
 
     def entry(module, path, body, score, rule_id, required_by=None):
@@ -130,9 +155,10 @@ def build_brief(index, root, mode, subtasks, stack=(), budget=None, emitted=(), 
             for r in members:
                 dep_of = rule['id'] if r is not rule else None
                 module = by_name[r['module']]
-                e = entry(module, r['path'], r['text'], score if r is rule else None, r['id'], dep_of)
+                text = r.get('delivery', r['text'])
+                e = entry(module, r['path'], text, score if r is rule else None, r['id'], dep_of)
                 audit.append(e)
-                group.append((e, block(module, r['path'], r['text'], r, dep_of)))
+                group.append((e, block(module, r['path'], text, r, dep_of)))
             clash = [c for r in members for c in r.get('conflicts', []) if c in done]
             clash += [d for d in done for r in members if r['id'] in by_id[d].get('conflicts', [])]
             if clash:
@@ -176,21 +202,66 @@ def build_brief(index, root, mode, subtasks, stack=(), budget=None, emitted=(), 
     return brief, keys, log
 
 
-def catalog_text(index, root, mode, fetch_command):
-    """One line per rule, grouped by module: the whole menu at a fixed, small cost."""
+def attribution(module):
+    """'repo@commit12 (license)' for imported modules, 'authored (license)' for packs."""
+    src = module.get('source') or {}
+    if not src:
+        return ''
+    lic = src.get('license') or 'license unknown'
+    if src.get('kind') == 'authored':
+        return f"SkillForge-authored ({lic})"
+    return f"{src.get('repo')}@{str(src.get('commit', ''))[:12]} ({lic})"
+
+
+CATALOG_INTRO = ('When one fits the task, fetch its full text before changing code (ID = <module>/<name>):\n'
+                 '  {fetch} --rule <id> [--rule <id> ...]\n'
+                 'Fetch only rules that fit; each costs roughly 150-800 tokens. Most tasks need none or a few.')
+
+
+def catalog_text(index, root, mode, fetch_command, module=None, budget=2400, stack=()):
+    """The menu of rules at a small, bounded cost.
+
+    Full form (no budget, or the whole catalog fits): one line per rule under its module.
+    Two-level form (the full catalog would exceed `budget` estimated tokens): one line per
+    module with its rule count, then full rule lists for the modules on the detected
+    stack while they fit; `--catalog <module>` lists the rest. module=NAME lists just
+    that module's rules.
+    """
     _, rules = library(index, Path(root), mode)
-    lines = [f'# SkillForge catalog: {mode}',
-             f'{len(rules)} curated rules, listed as <name>: <title> under their module. When one fits the task,',
-             'fetch its full text before changing code (ID = <module>/<name>, e.g. postgres/lock-skip-locked):',
-             f'  {fetch_command} --rule <id> [--rule <id> ...]',
-             'Fetch only rules that fit; each costs roughly 250-800 tokens. Most tasks need none or a few.']
     by_module = {}
     for r in rules:
         by_module.setdefault(r['module'], []).append(r)
-    capability = {m['name']: m.get('capability') for m in index['modules']}
+    info = {m['name']: m for m in index['modules']}
+    if module is not None:
+        if module not in by_module:
+            raise ValueError(f"unknown module {module!r}; run --catalog for the list")
+        by_module = {module: by_module[module]}
+
+    def rule_lines(name, group):
+        cap = info[name].get('capability')
+        out = [f"\n## {name}" + (f" ({cap})" if cap else '')]
+        out += [f"{r['id'][len(name) + 1:]}: {r['title'].split(': ', 1)[-1][:90]}" for r in group]
+        return out
+
+    head = [f'# SkillForge catalog: {mode}',
+            f'{sum(len(g) for g in by_module.values())} curated rules in {len(by_module)} modules.',
+            CATALOG_INTRO.format(fetch=fetch_command)]
+    full = head + [line for name, group in by_module.items() for line in rule_lines(name, group)]
+    text = '\n'.join(full) + '\n'
+    if module is not None or tokens(text) <= budget:
+        return text
+    lines = head + [f'List one module\'s rules with: {fetch_command} --catalog <module>', '', '## modules']
     for name, group in by_module.items():
-        lines.append(f"\n## {name}" + (f" ({capability[name]})" if capability.get(name) else ''))
-        lines += [f"{r['id'][len(name) + 1:]}: {r['title'].split(': ', 1)[-1][:90]}" for r in group]
+        cap = info[name].get('capability') or ''
+        lines.append(f"{name} ({len(group)}): {cap}"[:110])
+    tax = Taxonomy.load(root)
+    stack = tax.closure({tax.canon(s) for s in stack})
+    for name, group in by_module.items():
+        own = {tax.canon(t) for t in info[name].get('technologies', [])}
+        if stack and own & stack:
+            extra = rule_lines(name, group)
+            if tokens('\n'.join(lines + extra) + '\n') <= budget:
+                lines += extra
     return '\n'.join(lines) + '\n'
 
 
@@ -208,5 +279,5 @@ def get_rules(index, root, mode, ids):
         if rule is None:
             missing.append(want)
             continue
-        out.append(f"## {rule['id']}: {rule['title']}\n\n{rule['text'].strip()}\n")
+        out.append(f"## {rule['id']}: {rule['title']}\n\n{rule.get('delivery', rule['text']).strip()}\n")
     return '\n'.join(out), missing

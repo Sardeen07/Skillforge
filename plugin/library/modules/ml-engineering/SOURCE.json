@@ -1,0 +1,11 @@
+{
+  "kind": "authored",
+  "repo": "Sardeen07/Skillforge",
+  "path": "plugin/library/modules/ml-engineering/RULES.md",
+  "license": "MIT",
+  "checked_against": "scikit-learn 1.5 and PyTorch 2.x documentation",
+  "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+  "review": "pending human review",
+  "modified": false,
+  "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+}

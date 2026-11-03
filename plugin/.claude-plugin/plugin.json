@@ -1,5 +1,5 @@
 {
   "name": "skillforge",
   "version": "0.1.0",
-  "description": "Delivers matching curated coding rules on every prompt, within a bounded brief."
+  "description": "Retrieves curated coding rules across languages and engineering topics. Optional hook delivery is off by default."
 }

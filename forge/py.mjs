@@ -13,14 +13,14 @@ const candidates = [...(existsSync(venv) ? [venv] : []),
                     ...(process.platform === "win32" ? ["python", "py", "python3"] : ["python3", "python"])];
 
 function works(exe) {
-  const r = spawnSync(exe, ["-c", "import sys; print('supported' if sys.version_info >= (3, 10) else 'unsupported')"],
+  const r = spawnSync(exe, ["-c", "import sys; print('supported' if sys.version_info >= (3, 9) else 'unsupported')"],
                       { encoding: "utf8" });
   return r.status === 0 && r.stdout.trim() === "supported";
 }
 
 const python = candidates.find(works);
 if (!python) {
-  console.error(`no Python 3.10+ found (tried: ${candidates.join(", ")})`);
+  console.error(`no Python 3.9+ found (tried: ${candidates.join(", ")})`);
   process.exit(1);
 }
 

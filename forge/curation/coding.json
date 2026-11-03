@@ -254,13 +254,29 @@
       ],
       "technologies": [
         "react",
-        "reactjs",
-        "nextjs",
-        "jsx",
-        "tsx",
-        "rsc"
+        "nextjs"
       ],
-      "status": "provisional"
+      "status": "provisional",
+      "rules": {
+        "rerender-memo": {
+          "keywords": "every child redraws whenever parent updates state; child rerenders parent state updates unnecessary rerender memoize props"
+        },
+        "bundle-barrel-imports": {
+          "keywords": "importing one helper from ui package pulls entire library bundle tree shaking barrel index side effects"
+        },
+        "async-parallel": {
+          "keywords": "waits for one fetch request to finish before starting next sequential waterfall independent parallel"
+        },
+        "server-parallel-fetching": {
+          "keywords": "server fetches requests sequentially await waterfall independent Promise.all parallel"
+        },
+        "js-hoist-regexp": {
+          "keywords": "rebuild same pattern regular expression object for every row process compile once outside loop"
+        },
+        "js-index-maps": {
+          "keywords": "find matching record inside loop thousands rows repeated lookup map index constant time"
+        }
+      }
     },
     {
       "name": "postgres",
@@ -289,15 +305,544 @@
         "explain"
       ],
       "technologies": [
-        "postgres",
-        "postgresql",
-        "sql",
-        "supabase",
-        "pg",
-        "psql",
-        "plpgsql",
-        "rls"
+        "postgres"
       ],
+      "status": "provisional",
+      "rules": {
+        "data-pagination": {
+          "keywords": "paging through results gets slower deeper page deep pages page 2 page 900 large offset pagination"
+        },
+        "query-missing-indexes": {
+          "keywords": "filter status and created date together is slow planner not using index query plan explain analyze"
+        },
+        "schema-foreign-key-indexes": {
+          "keywords": "deleting customer scans entire orders table foreign key customer_id index delete cascade"
+        },
+        "monitor-explain-analyze": {
+          "keywords": "check whether planner uses index added statements eating most time query plan explain analyze"
+        },
+        "monitor-pg-stat-statements": {
+          "keywords": "which statements consume time query frequency total execution time pg_stat_statements"
+        },
+        "data-n-plus-one": {
+          "keywords": "fetch author separately for each post repeated query per row N plus one"
+        },
+        "security-rls-performance": {
+          "keywords": "row security policy made every read crawl slow rls policy query performance"
+        },
+        "lock-skip-locked": {
+          "keywords": "workers wait on each other queue throughput worker claim locked rows skip locked"
+        }
+      }
+    },
+    {
+      "name": "react-native",
+      "source": {
+        "repo": "vercel-labs/agent-skills",
+        "commit": "1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62",
+        "path": "skills/react-native-skills",
+        "license": "MIT"
+      },
+      "exclude": [
+        "*.zip",
+        "AGENTS.md",
+        "_sections.md"
+      ],
+      "capability": "React Native and Expo performance and UI",
+      "overlap_group": "react-native",
+      "applies": [
+        "react native",
+        "expo",
+        "mobile",
+        "flatlist",
+        "reanimated"
+      ],
+      "technologies": [
+        "react-native"
+      ],
+      "status": "provisional"
+    },
+    {
+      "name": "react-composition",
+      "source": {
+        "repo": "vercel-labs/agent-skills",
+        "commit": "1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62",
+        "path": "skills/composition-patterns",
+        "license": "MIT"
+      },
+      "exclude": [
+        "*.zip",
+        "AGENTS.md",
+        "_sections.md"
+      ],
+      "capability": "React component composition patterns",
+      "overlap_group": "react-composition",
+      "applies": [
+        "react",
+        "component",
+        "composition",
+        "props",
+        "context"
+      ],
+      "technologies": [
+        "react"
+      ],
+      "status": "provisional"
+    },
+    {
+      "name": "accessibility",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "android",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "angular",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "api-design",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "architecture",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "auth",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "c",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "ci-cd",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "cloud",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "code-quality",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "concurrency",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "cpp",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "csharp",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "database-design",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "distributed-systems",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "django",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "docker",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "error-handling",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "fastapi",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "flask",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "flutter",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "frontend-architecture",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "go",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "graphql",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "html-css",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "java",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "javascript",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "kotlin",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "kubernetes",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "linux-networking",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "llm-apps",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "ml-engineering",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "mobile-architecture",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "mongodb",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "mysql",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "nextjs",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "node-express",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "observability",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "performance-profiling",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "php",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "python",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "redis",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "ruby",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "rust",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "security",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "spring-boot",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "sql",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "sqlite",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "svelte",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "swift",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "swiftui-uikit",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "tailwind",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "terraform",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "testing",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "typescript",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "vue",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "web-performance",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
       "status": "provisional"
     }
   ],

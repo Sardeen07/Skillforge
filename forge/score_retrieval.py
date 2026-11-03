@@ -17,7 +17,7 @@ precision among delivered rules cannot reveal excessive abstention.
 
 --baseline scores the original keyword module selector, at module level only.
 """
-import argparse, fnmatch, json, sys
+import argparse, fnmatch, json, sys, time, math
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'plugin/skills/skillforge/scripts'))
@@ -37,12 +37,31 @@ def relevant(rule, needs):
     return any(fnmatch.fnmatch(rule, want) for need in needs for want in need)
 
 
+def ndcg(needs, delivered, k):
+    """NDCG@k over need groups; one rule can satisfy one previously unmet need."""
+    if not needs:
+        return 1.0 if not delivered else 0.0
+    remaining = list(needs)
+    dcg = 0.0
+    for rank, rule in enumerate(delivered[:k], 1):
+        hit = next((i for i, group in enumerate(remaining)
+                    if any(fnmatch.fnmatch(rule, want) for want in group)), None)
+        gain = 0.0
+        if hit is not None:
+            remaining.pop(hit)
+            gain = 1.0
+        dcg += gain / math.log2(rank + 1)
+    ideal = sum(1 / math.log2(rank + 1) for rank in range(1, min(k, len(needs)) + 1))
+    return dcg / ideal if ideal else 0.0
+
+
 def evaluate(cases, index, stack=(), baseline=False, k=4, budget=None):
     library = load_rules(index, ROOT / 'plugin/library')
     requires = {r['id']: r['requires'] for r in library}
     size = {r['id']: tokens(r['text']) for r in library}
     rows = []
     for c in cases:
+        started = time.perf_counter()
         if baseline:
             selected = compose(index, c['mode'], [c['task']], stack=stack)[0]
             picked, rules, used = [m['name'] for m in selected if m['kind'] != 'core'], [], None
@@ -63,11 +82,16 @@ def evaluate(cases, index, stack=(), baseline=False, k=4, budget=None):
             precision = relevant_n / len(ranked) if ranked else None
             have = {u['id'] for u in units}
             complete = all(set(requires.get(u['id'], [])) <= have for u in units)
+        elapsed_ms = (time.perf_counter() - started) * 1000
+        ndcg_k = ndcg(c.get('rules', []), rules, k) if not baseline else None
+        precision_k = (sum(relevant(i, c.get('rules', [])) for i in rules) / min(k, len(rules))
+                       if rules and not baseline else (0.0 if not baseline else None))
         module_hit = bool(set(picked) & set(c['expect'])) if c['expect'] else not picked
         score = (1.0 if not picked else 0.0) if not c['expect'] else (
             float(module_hit) if baseline else recall(c.get('rules', []), rules))
         rows.append(dict(task=c['task'], expected=c['expect'], needs=c.get('rules', []), picked=picked,
                          rules=rules, module_hit=module_hit, score=score, precision=precision,
+                         precision_at_k=precision_k, ndcg_at_k=ndcg_k, retrieval_ms=elapsed_ms,
                          relevant=relevant_n, unnecessary=unnecessary_n, supporting=supporting,
                          supporting_tokens=sum(size.get(i, 0) for i in supporting),
                          dependencies_complete=complete, estimated_tokens=used))
@@ -108,6 +132,9 @@ def main():
     if negative:
         print(f"abstained {sum(r['score'] == 1 for r in negative)}/{len(negative)} unrelated tasks")
     if not a.baseline:
+        print(f"mean precision@{a.k}: {sum(r['precision_at_k'] for r in rows) / len(rows):.1%}; "
+              f"mean NDCG@{a.k}: {sum(r['ndcg_at_k'] for r in rows) / len(rows):.3f}; "
+              f"mean local runtime: {sum(r['retrieval_ms'] for r in rows) / len(rows):.2f} ms")
         sup = [i for r in rows for i in r['supporting']]
         if sup:
             common = sorted(set(sup), key=lambda i: -sup.count(i))[:3]

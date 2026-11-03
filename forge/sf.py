@@ -176,6 +176,9 @@ def import_curation(con, curation_path):
                    budget_tokens=excluded.budget_tokens""", (mode, core["name"], cur["budget_tokens"]))
     for spec in cur["modules"]:
         src = spec["source"]
+        if src.get("kind") == "authored":
+            import_authored(con, spec, mode)
+            continue
         checkout = fetch_source(src["repo"], src["commit"])
         src_dir = checkout / src["path"]
         if not (src_dir / "SKILL.md").exists():
@@ -193,6 +196,47 @@ def import_curation(con, curation_path):
                       main.read_text(encoding="utf-8"), sv_id)
         print(f"imported {spec['name']:32} {src['repo']}@{src['commit'][:7]}")
     con.commit()
+
+
+AUTHORED_REPO = "Sardeen07/Skillforge"
+
+
+def pack_header(text):
+    """Module-level fields from a RULES.md frontmatter block."""
+    m = re.match(r"\A---\s*\n(.*?)\n---", text, re.S)
+    return dict(re.findall(r"^(\w+):[ \t]*(.+)$", m[1], re.M)) if m else {}
+
+
+def split_list(value):
+    return [v.strip() for v in str(value or "").split(",") if v.strip()]
+
+
+def import_authored(con, spec, mode):
+    """An authored rule pack already lives in the library; record it and its provenance.
+
+    Capability, technologies and applies come from the pack header unless the curation
+    entry overrides them. Nothing is fetched or copied."""
+    rel = f"modules/{spec['name']}/RULES.md"
+    pack = LIBRARY / rel
+    if not pack.exists():
+        sys.exit(f"{spec['name']}: authored pack {rel} is missing")
+    text = pack.read_text(encoding="utf-8")
+    head = pack_header(text)
+    spec = dict(spec)
+    spec.setdefault("capability", head.get("capability"))
+    spec.setdefault("technologies", split_list(head.get("technologies")))
+    spec.setdefault("applies", split_list(head.get("applies")))
+    spec.setdefault("overlap_group", head.get("overlap_group") or spec["name"])
+    source = {"kind": "authored", "repo": AUTHORED_REPO, "path": f"plugin/library/{rel}",
+              "license": spec["source"].get("license", "MIT"),
+              "checked_against": head.get("checked_against"),
+              "authorship": head.get("authorship"),
+              "review": head.get("review", "pending"),
+              "modified": False,
+              "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."}
+    (pack.parent / "SOURCE.json").write_text(json.dumps(source, indent=2) + "\n", encoding="utf-8")
+    upsert_module(con, spec, "module", mode, rel, text)
+    print(f"imported {spec['name']:32} authored pack")
 
 
 # ---------------------------------------------------------------- inspect
@@ -233,8 +277,8 @@ def export(con):
         for r in con.execute("SELECT kind, target_name, reason FROM module_relations WHERE module_id=?", (m["id"],)):
             rels[r["kind"]].append({"target": r["target_name"], "reason": r["reason"]})
         folder = (LIBRARY / m["path"]).parent
-        refs = sorted(str(p.relative_to(LIBRARY)) for p in folder.rglob("*")
-                      if p.is_file() and p.name not in ("MODULE.md", "SOURCE.json", "LICENSE")
+        refs = sorted(p.relative_to(LIBRARY).as_posix() for p in folder.rglob("*")
+                      if p.is_file() and p.name not in ("MODULE.md", "RULES.md", "SOURCE.json", "LICENSE")
                       and not p.name.startswith("LICENSE")) if m["kind"] == "module" else []
         source = (json.loads((folder / "SOURCE.json").read_text(encoding="utf-8"))
                   if (folder / "SOURCE.json").exists() else None)
@@ -247,7 +291,9 @@ def export(con):
             "est_tokens": m["est_tokens"], "path": m["path"], "references": refs, "source": source, **rels})
     modes = {r["mode"]: {"core": r["core_module"], "budget_tokens": r["budget_tokens"]}
              for r in con.execute("SELECT * FROM mode_configs")}
-    index = {"generated_at": now(), "token_estimate": "characters / 4 (estimate, not a measured token count)",
+    # No timestamp: the same library exports byte-identical JSON (reproducible builds).
+    digest = hashlib.sha256(json.dumps([modes, modules], sort_keys=True).encode("utf-8")).hexdigest()
+    index = {"library_digest": digest[:16], "token_estimate": "characters / 4 (estimate, not a measured token count)",
              "modes": modes, "modules": modules}
     (LIBRARY / "index.json").write_text(json.dumps(index, indent=2) + "\n", encoding="utf-8")
     print(f"exported {len(modules)} modules to plugin/library/index.json")

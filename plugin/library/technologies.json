@@ -1,0 +1,1305 @@
+{
+  "version": 1,
+  "about": "Technology taxonomy for retrieval priors and project detection. aliases name the technology outright and steer retrieval strongly (other technologies are demoted); hints only suggest it (a small boost, no demotion). Both are whole-phrase matches on normalized prompt text (lowercase; X.js -> xjs, c++ -> cpp, c# -> csharp, .net -> dotnet). Ambiguous words (go, c, swift, express, spring, rails) appear only inside phrases. implies: rules of the implied technology are on-topic too (a Next.js prompt wants React rules). packages: dependency names in manifests. files: glob patterns at the project top level (or one level down) that indicate the technology.",
+  "technologies": {
+    "python": {
+      "aliases": [
+        "python",
+        "python3",
+        "cpython",
+        "pypi",
+        "pytest",
+        "asyncio",
+        "mypy",
+        "pyproject",
+        "virtualenv",
+        "pydantic"
+      ],
+      "hints": [
+        "pip",
+        "venv"
+      ],
+      "files": [
+        "pyproject.toml",
+        "requirements.txt",
+        "setup.py",
+        "Pipfile"
+      ]
+    },
+    "javascript": {
+      "aliases": [
+        "javascript",
+        "js",
+        "ecmascript",
+        "es6",
+        "es2015",
+        "commonjs"
+      ],
+      "hints": [
+        "npm",
+        "esm",
+        "jsx"
+      ],
+      "files": [
+        "package.json"
+      ]
+    },
+    "typescript": {
+      "aliases": [
+        "typescript",
+        "tsc",
+        "tsconfig",
+        "tsx",
+        "type script"
+      ],
+      "hints": [
+        "ts"
+      ],
+      "implies": [
+        "javascript"
+      ],
+      "packages": [
+        "typescript"
+      ],
+      "files": [
+        "tsconfig.json"
+      ]
+    },
+    "node": {
+      "aliases": [
+        "node",
+        "nodejs",
+        "node js",
+        "deno",
+        "bun"
+      ],
+      "hints": [
+        "npm",
+        "pnpm",
+        "yarn",
+        "event loop"
+      ],
+      "implies": [
+        "javascript"
+      ],
+      "files": [
+        "package.json"
+      ]
+    },
+    "java": {
+      "aliases": [
+        "java",
+        "jvm",
+        "jdk",
+        "junit",
+        "jakarta"
+      ],
+      "hints": [
+        "maven",
+        "gradle"
+      ],
+      "files": [
+        "pom.xml",
+        "build.gradle"
+      ]
+    },
+    "kotlin": {
+      "aliases": [
+        "kotlin",
+        "coroutine",
+        "coroutines",
+        "ktor",
+        "kotlinx"
+      ],
+      "implies": [
+        "java"
+      ],
+      "files": [
+        "build.gradle.kts"
+      ]
+    },
+    "cpp": {
+      "aliases": [
+        "cpp",
+        "c plus plus",
+        "cxx",
+        "stl",
+        "raii",
+        "cmake",
+        "unique ptr",
+        "unique_ptr",
+        "shared ptr",
+        "shared_ptr",
+        "std vector",
+        "std::vector"
+      ],
+      "hints": [
+        "templates in cpp"
+      ],
+      "files": [
+        "CMakeLists.txt"
+      ]
+    },
+    "c": {
+      "aliases": [
+        "in c",
+        "c code",
+        "c program",
+        "c language",
+        "c library",
+        "c99",
+        "c11",
+        "c17"
+      ],
+      "hints": [
+        "malloc",
+        "libc",
+        "gcc",
+        "clang",
+        "segfault",
+        "segmentation fault",
+        "buffer overflow",
+        "null terminated",
+        "strcpy",
+        "printf"
+      ]
+    },
+    "rust": {
+      "aliases": [
+        "rust",
+        "rustc",
+        "cargo",
+        "borrow checker",
+        "tokio",
+        "serde",
+        "unsafe rust",
+        "clippy"
+      ],
+      "hints": [
+        "crate",
+        "crates",
+        "lifetime",
+        "lifetimes"
+      ],
+      "files": [
+        "Cargo.toml"
+      ]
+    },
+    "go": {
+      "aliases": [
+        "golang",
+        "goroutine",
+        "goroutines",
+        "go module",
+        "go modules",
+        "go mod",
+        "go test",
+        "in go",
+        "go code",
+        "go service",
+        "go program",
+        "go app",
+        "go api",
+        "go server",
+        "go channel",
+        "go channels",
+        "go struct",
+        "go interface",
+        "gofmt",
+        "go vet",
+        "go routine",
+        "context.context"
+      ],
+      "files": [
+        "go.mod"
+      ]
+    },
+    "swift": {
+      "aliases": [
+        "swift code",
+        "in swift",
+        "swift language",
+        "swift concurrency",
+        "swift package",
+        "swiftpm"
+      ],
+      "hints": [
+        "xcode",
+        "ios app",
+        "ios",
+        "ipados",
+        "macos app",
+        "async let",
+        "actor isolation",
+        "sendable"
+      ],
+      "files": [
+        "Package.swift",
+        "*.xcodeproj"
+      ]
+    },
+    "swiftui": {
+      "aliases": [
+        "swiftui",
+        "swift ui",
+        "@state",
+        "@observable",
+        "observableobject",
+        "@binding",
+        "navigationstack"
+      ],
+      "implies": [
+        "swift",
+        "mobile"
+      ]
+    },
+    "uikit": {
+      "aliases": [
+        "uikit",
+        "uiview",
+        "uiviewcontroller",
+        "uitableview",
+        "uicollectionview"
+      ],
+      "hints": [
+        "auto layout",
+        "autolayout",
+        "storyboard"
+      ],
+      "implies": [
+        "swift",
+        "mobile"
+      ]
+    },
+    "php": {
+      "aliases": [
+        "php",
+        "laravel",
+        "symfony",
+        "wordpress",
+        "pdo",
+        "eloquent"
+      ],
+      "hints": [
+        "composer"
+      ],
+      "files": [
+        "composer.json"
+      ]
+    },
+    "ruby": {
+      "aliases": [
+        "ruby",
+        "rails",
+        "ruby on rails",
+        "rspec",
+        "activerecord",
+        "active record",
+        "sidekiq"
+      ],
+      "hints": [
+        "gem",
+        "gems",
+        "bundler",
+        "rake"
+      ],
+      "files": [
+        "Gemfile"
+      ]
+    },
+    "csharp": {
+      "aliases": [
+        "csharp",
+        "c sharp",
+        "dotnet",
+        "asp net",
+        "aspnet",
+        "asp net core",
+        "entity framework",
+        "ef core",
+        "blazor",
+        "async await in csharp"
+      ],
+      "hints": [
+        "linq",
+        "nuget"
+      ],
+      "files": [
+        "*.csproj",
+        "*.sln"
+      ]
+    },
+    "sql": {
+      "aliases": [
+        "sql"
+      ],
+      "hints": [
+        "query",
+        "queries",
+        "join",
+        "joins",
+        "select statement",
+        "where clause",
+        "group by",
+        "order by",
+        "subquery",
+        "cte",
+        "window function",
+        "stored procedure",
+        "orm"
+      ]
+    },
+    "postgres": {
+      "aliases": [
+        "postgres",
+        "postgresql",
+        "pg",
+        "psql",
+        "plpgsql",
+        "supabase",
+        "pgbouncer",
+        "timescale",
+        "pgvector"
+      ],
+      "hints": [
+        "neon",
+        "jsonb",
+        "rls",
+        "row level security"
+      ],
+      "implies": [
+        "sql"
+      ],
+      "packages": [
+        "pg",
+        "postgres",
+        "pg-promise",
+        "@neondatabase/serverless",
+        "@supabase/supabase-js",
+        "supabase",
+        "psycopg",
+        "psycopg2",
+        "psycopg2-binary",
+        "asyncpg",
+        "github.com/jackc/pgx",
+        "github.com/lib/pq",
+        "org.postgresql:postgresql",
+        "postgresql",
+        "npgsql",
+        "sqlx"
+      ]
+    },
+    "mysql": {
+      "aliases": [
+        "mysql",
+        "mariadb",
+        "aurora mysql",
+        "planetscale"
+      ],
+      "hints": [
+        "innodb",
+        "vitess"
+      ],
+      "implies": [
+        "sql"
+      ],
+      "packages": [
+        "mysql",
+        "mysql2",
+        "pymysql",
+        "mysqlclient",
+        "mysql-connector-python",
+        "github.com/go-sql-driver/mysql",
+        "mysql:mysql-connector-java"
+      ]
+    },
+    "sqlite": {
+      "aliases": [
+        "sqlite",
+        "sqlite3",
+        "libsql",
+        "turso",
+        "better-sqlite3"
+      ],
+      "hints": [
+        "wal mode"
+      ],
+      "implies": [
+        "sql"
+      ],
+      "packages": [
+        "sqlite3",
+        "better-sqlite3",
+        "@libsql/client",
+        "github.com/mattn/go-sqlite3",
+        "rusqlite"
+      ]
+    },
+    "mongodb": {
+      "aliases": [
+        "mongodb",
+        "mongo",
+        "mongoose",
+        "documentdb"
+      ],
+      "hints": [
+        "atlas",
+        "bson",
+        "aggregation pipeline"
+      ],
+      "packages": [
+        "mongodb",
+        "mongoose",
+        "pymongo",
+        "motor",
+        "go.mongodb.org/mongo-driver"
+      ]
+    },
+    "redis": {
+      "aliases": [
+        "redis",
+        "valkey",
+        "elasticache",
+        "upstash",
+        "keydb",
+        "redis cluster"
+      ],
+      "hints": [
+        "pub sub",
+        "pubsub"
+      ],
+      "packages": [
+        "redis",
+        "ioredis",
+        "@upstash/redis",
+        "redis-py",
+        "github.com/redis/go-redis",
+        "aioredis",
+        "jedis",
+        "lettuce"
+      ]
+    },
+    "react": {
+      "aliases": [
+        "react",
+        "reactjs",
+        "react js",
+        "react server components"
+      ],
+      "hints": [
+        "jsx",
+        "tsx",
+        "hooks",
+        "usestate",
+        "useeffect",
+        "usememo",
+        "usecallback",
+        "rsc",
+        "server components",
+        "suspense",
+        "rerender",
+        "re render",
+        "hydration"
+      ],
+      "implies": [
+        "javascript"
+      ],
+      "packages": [
+        "react",
+        "react-dom"
+      ]
+    },
+    "nextjs": {
+      "aliases": [
+        "nextjs",
+        "next js",
+        "getserversideprops"
+      ],
+      "hints": [
+        "app router",
+        "pages router",
+        "server actions",
+        "vercel"
+      ],
+      "implies": [
+        "react",
+        "javascript",
+        "node"
+      ],
+      "packages": [
+        "next"
+      ],
+      "files": [
+        "next.config.js",
+        "next.config.mjs",
+        "next.config.ts"
+      ]
+    },
+    "react-native": {
+      "aliases": [
+        "react native",
+        "react-native",
+        "expo"
+      ],
+      "hints": [
+        "metro bundler",
+        "flatlist",
+        "flashlist",
+        "reanimated",
+        "hermes"
+      ],
+      "implies": [
+        "react",
+        "javascript",
+        "mobile"
+      ],
+      "packages": [
+        "react-native",
+        "expo"
+      ]
+    },
+    "vue": {
+      "aliases": [
+        "vue",
+        "vuejs",
+        "vue js",
+        "vue 3",
+        "nuxt",
+        "pinia",
+        "vuex"
+      ],
+      "hints": [
+        "composition api",
+        "options api"
+      ],
+      "implies": [
+        "javascript"
+      ],
+      "packages": [
+        "vue",
+        "nuxt",
+        "pinia"
+      ]
+    },
+    "angular": {
+      "aliases": [
+        "angular",
+        "angularjs",
+        "ngrx",
+        "ngmodule",
+        "ngonchanges",
+        "signals in angular"
+      ],
+      "hints": [
+        "rxjs",
+        "change detection",
+        "zone js"
+      ],
+      "implies": [
+        "typescript",
+        "javascript"
+      ],
+      "packages": [
+        "@angular/core"
+      ],
+      "files": [
+        "angular.json"
+      ]
+    },
+    "svelte": {
+      "aliases": [
+        "svelte",
+        "sveltekit",
+        "svelte kit"
+      ],
+      "hints": [
+        "runes",
+        "$state",
+        "$derived"
+      ],
+      "implies": [
+        "javascript"
+      ],
+      "packages": [
+        "svelte",
+        "@sveltejs/kit"
+      ]
+    },
+    "html-css": {
+      "aliases": [
+        "html",
+        "css",
+        "scss",
+        "sass",
+        "css grid"
+      ],
+      "hints": [
+        "flexbox",
+        "grid layout",
+        "media query",
+        "media queries",
+        "stylesheet",
+        "selector",
+        "specificity",
+        "dom",
+        "semantic html",
+        "responsive",
+        "z index",
+        "z-index"
+      ]
+    },
+    "tailwind": {
+      "aliases": [
+        "tailwind",
+        "tailwindcss",
+        "tailwind css"
+      ],
+      "hints": [
+        "utility classes",
+        "utility class"
+      ],
+      "implies": [
+        "html-css"
+      ],
+      "packages": [
+        "tailwindcss"
+      ],
+      "files": [
+        "tailwind.config.js",
+        "tailwind.config.ts"
+      ]
+    },
+    "express": {
+      "aliases": [
+        "express",
+        "expressjs",
+        "express js"
+      ],
+      "hints": [
+        "express app",
+        "express server",
+        "express middleware",
+        "koa",
+        "fastify",
+        "nestjs",
+        "hono"
+      ],
+      "implies": [
+        "node",
+        "javascript"
+      ],
+      "packages": [
+        "express",
+        "koa",
+        "fastify",
+        "@nestjs/core",
+        "hono"
+      ]
+    },
+    "fastapi": {
+      "aliases": [
+        "fastapi",
+        "fast api"
+      ],
+      "hints": [
+        "starlette",
+        "uvicorn",
+        "pydantic model"
+      ],
+      "implies": [
+        "python"
+      ],
+      "packages": [
+        "fastapi",
+        "starlette",
+        "uvicorn"
+      ]
+    },
+    "django": {
+      "aliases": [
+        "django",
+        "django orm",
+        "django rest framework"
+      ],
+      "hints": [
+        "drf",
+        "queryset",
+        "querysets",
+        "select_related",
+        "prefetch_related",
+        "manage py"
+      ],
+      "implies": [
+        "python"
+      ],
+      "packages": [
+        "django",
+        "djangorestframework"
+      ],
+      "files": [
+        "manage.py"
+      ]
+    },
+    "flask": {
+      "aliases": [
+        "flask",
+        "flask app"
+      ],
+      "hints": [
+        "werkzeug",
+        "jinja",
+        "jinja2",
+        "blueprint",
+        "blueprints"
+      ],
+      "implies": [
+        "python"
+      ],
+      "packages": [
+        "flask"
+      ]
+    },
+    "spring": {
+      "aliases": [
+        "spring boot",
+        "springboot",
+        "spring mvc",
+        "spring data",
+        "spring security"
+      ],
+      "hints": [
+        "spring",
+        "jpa",
+        "hibernate",
+        "@transactional",
+        "@autowired",
+        "bean",
+        "beans"
+      ],
+      "implies": [
+        "java"
+      ],
+      "packages": [
+        "org.springframework.boot",
+        "spring-boot-starter",
+        "org.springframework"
+      ]
+    },
+    "graphql": {
+      "aliases": [
+        "graphql",
+        "apollo"
+      ],
+      "hints": [
+        "resolver",
+        "resolvers",
+        "dataloader",
+        "schema stitching",
+        "federation",
+        "mutation",
+        "mutations",
+        "subscription",
+        "subscriptions",
+        "urql",
+        "relay"
+      ],
+      "packages": [
+        "graphql",
+        "@apollo/server",
+        "@apollo/client",
+        "graphene",
+        "strawberry-graphql",
+        "gqlgen",
+        "urql",
+        "graphql-yoga"
+      ]
+    },
+    "docker": {
+      "aliases": [
+        "docker",
+        "dockerfile",
+        "docker compose",
+        "docker-compose",
+        "multi stage build"
+      ],
+      "hints": [
+        "container image",
+        "compose file",
+        "podman",
+        "oci image",
+        "container"
+      ],
+      "files": [
+        "Dockerfile",
+        "docker-compose.yml",
+        "compose.yaml",
+        "docker-compose.yaml"
+      ]
+    },
+    "kubernetes": {
+      "aliases": [
+        "kubernetes",
+        "k8s",
+        "kubectl",
+        "helm",
+        "deployment yaml",
+        "statefulset",
+        "daemonset",
+        "kustomize"
+      ],
+      "hints": [
+        "pod",
+        "pods",
+        "ingress",
+        "configmap",
+        "hpa",
+        "liveness probe",
+        "readiness probe",
+        "eks",
+        "gke",
+        "aks"
+      ],
+      "implies": [
+        "docker"
+      ],
+      "files": [
+        "Chart.yaml",
+        "kustomization.yaml",
+        "k8s",
+        "helm"
+      ]
+    },
+    "github-actions": {
+      "aliases": [
+        "github actions",
+        "github action",
+        "workflow_dispatch"
+      ],
+      "hints": [
+        "gha",
+        "workflow yaml",
+        "actions workflow",
+        "runs on"
+      ],
+      "implies": [
+        "ci-cd"
+      ],
+      "files": [
+        ".github/workflows"
+      ]
+    },
+    "ci-cd": {
+      "aliases": [
+        "ci cd",
+        "cicd",
+        "continuous integration",
+        "continuous delivery",
+        "continuous deployment",
+        "gitlab ci",
+        "jenkins",
+        "circleci",
+        "buildkite"
+      ],
+      "hints": [
+        "ci",
+        "cd",
+        "pipeline",
+        "pipelines",
+        "release pipeline",
+        "deploy pipeline"
+      ],
+      "files": [
+        ".gitlab-ci.yml",
+        "Jenkinsfile",
+        ".circleci"
+      ]
+    },
+    "aws": {
+      "aliases": [
+        "aws",
+        "amazon web services",
+        "cloudformation"
+      ],
+      "hints": [
+        "s3",
+        "ec2",
+        "lambda",
+        "dynamodb",
+        "iam",
+        "cdk",
+        "sqs",
+        "sns",
+        "rds",
+        "cloudwatch",
+        "ecs",
+        "fargate",
+        "api gateway"
+      ],
+      "implies": [
+        "cloud"
+      ],
+      "packages": [
+        "boto3",
+        "aws-sdk",
+        "@aws-sdk/client-s3",
+        "aws-cdk-lib"
+      ]
+    },
+    "gcp": {
+      "aliases": [
+        "gcp",
+        "google cloud"
+      ],
+      "hints": [
+        "bigquery",
+        "cloud run",
+        "cloud functions",
+        "pub/sub",
+        "gcs",
+        "cloud storage",
+        "firestore",
+        "spanner",
+        "gke"
+      ],
+      "implies": [
+        "cloud"
+      ],
+      "packages": [
+        "google-cloud-storage",
+        "@google-cloud/storage",
+        "google-cloud-bigquery",
+        "firebase-admin"
+      ]
+    },
+    "azure": {
+      "aliases": [
+        "azure",
+        "azure functions",
+        "azure ad"
+      ],
+      "hints": [
+        "cosmos db",
+        "cosmosdb",
+        "blob storage",
+        "entra",
+        "app service",
+        "aks",
+        "bicep",
+        "key vault"
+      ],
+      "implies": [
+        "cloud"
+      ],
+      "packages": [
+        "azure-storage-blob",
+        "@azure/storage-blob",
+        "azure-identity",
+        "@azure/identity"
+      ]
+    },
+    "cloud": {
+      "aliases": [],
+      "hints": [
+        "cloud",
+        "serverless",
+        "object storage",
+        "managed service",
+        "vpc",
+        "least privilege",
+        "iam role"
+      ]
+    },
+    "terraform": {
+      "aliases": [
+        "terraform",
+        "opentofu",
+        "tofu",
+        "terraform state",
+        "tfstate",
+        "terraform module"
+      ],
+      "hints": [
+        "tf",
+        "hcl",
+        "pulumi",
+        "infrastructure as code",
+        "iac"
+      ],
+      "files": [
+        "*.tf",
+        "main.tf",
+        ".terraform.lock.hcl"
+      ]
+    },
+    "linux": {
+      "aliases": [
+        "linux"
+      ],
+      "hints": [
+        "bash",
+        "shell script",
+        "shell",
+        "systemd",
+        "ubuntu",
+        "debian",
+        "alpine",
+        "cron",
+        "crontab",
+        "ssh",
+        "file descriptor",
+        "file descriptors",
+        "ulimit",
+        "posix",
+        "zsh",
+        "sh script"
+      ]
+    },
+    "networking": {
+      "aliases": [],
+      "hints": [
+        "tcp",
+        "udp",
+        "dns",
+        "tls",
+        "ssl",
+        "https",
+        "http2",
+        "http 2",
+        "http3",
+        "websocket",
+        "websockets",
+        "load balancer",
+        "proxy",
+        "nginx",
+        "keep alive",
+        "keepalive",
+        "latency",
+        "cors",
+        "cdn",
+        "socket",
+        "sockets"
+      ]
+    },
+    "observability": {
+      "aliases": [
+        "observability",
+        "opentelemetry",
+        "otel",
+        "prometheus"
+      ],
+      "hints": [
+        "monitoring",
+        "logging",
+        "logs",
+        "metrics",
+        "tracing",
+        "grafana",
+        "datadog",
+        "sentry",
+        "alert",
+        "alerts",
+        "alerting",
+        "slo",
+        "sli",
+        "dashboards",
+        "structured logging",
+        "distributed tracing"
+      ]
+    },
+    "llm": {
+      "aliases": [
+        "llm",
+        "llms",
+        "large language model",
+        "prompt engineering",
+        "ai agent",
+        "langchain",
+        "llamaindex",
+        "rag",
+        "retrieval augmented",
+        "vector database",
+        "vector store",
+        "vector db",
+        "pinecone",
+        "weaviate",
+        "qdrant",
+        "chroma",
+        "faiss",
+        "llm judge",
+        "vllm",
+        "model context protocol"
+      ],
+      "hints": [
+        "gpt",
+        "claude",
+        "anthropic",
+        "openai",
+        "gemini",
+        "chatbot",
+        "prompt",
+        "prompts",
+        "system prompt",
+        "completion",
+        "chat completion",
+        "tokens",
+        "token usage",
+        "context window",
+        "temperature",
+        "hallucination",
+        "hallucinations",
+        "structured output",
+        "json mode",
+        "function calling",
+        "tool calling",
+        "tool use",
+        "agent",
+        "agents",
+        "agentic",
+        "embeddings",
+        "embedding",
+        "pgvector",
+        "reranker",
+        "rerank",
+        "chunking",
+        "fine tune",
+        "fine tuning",
+        "finetune",
+        "lora",
+        "eval",
+        "evals",
+        "inference",
+        "prompt injection",
+        "prompt caching",
+        "mcp"
+      ],
+      "packages": [
+        "openai",
+        "anthropic",
+        "@anthropic-ai/sdk",
+        "langchain",
+        "llama-index",
+        "llama_index",
+        "transformers",
+        "sentence-transformers",
+        "@langchain/core",
+        "ai",
+        "vllm",
+        "chromadb",
+        "pinecone-client",
+        "qdrant-client",
+        "faiss-cpu",
+        "tiktoken"
+      ]
+    },
+    "ml": {
+      "aliases": [
+        "machine learning",
+        "pytorch",
+        "torch",
+        "tensorflow",
+        "keras",
+        "scikit learn",
+        "sklearn",
+        "train test split",
+        "data leakage"
+      ],
+      "hints": [
+        "ml",
+        "model training",
+        "training loop",
+        "numpy",
+        "pandas",
+        "overfitting",
+        "gpu",
+        "cuda",
+        "batch size",
+        "learning rate",
+        "onnx",
+        "quantization"
+      ],
+      "implies": [
+        "python"
+      ],
+      "packages": [
+        "torch",
+        "tensorflow",
+        "scikit-learn",
+        "numpy",
+        "pandas",
+        "jax",
+        "onnxruntime",
+        "xgboost",
+        "lightgbm"
+      ]
+    },
+    "flutter": {
+      "aliases": [
+        "flutter",
+        "dart",
+        "statelesswidget",
+        "statefulwidget",
+        "setstate in flutter"
+      ],
+      "hints": [
+        "widget tree",
+        "pubspec",
+        "riverpod",
+        "bloc pattern",
+        "provider package"
+      ],
+      "implies": [
+        "mobile"
+      ],
+      "files": [
+        "pubspec.yaml"
+      ]
+    },
+    "android": {
+      "aliases": [
+        "android",
+        "jetpack compose",
+        "room database",
+        "android studio"
+      ],
+      "hints": [
+        "compose ui",
+        "@composable",
+        "composable",
+        "viewmodel",
+        "livedata",
+        "stateflow",
+        "recyclerview",
+        "activity",
+        "fragment",
+        "gradle android",
+        "workmanager",
+        "anr"
+      ],
+      "implies": [
+        "kotlin",
+        "mobile"
+      ],
+      "files": [
+        "AndroidManifest.xml",
+        "app/src/main/AndroidManifest.xml"
+      ]
+    },
+    "mobile": {
+      "aliases": [],
+      "hints": [
+        "mobile",
+        "mobile app",
+        "ios and android",
+        "offline first",
+        "offline-first",
+        "push notification",
+        "push notifications",
+        "app store",
+        "play store",
+        "battery",
+        "deep link",
+        "deep links"
+      ]
+    }
+  }
+}

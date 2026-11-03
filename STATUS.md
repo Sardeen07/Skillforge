@@ -1,119 +1,73 @@
 # Status
 
-Last updated 2026-09-23. This is the one current status file. Earlier handoffs and
-reviews are in [docs/history/](docs/history/).
+Last updated 2026-11-03. See [docs/RELEASE_REPORT.md](docs/RELEASE_REPORT.md) for the audit,
+implementation checklist, commands and validation record.
 
-## Where things stand
+## Current state
 
-**The hypothesis:** handing Claude a small, well-chosen set of curated rules produces
-better code per dollar than native skill loading. That is untested. The project can now
-*diagnose* where a benefit is won or lost, but it has not yet shown that SkillForge
-improves any task outcome.
+SkillForge is an experimental local coding-guidance retriever. The Python 3.9+ pipeline,
+rule-level BM25 retriever, project-stack detection, bounded rule delivery and multi-level
+catalog are implemented. The optional hook remains off by default. The catalog exports 691
+rules across 64 modules (including the core module): 515 rules are in 57 authored packs and
+176 come from six imported upstream modules. All rules remain marked `untested`.
 
-What the evidence so far does and does not say:
+The expansion is a substantial curation draft, not a claim that hundreds of rules have been
+independently reviewed. Authored packs cite HTTPS sources and record the documentation
+version they were checked against; their generated provenance records `review: pending human
+review`. The validator passes with two review notices for safe example code (`rm -rf` used
+for trapped temporary-directory cleanup and PyTorch `model.eval()`).
 
-- Research suggests agents pick the wrong skill more often as libraries grow, and that
-  optional skills often go unused. That motivates the project; it does not show
-  SkillForge fixes it.
-- Published results on skills point both ways. Some benchmarks report large average
-  gains from curated skills, while a software-engineering benchmark cited in review
-  found about a 1% average gain, with most skills changing nothing (not verified here).
-  **Which guidance is curated may matter as much as how it is retrieved.**
-- A small library is not proof SkillForge must lose, and keyword experiments on a few
-  dozen development prompts are not proof keyword retrieval has hit a ceiling.
+## Measured results
 
-**Architecture work is paused.** The next step is a small, frozen, paid comparison;
-its failures decide what changes next.
+Offline retrieval runs on the development set only (39 cases, seen during tuning):
 
-## Grader
+| Measurement | Result |
+|---|---:|
+| Rule recall@4 | 51.3% |
+| Precision@4 (macro over cases) | 25.0% |
+| Pooled selected-rule precision | 26.1% (23 relevant / 65 unnecessary) |
+| NDCG@4 | 0.472 |
+| Prompts needing guidance with no selected rules | 5/39 |
+| Dependency-complete briefs | 39/39 |
+| Mean brief size | ~801 estimated tokens (characters / 4) |
+| Mean local retrieval runtime | ~5 ms per development case |
+| Ambiguous/follow-up set | 4/4 abstained |
+| Mixed-technology set | 83.3% recall over 3 cases; 3/3 reached both labeled modules |
 
-`pg-queue-throughput` now uses **grader v2**. With a Postgres available (embedded via
-`pgserver`, from `requirements-dev.txt`), three of its four checks observe behavior
-against a real throwaway database:
+These labels and prompts have been inspected during implementation, and the precision is
+still too low for a quality claim. The current scorecard does not measure code quality,
+model output tokens, API requests, cached tokens, or cost. It is not a held-out evaluation.
+No paid Claude comparison has been run, so no cost reduction is claimed.
 
-| Check | What v2 observes |
-|---|---|
-| skip-locked | 4 concurrent workers each charge 8 jobs exactly once; a job locked by another worker is skipped at once, not waited on or errored |
-| short-transaction | no row lock on the job is held while the payment call runs |
-| fk-index | after the migrations run, an index led by `orders.customer_id` exists |
-| keyset-pagination | still static (SQL literals, comments removed): the cursor function may have any name |
+The behavioral grader validates the Postgres queue task against 10 solution variants in
+both static and embedded-Postgres modes: correct solutions pass 4/4 and each targeted broken
+variant fails at least one relevant check. `react-waterfall` and `binary-search` are not yet
+validated graders. No live Claude Code session or Windows/Linux installation was available
+for this run.
 
-`npm run graders` validates 10 solution variants in both modes (behavioral and the
-static fallback): 2 correct ones score 4/4, including a correct fix written differently
-(`CREATE INDEX CONCURRENTLY`), and 8 broken ones each fail the check they target. What
-the behavioral failures observed: without row locks, workers charged customers twice
-(job 1 four times); with plain `for update`, a claim stalled behind a locked job; with
-the charge inside the transaction, the lock was held during payment. The comment-only
-fixes that fooled v1 are **permanent negative fixtures**.
+## Release gaps
 
-`react-waterfall` and `binary-search` are not validated.
+- Retrieval benchmark coverage is 39 core cases, 6 negatives, 4 ambiguous prompts and 3 mixed
+  prompts; this is below the requested 100/50/30/30 sizes.
+- There are three task fixtures, but only one behavioral grader has been validated. Security
+  and performance task counts are below the requested targets.
+- Most authored rules need independent human review. Automated checks establish structure,
+  provenance fields, license allowlist status, source URL policy and basic injection/safety
+  signals; they do not verify technical correctness or link freshness.
+- No held-out routing set has been authored independently. No API cost, token-use or
+  task-success comparison between native skills and SkillForge exists.
+- CI currently runs on Linux; macOS and Windows installation behavior needs dedicated jobs.
 
-## Offline routing (development cases, seen while tuning)
+## Repeat validation
 
-| Set | Result |
-|---|---|
-| Development, 38 cases + benchmark paragraph | rule recall@4 **58.1%**; module hit 29/39 |
-| Selected rules on that set | **27 relevant, 37 unnecessary (precision 42.2%)** |
-| Prompts that needed guidance and got none | 5/39 |
-| Supporting rules (declared dependencies) | 7 deliveries, ~1,400 estimated tokens, all TDD steps: to be reviewed |
-| Explicitly mixed (two technologies), 3 cases | recall 66.7%; each gets both technologies where the evidence qualifies |
-| Ambiguous and follow-up prompts, 4 cases | 3/4 abstain |
-| Unrelated prompts (react,postgres stack) | 6/6 abstain |
-| Old router, same labels | recall 35.9% |
+```sh
+npm test
+npm run validate:library
+npm run retrieval
+npm run retrieval -- --cases benchmarks/retrieval-ambiguous.jsonl
+npm run retrieval -- --cases benchmarks/retrieval-mixed.jsonl
+npm run graders
+```
 
-Precision is now pooled over every delivered rule (the earlier 46.4% averaged per case,
-which weighted a one-rule brief the same as a four-rule one). Supporting rules are
-counted separately: neither excused nor counted as unnecessary, but listed with their
-cost so each declared dependency can be reviewed. Every number above is from cases
-visible while tuning, so it is an upper estimate until a held-out set is scored.
-
-The main uncertainty: **whether the safeguards improve useful selection or mostly
-suppress output.** That is why abstention, mixed and ambiguous prompts are reported
-beside precision, and why the paid runs report correctness, abstention, cost and
-latency together.
-
-## What changed in the latest pass (second external review)
-
-- **Grader hole fixed:** grader v2 (above), validated in both modes. Broken variants
-  must fail their relevant checks; overlapping failures are allowed and reported.
-- **Ambiguous vs explicitly mixed:** "Next.js" now counts as React (it didn't, so a
-  mixed prompt lost its React half entirely), and each technology a sentence names gets
-  its best qualifying rule before the stronger technology fills the remaining slots.
-  Ambiguous prompts (no technology named, evidence split) still abstain. Regression
-  sets: `retrieval-mixed.jsonl`, `retrieval-ambiguous.jsonl`.
-- **Delivered is not the same as available:** the hook keeps per-session state. A
-  follow-up with context intact adds nothing; the same follow-up after compaction or a
-  resumed session re-delivers the last active rules once; a substantive new prompt that
-  matches nothing drops them (a change of task); `/clear` starts over. `/forge-status`
-  shows previously delivered vs active rules and says the hook cannot see what survived.
-- **Controlled comparison:** hook arms record which rules arrived and whether each was
-  byte-identical to the library; `sf-expert` also checks every intended rule arrived.
-- **Frozen conditions:** `--freeze FILE` locks task, grader version, guidance inventory,
-  expert list, model, tools, crowd and budget across reruns.
-- **Gates on paid runs:** no static grading when a behavioral grader exists
-  (`--allow-static-grader` overrides), and no `sf-expert` until the list is reviewed.
-- **Precision split** into relevant, unnecessary and supporting, plus no-guidance counts.
-- The per-task A/B summary prints correctness, no-guidance attempts, cost, latency and
-  grader mode together.
-
-## Known limits
-
-- One mixed case gets half credit: "deep pages" misses the rule about "deeper pages"
-  (a word-form gap), so no Postgres rule clears the threshold, and none is invented.
-- "The orders page is slow" still gets a pagination rule: on word evidence alone,
-  Postgres outscores React, so the ambiguity rule doesn't fire.
-- Session restore is a heuristic: "follow-up" means a prompt with fewer than two
-  content words. The hook cannot see the context window.
-- Only `pg-queue-throughput` can tell arms apart; one task is not a product claim.
-- No hook variant has run inside a live Claude Code session yet.
-
-## Next feedback loop
-
-1. **Expert review.** A second developer reviews `benchmarks/expert/pg-queue-throughput.json`
-   without seeing model output, and records it under `review`.
-2. **Freeze and run small:** `none, native, sf-expert, sf-hook` on `pg-queue-throughput`,
-   5 repeats, one pinned model, with `--freeze`. Command in `docs/BENCHMARK_PROTOCOL.md`.
-3. **Inspect every failure** (transcript, `delivery_check`, grader output), file it under
-   retrieval, delivery, guidance, budget, execution or grader, and change one layer.
-4. Only then: the held-out routing set, a second validated task, and the delivery,
-   catalog and library-growth comparisons.
+The current implementation should be treated as a validated prototype and curation draft,
+not a production-proven retrieval system.

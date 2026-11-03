@@ -76,12 +76,12 @@ def expert_reviewed(task_dir):
 
 
 def library_digests():
-    """sha256 of every rule's text as the library holds it now."""
+    """sha256 of every rule's delivered text (compact form) as the library holds it now."""
     sys.path.insert(0, str(ROOT / 'plugin/skills/skillforge/scripts'))
     import hashlib as _h
     from retrieval import load_rules
     index = json.loads((ROOT / 'plugin/library/index.json').read_text(encoding='utf-8'))
-    return {r['id']: _h.sha256(r['text'].encode('utf-8')).hexdigest()
+    return {r['id']: _h.sha256(r.get('delivery', r['text']).encode('utf-8')).hexdigest()
             for r in load_rules(index, ROOT / 'plugin/library')}
 
 

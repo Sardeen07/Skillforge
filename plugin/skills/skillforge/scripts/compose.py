@@ -3,7 +3,7 @@
 
   compose.py --subtask "workers block each other in the queue" --stack postgres
   compose.py "free-text prompt; each sentence is ranked on its own"
-  compose.py --catalog                  every rule, one line each
+  compose.py --catalog [module]         compact module list; optionally list that module's rules
   compose.py --rule postgres/lock-skip-locked [--rule ...]
   compose.py --status                   what the most recent brief delivered, and why
 
@@ -171,7 +171,8 @@ def main():
     ap.add_argument("--budget", type=int, help="override the mode's token budget")
     ap.add_argument("--session", help="file tracking rules already delivered in this conversation")
     ap.add_argument("--reset", action="store_true", help="forget what this session already received")
-    ap.add_argument("--catalog", action="store_true", help="print every rule, one line each")
+    ap.add_argument("--catalog", nargs="?", const="", metavar="MODULE",
+                    help="print bounded catalog; optionally list a module's rules")
     ap.add_argument("--rule", action="append", default=[], help="print a rule's full text by ID; repeatable")
     ap.add_argument("--status", action="store_true", help="summarize the most recent brief")
     ap.add_argument("task", nargs="?", help="free text (used if no --subtask); split into sentences")
@@ -184,8 +185,9 @@ def main():
 
     from delivery import build_brief, catalog_text, get_rules
     index = json.loads((LIB / "index.json").read_text(encoding="utf-8"))
-    if args.catalog:
-        print(catalog_text(index, LIB, args.mode, fetch_command()), end="")
+    if args.catalog is not None:
+        print(catalog_text(index, LIB, args.mode, fetch_command(),
+                           module=args.catalog or None), end="")
         return
     if args.rule:
         text, missing = get_rules(index, LIB, args.mode, args.rule)

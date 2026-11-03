@@ -18,7 +18,7 @@ See [STATUS.md](STATUS.md).
 
 - **Rules are the unit.** A rule is one curated reference file (e.g.
   `postgres/lock-skip-locked`) or one section of a procedural guide (e.g.
-  `systematic-debugging/phase-1-root-cause-investigation`). The library has 132.
+  `systematic-debugging/phase-1-root-cause-investigation`). The exported library has 691 rules across 64 modules (retrieval is local and deterministic).
 - **Each rule carries metadata**, declared by hand in `forge/curation/coding.json`:
   applicability (technologies), `requires` (steps that must come with it), `conflicts`,
   provenance (pinned source and license) and evidence status. A later step of a
@@ -34,7 +34,7 @@ See [STATUS.md](STATUS.md).
   |---|---|---|
   | `off` | Only the SkillForge skill; Claude decides when to call it | yes |
   | `brief` | A hook injects the selected rules on each prompt that matches | |
-  | `catalog` | A hook injects a one-line-per-rule catalog once; Claude fetches rules by ID | |
+  | `catalog` | A hook injects a bounded module catalog once; Claude can fetch one module catalog or selected rules by ID | |
   | `fixed` | A hook injects a fixed rule list (the expert-selection experiment arm) | |
 
   Catalog plus brief together is not built; it is worth building only if both do well
@@ -50,7 +50,7 @@ See [STATUS.md](STATUS.md).
 /plugin marketplace add Sardeen07/Skillforge
 /plugin install skillforge@skillforge
 ```
-Requires Python 3.10+ on the PATH (`python3`, `python` or `py`). The hook is off
+Requires Python 3.9+ on the PATH (`python3`, `python` or `py`). The hook is off
 unless you set `SKILLFORGE_HOOK`. With it on and no usable Python, it does nothing
 rather than blocking your prompt.
 
@@ -68,13 +68,15 @@ node $py plugin/skills/skillforge/scripts/compose.py --status      # what the la
 
 ```sh
 python -m pip install -r requirements-dev.txt        # embedded Postgres for the behavioral grader (use a .venv)
-npm test                                              # 121 unit, hook, session, runner, scanner and grader tests
+npm test                                              # unit, hook, session, runner, scanner, grader and library validation tests
 npm run graders                                       # do graders pass correct solutions and fail broken ones?
-npm run retrieval                                     # rule recall@4, precision, dependency completeness
+npm run retrieval                                     # recall@4, precision@4, NDCG@4, latency and dependencies
 npm run retrieval -- --baseline                       # the old keyword module selector, for comparison
 npm run retrieval -- --cases benchmarks/retrieval-negatives.jsonl --stack react,postgres
 npm run retrieval -- --cases benchmarks/retrieval-ambiguous.jsonl   # vague prompts and follow-ups
 npm run retrieval -- --cases benchmarks/retrieval-mixed.jsonl       # prompts naming two technologies
+npm run validate:library                               # metadata, license, references and safety checks
+node forge/py.mjs plugin/skills/skillforge/scripts/compose.py --catalog postgres
 npm run ab -- --dry-run --arms none,native,sf-hook,sf-catalog,sf-expert
 ```
 
@@ -130,3 +132,17 @@ Microsoft Store alias that prints "Python was not found" **and exits 0**.
 - `tests/`: retrieval, delivery, hook, runner and builder tests
 - `docs/`: protocol and database notes; `docs/history/` holds earlier handoffs and reviews
 - [STATUS.md](STATUS.md): where things stand. [ROADMAP.md](ROADMAP.md): what is not built.
+
+## Library curation and current evidence
+
+Authored packs are in `plugin/library/modules/*/RULES.md`; imported material retains its
+pinned upstream commit under module provenance. Every authored rule has a focused rule ID,
+tags, an HTTPS reference, and an evidence status. New authored packs remain `untested` and
+marked for human review. `npm run validate:library` checks schema, source/license metadata,
+references against the reviewed host list, exact duplicates, relations, and scanner safety
+flags. Add `--verify-links` to HEAD-check referenced URLs (network-dependent).
+
+The retrieval set has 39 development cases and has been used for tuning. Current scorecard
+results and limitations are in [STATUS.md](STATUS.md); they do not establish task success or
+reduced API cost. No paid model comparison has been run. Benchmark coverage is still below
+the requested 100 retrieval, 50 negative, and larger task/security/performance suites.

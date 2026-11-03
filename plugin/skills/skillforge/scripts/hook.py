@@ -4,7 +4,7 @@
 SKILLFORGE_HOOK selects the delivery variant under test:
   off      (default) nothing; only the skill is available, and Claude decides when to call it
   brief    rank the raw prompt, sentence by sentence, and inject matching rules
-  catalog  inject the one-line-per-rule catalog once per session; Claude fetches rules by ID
+  catalog  inject the bounded module catalog once per session; Claude can list a module by ID
   fixed    inject exactly the rules in SKILLFORGE_RULES once per session (expert-selection arm)
 
 Injection only puts text in context; it does not show that the model used it. The
@@ -32,6 +32,18 @@ from compose import LIB, LOG, fetch_command, write_log  # noqa: E402
 
 DEFAULT_BUDGET = 2400   # estimated tokens (chars / 4), about 9,600 characters
 SESSIONS = LOG.parent / "sessions"
+
+
+def hook_budget():
+    """SKILLFORGE_HOOK_BUDGET as a positive int; anything else falls back to the default."""
+    raw = os.environ.get("SKILLFORGE_HOOK_BUDGET", "")
+    try:
+        value = int(raw)
+    except ValueError:
+        if raw.strip():
+            write_log({"source": "hook", "warning": f"ignored invalid SKILLFORGE_HOOK_BUDGET={raw!r}"})
+        return DEFAULT_BUDGET
+    return value if 200 <= value <= 50_000 else DEFAULT_BUDGET
 
 
 def session_file(session_id):
@@ -108,10 +120,13 @@ def handle(payload):
     index = json.loads((LIB / "index.json").read_text(encoding="utf-8"))
     state = load(path) if path else {"delivered": [], "active_rules": [], "context": "intact"}
     emitted = set(state["delivered"])
-    budget = int(os.environ.get("SKILLFORGE_HOOK_BUDGET", DEFAULT_BUDGET))
+    budget = hook_budget()
+    stack, versions, stack_source = project_stack(payload)
 
     if mode == "catalog":
-        text = catalog_text(index, LIB, "coding", fetch_command())
+        # Two-level when the full catalog would not fit: module lines, plus the full
+        # rule lists of the modules on the detected stack while they fit.
+        text = catalog_text(index, LIB, "coding", fetch_command(), budget=budget, stack=stack)
         key = "catalog:" + hashlib.sha256(text.encode("utf-8")).hexdigest()
         if key in emitted or len(text) > budget * 4:
             write_log({"source": "hook", "hook": mode, "result": "catalog skipped",
@@ -122,7 +137,6 @@ def handle(payload):
         write_log({"source": "hook", "hook": mode, "result": "catalog delivered", "chars": len(text)})
         return
 
-    stack, versions, stack_source = project_stack(payload)
     follow_up = is_follow_up(prompt)
     rule_ids, action = None, "ranked"
     if mode == "fixed":
