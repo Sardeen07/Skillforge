@@ -33,9 +33,17 @@ relations come first; embeddings and semantic dedupe come after.
 
 ## Library
 
-- **Scanner / crawler.** `forge/crawler/skillsdirectory.ts` fetches the top-skills list
-  from the Skills Directory API (needs `SKILLSDIRECTORY_API_KEY`); nothing consumes
-  it yet. Wanted: turn crawled skills into candidate modules for curation.
+- **Scanner.** `forge/scan.py` (`npm run scan -- owner/repo ...` or `--seeds FILE`) clones
+  each repo at one commit, finds every `SKILL.md`, and triages it: license (folder file,
+  frontmatter, repo; most restrictive wins), prompt-injection and hidden-character checks,
+  bundled scripts, size, and overlap with what is already imported. Verdicts are
+  `accept`, `review`, `reject` or `known`; `--emit` writes the accepted ones as a curation
+  file with `status: candidate`, which `sf.py import` understands and `export` leaves out
+  of retrieval. Still missing: reading the Skills Directory ranking into seeds (the
+  TypeScript stub in `forge/crawler/` only fetches it; `scan.py seeds-from-json` pulls
+  `owner/repo` names out of its output, untested against the live API), turning a
+  scanned skill into `rules/` files with `title`/`tags` (a thin SKILL.md is only
+  split by headings), and a person reading every accepted skill before it is promoted.
 - **Dedupe.** Detect overlapping rules across modules (e.g. two sources both teaching
   `Promise.all`), and keep one. Exact-duplicate suppression exists in the brief today;
   semantic dedupe does not.

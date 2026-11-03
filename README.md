@@ -68,7 +68,7 @@ node $py plugin/skills/skillforge/scripts/compose.py --status      # what the la
 
 ```sh
 python -m pip install -r requirements-dev.txt        # embedded Postgres for the behavioral grader (use a .venv)
-npm test                                              # 89 unit, hook, session, runner and grader tests
+npm test                                              # 121 unit, hook, session, runner, scanner and grader tests
 npm run graders                                       # do graders pass correct solutions and fail broken ones?
 npm run retrieval                                     # rule recall@4, precision, dependency completeness
 npm run retrieval -- --baseline                       # the old keyword module selector, for comparison
@@ -124,7 +124,7 @@ Microsoft Store alias that prints "Python was not found" **and exits 0**.
 
 ## Repo layout
 - `plugin/`: what users install (hook, skill, retriever, library)
-- `forge/`: library builder (`sf.py`), A/B runner (`ab.py`), routing scorecard, grader validator, crawler stub
+- `forge/`: library builder (`sf.py`), A/B runner (`ab.py`), routing scorecard, grader validator, skill scanner (`scan.py`), crawler stub
 - `benchmarks/`: routing cases, coding tasks with hidden graders, and, kept outside the task
   folders so the agent never sees them, reference/broken solutions and expert rule selections
 - `tests/`: retrieval, delivery, hook, runner and builder tests

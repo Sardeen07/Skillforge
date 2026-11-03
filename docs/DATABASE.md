@@ -24,6 +24,18 @@ it copies modules while retaining source/license metadata. `export` writes the
 runtime JSON index. Import/export are repeatable; don't use them to overwrite
 uncommitted intentional changes in imported source modules.
 
+Growing the library starts with the scanner, which never touches `plugin/library/`:
+
+```sh
+npm run scan -- --seeds seeds.txt --out data/candidates.jsonl --emit forge/curation/candidates.json
+node forge/py.mjs forge/sf.py import forge/curation/candidates.json   # status: candidate
+```
+
+`data/candidates.jsonl` holds every scanned skill with its verdict and reasons. Candidates
+land in the database as `candidate` and stay out of `index.json`, so they cannot change a
+brief. Promotion to `provisional` is a manual edit after someone has read the skill, added
+`technologies`, and checked `npm run retrieval` did not get worse.
+
 For your first experiment, the committed index and modules are already sufficient.
 Run `npm test`, `npm run retrieval`, then the dry-run instructions in
 `BENCHMARK_PROTOCOL.md`. No database migration is necessary for those commands.
