@@ -1,6 +1,15 @@
-# Held-out routing set (not written yet)
+# Held-out routing set
 
-`benchmarks/retrieval.jsonl` was read many times while the retriever was built and
+**Status (2026-11-05):** `cases.jsonl` holds 74 cases (64 needing guidance, 10 unrelated),
+frozen at sha256 `7b3b931609ad01608cebbf8563b57e0632d7e3c7043e4d3be374dbe4a3f40811` and
+committed before any retrieval tuning on the 691-rule library. It was written by the same
+author (Claude) who drafted the authored rule packs, from the rule catalog but without
+looking at retrieval output, so it is *weaker* than the independent set described below:
+it guards against tuning to the cases, not against the author's vocabulary matching the
+rules'. An independent set from someone who has not read the library is still wanted.
+Scores are reported once per retriever version; misses are not used to tune.
+
+`benchmarks/retrieval/dev.jsonl` was read many times while the retriever was built and
 tuned, so its score is optimistic. This folder is for a set nobody has tuned against.
 
 ## Who writes it
@@ -39,4 +48,4 @@ npm run retrieval -- --cases benchmarks/heldout/cases.jsonl -v
 Run it once per retriever version you want to report, and record the number. Do not
 change the retriever in response to individual held-out misses. When you start
 tuning against these cases, they have become development cases: move them into
-`benchmarks/retrieval.jsonl` and get a fresh held-out set.
+`benchmarks/retrieval/dev.jsonl` and get a fresh held-out set.

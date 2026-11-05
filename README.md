@@ -72,9 +72,9 @@ npm test                                              # unit, hook, session, run
 npm run graders                                       # do graders pass correct solutions and fail broken ones?
 npm run retrieval                                     # recall@4, precision@4, NDCG@4, latency and dependencies
 npm run retrieval -- --baseline                       # the old keyword module selector, for comparison
-npm run retrieval -- --cases benchmarks/retrieval-negatives.jsonl --stack react,postgres
-npm run retrieval -- --cases benchmarks/retrieval-ambiguous.jsonl   # vague prompts and follow-ups
-npm run retrieval -- --cases benchmarks/retrieval-mixed.jsonl       # prompts naming two technologies
+npm run retrieval -- --cases benchmarks/retrieval/negatives.jsonl --stack react,postgres
+npm run retrieval -- --cases benchmarks/retrieval/ambiguous.jsonl   # vague prompts and follow-ups
+npm run retrieval -- --cases benchmarks/retrieval/mixed.jsonl       # prompts naming two technologies
 npm run validate:library                               # metadata, license, references and safety checks
 node forge/py.mjs plugin/skills/skillforge/scripts/compose.py --catalog postgres
 npm run ab -- --dry-run --arms none,native,sf-hook,sf-catalog,sf-expert

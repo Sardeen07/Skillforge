@@ -100,7 +100,7 @@ def evaluate(cases, index, stack=(), baseline=False, k=4, budget=None):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument('--cases', default=str(ROOT / 'benchmarks/retrieval.jsonl'))
+    ap.add_argument('--cases', default=str(ROOT / 'benchmarks/retrieval/dev.jsonl'))
     ap.add_argument('--stack', default='')
     ap.add_argument('--baseline', action='store_true')
     ap.add_argument('--k', type=int, default=4)
