@@ -108,6 +108,15 @@ def check_delivery(delivered, digests, expected=None):
     return 'ok'
 
 
+AUTH_ENV = ('ANTHROPIC_API_KEY', 'ANTHROPIC_AUTH_TOKEN', 'CLAUDE_CODE_OAUTH_TOKEN')
+
+
+def isolated_auth_available():
+    """Can a Claude Code session with an empty CLAUDE_CONFIG_DIR authenticate? A Keychain
+    login (macOS) is invisible to it; a credentials file or an auth variable is not."""
+    return CREDS.exists() or any(os.environ.get(name) for name in AUTH_ENV)
+
+
 def grader_version(task_dir):
     m = re.search(r'^GRADER_VERSION\s*=\s*(\d+)', (Path(task_dir) / 'test.py').read_text(encoding='utf-8'), re.M)
     return int(m[1]) if m else None
@@ -429,6 +438,14 @@ def main():
     if 'Skill' not in a.tools.split(','): ap.error('--tools must include Skill')
     if a.repeats < 1 or a.timeout < 1: ap.error('repeats and timeout must be positive')
     if not a.dry_run and not a.model: ap.error('--model is required to make paid comparisons reproducible')
+    if not a.dry_run and not isolated_auth_available():
+        sys.exit('Each arm runs Claude Code with a fresh, empty config (CLAUDE_CONFIG_DIR) so your own\n'
+                 'plugins, skills and settings cannot leak into the comparison. That config needs a\n'
+                 'credential it can see, and none was found: no ~/.claude/.credentials.json (macOS keeps\n'
+                 'the login in the Keychain) and no ANTHROPIC_API_KEY, ANTHROPIC_AUTH_TOKEN or\n'
+                 'CLAUDE_CODE_OAUTH_TOKEN in the environment. Either run `claude setup-token` and export\n'
+                 'CLAUDE_CODE_OAUTH_TOKEN (uses your Claude subscription), or export ANTHROPIC_API_KEY\n'
+                 '(billed per token), then rerun.')
     if a.crowd and not all(Path(c).is_dir() for c in a.crowd): ap.error('--crowd must be a directory')
     task_dirs = [Path(t).resolve() for t in (a.task or [str(ROOT / 'benchmarks/tasks/react-waterfall')])]
     if not a.dry_run:

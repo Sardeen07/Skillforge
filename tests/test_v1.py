@@ -256,6 +256,17 @@ class NativeArm(unittest.TestCase):
                 self.assertTrue(front and re.search(r'^name:', front[1], re.M) and re.search(r'^description:', front[1], re.M), p)
 
 
+class IsolatedAuth(unittest.TestCase):
+    def test_paid_runs_need_a_credential_the_isolated_config_can_see(self):
+        import ab
+        from unittest import mock
+        with mock.patch.object(ab, 'CREDS', Path(tempfile.gettempdir()) / 'no-such-credentials.json'), \
+                mock.patch.dict(os.environ, {}, clear=True):
+            self.assertFalse(ab.isolated_auth_available())
+            with mock.patch.dict(os.environ, {'CLAUDE_CODE_OAUTH_TOKEN': 'x'}):
+                self.assertTrue(ab.isolated_auth_available())
+
+
 class BenchmarkIntegrity(unittest.TestCase):
     def setUp(self):
         _, rules = library(INDEX, LIB, 'coding')

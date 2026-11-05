@@ -39,3 +39,9 @@ static mode only. Other graders need only the standard library.
 
 **`validate:library --verify-links` reports 403s.** Some documentation hosts reject
 automated requests (dev.mysql.com did). Check those links in a browser.
+
+**`npm run ab` says no credential was found / every arm fails with "Not logged in".** Each
+arm runs Claude Code with an empty `CLAUDE_CONFIG_DIR` so your own plugins and settings do
+not leak into the comparison. On macOS your login lives in the Keychain, which that config
+cannot see. Run `claude setup-token` and `export CLAUDE_CODE_OAUTH_TOKEN=...` in the same
+terminal (uses your subscription), or export `ANTHROPIC_API_KEY` (billed per token).
