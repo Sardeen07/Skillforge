@@ -1,5 +1,5 @@
 {
   "name": "skillforge",
-  "version": "0.1.0",
-  "description": "Retrieves curated coding rules across languages and engineering topics. Optional hook delivery is off by default."
+  "version": "0.2.0",
+  "description": "Retrieves a few curated coding rules (691 across languages, frameworks, databases, AI, infrastructure and engineering practice) within a token budget. Local and deterministic; optional hook delivery is off by default."
 }

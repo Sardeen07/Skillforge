@@ -7,7 +7,7 @@
     {
       "name": "skillforge",
       "source": "./plugin",
-      "description": "Delivers matching curated coding rules on every prompt, within a bounded brief."
+      "description": "Curated coding rules retrieved locally within a token budget; the skill is on by default, hook delivery is opt-in."
     }
   ]
 }

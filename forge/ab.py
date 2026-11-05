@@ -178,8 +178,23 @@ def native_plugin(support):
         source = ROOT / 'plugin/library' / m['path']
         out = root / 'skills' / m['name']
         shutil.copytree(source.parent, out)
-        (out / source.name).rename(out / 'SKILL.md')
+        if source.name == 'RULES.md':
+            # Authored packs carry pack metadata, not skill frontmatter; without a name and
+            # description Claude Code would not register them, and the native arm would
+            # silently lack most of the library.
+            (out / 'SKILL.md').write_text(native_skill_text(m, source.read_text(encoding='utf-8')), encoding='utf-8')
+            (out / 'RULES.md').unlink()
+        else:
+            (out / source.name).rename(out / 'SKILL.md')
     return root
+
+
+def native_skill_text(module, pack_text):
+    """A SKILL.md for an authored pack: skill frontmatter, then the pack's rules unchanged."""
+    body = re.sub(r'\A---\s*\n.*?\n---[ \t]*\n', '', pack_text, count=1, flags=re.S)
+    applies = ', '.join(module.get('applies', [])[:12])
+    description = f"{module.get('capability') or module['name']}. Use for coding tasks involving {applies}."
+    return f"---\nname: {module['name']}\ndescription: {json.dumps(description)}\n---\n\n{body.lstrip()}"
 
 
 def crowd_plugin(support, crowds):
