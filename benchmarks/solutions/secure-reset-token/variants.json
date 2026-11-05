@@ -29,7 +29,7 @@
       }
     },
     {
-      "name": "hex-uuid1",
+      "name": "getrandbits-hex",
       "must_fail": [
         "not-from-seedable-prng"
       ],
@@ -37,7 +37,7 @@
         "url-safe-and-long",
         "unique"
       ],
-      "why": "uuid1 encodes time and MAC address; the variant also reseeds per call",
+      "why": "128 bits from the seedable random module: long and unique, but reproducible from its seed",
       "replace": {
         "reset.py": [
           [

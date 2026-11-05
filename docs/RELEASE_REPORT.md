@@ -1,76 +1,94 @@
-# Engineering report — 2026-11-03
+# Release report: v0.2.0 (2026-11-05)
 
-## Audit and prioritized implementation checklist
+Covers two passes: 2026-11-03 (library expansion, taxonomy, validator; audit in
+[AUDIT.md](AUDIT.md)) and 2026-11-05 (benchmark suite, retrieval tuning, behavioral tasks,
+cost tooling, cross-platform CI, docs). Measurements: [BENCHMARKS.md](BENCHMARKS.md).
 
-The pre-change audit is recorded in [AUDIT.md](AUDIT.md). Priority was given to the runtime
-and library growth paths:
+## Completed
 
-1. Support Python 3.9 in the launcher and hook; confirm the existing tests still run there.
-2. Add a taxonomy for technologies, aliases, implications and manifest detection.
-3. Keep BM25 local and dependency-free; add reusable cached retrieval context and query
-   expansion already supported by the library format.
-4. Expand the rule catalog with attributed upstream and authored sources, without changing
-   their evidence status from `untested`.
-5. Keep delivery budgets strict and make catalog browsing work beyond the hook size limit.
-6. Add schema, source, license, safety and duplicate validation and benchmark quality signals.
-7. Update docs to report measured behavior and outstanding work without claiming cost gains.
+**Library**
+- 691 rules (from 132) in 63 modules plus the core: 515 authored rules in 57 `RULES.md`
+  packs and 176 rules from pinned MIT upstream modules (react-native and
+  react-composition added at vercel-labs/agent-skills@1a2c79d). Every rule has an ID, title,
+  tags, technologies (module or rule level), keywords, references, provenance, license,
+  pinned commit or checked-against documentation version, evidence status (`untested`) and
+  optional requires/conflicts/versions.
+- `technologies.json`: 53 technologies with strong aliases, weak hints, implications,
+  package names and marker files. `synonyms.json`: curated expansion vocabulary (opt-in).
+- `forge/validate_library.py`: schema, provenance, license allowlist, HTTPS references on a
+  reviewed host list (optional link check), exact-duplicate detection, relation integrity,
+  injection and hidden-character scan.
 
-## Completed in this pass
+**Retrieval and delivery**
+- Taxonomy-driven technology priors; manifest detection for npm, Python, Go, Rust, Maven/
+  Gradle, Ruby, PHP, Dart, Docker, Terraform, Kubernetes and GitHub Actions projects.
+- Coordination guard, named-technology and clause coverage, ambiguity guard with
+  technology-agnostic fallback, brief-level relative cut; parameters swept on dev sets.
+- Compact rule formatting, one-line attribution, in-process caching keyed by file
+  fingerprints, two-level catalog that fits the hook budget at any library size.
+- Hook: Python 3.9+, invalid budget falls back to the default, catalog mode works at scale,
+  every error exits 0.
 
-- Expanded the exported library from 132 to 691 rules in 64 modules (63 guidance modules
-  plus the core). It contains 515 authored rules in 57 reviewable `RULES.md` packs and 176
-  rules from six pinned upstream modules.
-- Added `technologies.json` with technology aliases, weak hints, implications, package
-  names and manifest markers. The retriever still abstains when textual evidence is weak.
-- Added authored-pack parsing, rule-level curation keywords, SHA library digest generation,
-  deterministic exports, in-process rule/index caching, compact delivery, and bounded
-  two-level catalogs. `compose.py --catalog <module>` lists that module's rules.
-- Added `forge/validate_library.py` and `npm run validate:library`. It checks exported
-  eligibility against curation, source/license provenance, rule structure and metadata,
-  HTTPS references against the reviewed host registry, exact duplicate bodies, relation
-  integrity and scanner safety flags. Optional `--verify-links` checks URLs over the network.
-- Added NDCG@K, precision@K and local runtime fields to the offline retrieval scorecard.
-- Lowered the runtime requirement to Python 3.9, and broadened plugin skill discovery
-  wording to reflect the catalog.
-- Updated regression expectations for new modules where Next.js or generic SQL guidance is
-  relevant, and added validator and NDCG tests.
+**Benchmarks**
+- Routing: 109 dev, 30 mixed, 20 security, 20 performance, 28 task-prompt, 50 negative,
+  30 ambiguous cases; 74 held-out cases frozen by hash before tuning. Recall@K, precision,
+  NDCG@K, abstention, unnecessary tokens, latency (mean and p95); label validation.
+- 30 behavioral tasks (27 new: 9 security, 9 performance, 9 correctness/concurrency/
+  resilience) with hidden graders; 29 validated against 81 reference and broken variants.
+- `forge/context_cost.py`: offline guidance-token comparison across the six arms.
+- `forge/sweep_retrieval.py`: reproducible parameter sweeps (dev sets only).
 
-## Validation record
+**Fixes found along the way**
+- A/B `native` arm installed authored packs without skill frontmatter, so 57 of 63 modules
+  would not have registered as native skills: the comparison would have been unfair.
+- A dev label (`systematic-debugging#*`) matched no rule, so that case could never score.
+- `binary-search`'s grader printed no `SCORE` line, so the A/B runner could not score it.
+- Canonical technology names (`go`, `c`) and words such as `express`, `node`, `rails`,
+  `cargo` counted as naming a technology.
+- Go module dependencies with a major-version suffix (`.../v5`) were not detected.
+- The brief-level cut removed the weaker technology's coverage pick in mixed prompts.
+- The ambiguity guard discarded relevant technology-agnostic rules.
+- An empty `technologies:` frontmatter line swallowed the next line (2026-11-03).
+- The password-hashing reference used `hashlib.scrypt`, which macOS's LibreSSL-based system
+  Python lacks; it now uses PBKDF2-HMAC-SHA256 (600,000 iterations), available everywhere.
 
-- Final full suite: 123 tests passed on Python 3.12 (121 existing plus 2 new validator/metric tests). The launcher compatibility change was exercised on the host's Python 3.9.
-- Library validation: **691 rules, 64 modules, 505 unique source references; 0 errors, 2 reviewed safety notices and 7 URL-check warnings**. The optional `--verify-links` check ran; 7 MySQL documentation references returned 403 (the host denied automated HEAD requests); the other references returned successfully.
-- Development retrieval: rule recall@4 **51.3%**, macro precision@4 **25.0%**, pooled
-  precision **26.1%**, NDCG@4 **0.472**, and mean local runtime **~5 ms**. Mean brief size
-  was about **801 estimated tokens**. Dataset size: 39 core development cases.
-- Ambiguous/follow-up set: **4/4 abstained**. Mixed set: **83.3% recall across 3 cases**.
-- Behavioral grader validation: Postgres queue task, 10 variants in static and embedded
-  Postgres modes; correct variants score 4/4 and every targeted broken variant fails a
-  relevant check. Two other task graders remain unvalidated.
-- Full model/API comparison: **not run**. Input/output/cache tokens, request counts, price,
-  and task-success deltas across native skills and SkillForge are unknown. No savings claim
-  is justified.
+## Validation record (2026-11-05, macOS, Python 3.12 venv and system Python 3.9.6)
 
-## Known limitations
+| Check | Result |
+|---|---|
+| `npm test` (Python 3.12) | 161 tests, all passing |
+| `npm test` (macOS system Python 3.9.6, no dev dependencies) | 161 tests, all passing |
+| `npm run validate:library` | 691 rules, 64 modules, 505 references; 0 errors, 2 reviewed notices (`rm -rf` in a trap cleanup example, `model.eval()`) |
+| `npm run graders` | 29 tasks, 81 variants, all as expected (pg task in both static and embedded-Postgres modes); `react-waterfall` not validated |
+| `npm run retrieval:suite` / `retrieval:heldout` | see [BENCHMARKS.md](BENCHMARKS.md) §1 |
+| `npm run cost` | see [BENCHMARKS.md](BENCHMARKS.md) §2 |
+| A/B dry run (`none,native,sf-hook,sf-catalog` on `ssrf-url-check`) | isolated configs built for every arm |
+| Hook end to end through `sh plugin/hooks/run-hook.sh` | ~0.2 s per prompt; garbage input exits 0 |
+| CI matrix (Linux, macOS, Windows × Python 3.9, 3.12) | defined in `.github/workflows/ci.yml`; not yet run (no push from this environment) |
 
-The expanded rule set is not independently reviewed and every rule remains `untested`.
-The routing development data is small, was used during tuning, and reports low precision.
-There is no independent held-out evaluation, only 39 main retrieval cases, 6 negative, 4
-ambiguous and 3 mixed cases, three coding task fixtures, and only one validated behavioral
-grader. Link freshness and cross-platform install behavior are not established. The requested
-benchmark sizes (100 retrieval, 50 negative, 30 ambiguous, 30 multi-technology, 20 security
-and 20 performance tasks) are not met. There is no evidence yet that SkillForge improves
-behavior or lowers actual API cost.
+## Remaining limitations
+
+- **No paid model comparison.** Token usage, cached tokens, request counts, cost and task
+  outcomes per arm are unknown; no cost or quality improvement is claimed.
+- Authored rules are machine-drafted with cited references and automated checks, but
+  **not human-reviewed**; all evidence is `untested`.
+- Routing on real task prompts is weak (55% recall, 21% precision). The held-out set shares
+  its author with the rules and overstates real performance; no independent set exists.
+- Whether the new tasks discriminate between arms is not measured.
+- Optional semantic retrieval was not built; synonyms measured net-negative and are off.
+- Live Claude Code sessions on Windows and Linux were not available here.
+- The repository is committed locally; nothing has been pushed.
 
 ## Release checklist
 
-- [x] Python 3.9+ launcher/hook path exercised locally
-- [x] Final unit/integration suite: 123 passed
-- [x] Library metadata/license/safety validation command
-- [x] Rule context budget and catalog size enforcement tests
-- [x] Behavioral grader run for the Postgres queue fixture
-- [x] Run the final full suite including newly added validator/metric tests
-- [ ] Independently review authored packs and verify every source link
-- [ ] Reach the requested benchmark suite sizes and prepare held-out cases independently
-- [ ] Run repeated, controlled model comparisons and report actual token/cost/task outcomes
-- [ ] Validate install and hook behavior on Windows, Linux and macOS
-- [ ] Commit the finished release changes
+- [x] Unit and integration tests pass (Python 3.12 and 3.9)
+- [x] Library validation: 0 errors
+- [x] Grader validation for 29 of 30 tasks
+- [x] Retrieval benchmarks on dev, mixed, security, performance, task, negative, ambiguous sets
+- [x] Held-out set frozen before tuning and scored once per retriever version
+- [x] Offline context-cost comparison
+- [x] Docs (README, STATUS, ROADMAP, ARCHITECTURE, BENCHMARKS, CONTRIBUTING_LIBRARY, TROUBLESHOOTING) match the implementation
+- [x] Working tree committed in logical commits
+- [ ] CI run on all three operating systems (needs a push)
+- [ ] Paid, frozen, repeated A/B comparison
+- [ ] Human review of authored packs; independent held-out set

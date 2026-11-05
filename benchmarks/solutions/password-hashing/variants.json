@@ -22,18 +22,18 @@
       "replace": {
         "accounts.py": [
           [
-            "    digest = hashlib.scrypt(password.encode(), salt=salt, n=N, r=R, p=P, dklen=32)",
+            "    digest = hashlib.pbkdf2_hmac(\"sha256\", password.encode(), salt, ITERATIONS)",
             "    digest = hashlib.sha256(salt + password.encode()).digest()"
           ],
           [
-            "        got = hashlib.scrypt(password.encode(), salt=base64.b64decode(salt), n=int(n), r=int(r), p=int(p),\n                             dklen=len(expected))",
+            "        got = hashlib.pbkdf2_hmac(\"sha256\", password.encode(), base64.b64decode(salt), int(iterations))",
             "        got = hashlib.sha256(base64.b64decode(salt) + password.encode()).digest()"
           ]
         ]
       }
     },
     {
-      "name": "unsalted-scrypt",
+      "name": "unsalted-pbkdf2",
       "must_fail": [
         "salted"
       ],

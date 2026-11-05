@@ -1,34 +1,43 @@
 # Roadmap
 
-The library and retrieval engine have expanded substantially, but release readiness is not
-complete. See [STATUS.md](STATUS.md) and [docs/RELEASE_REPORT.md](docs/RELEASE_REPORT.md) for
-measured results and verified limits.
+Designed or wanted, not built. Measured state is in [STATUS.md](STATUS.md).
 
-## Priority 1: improve retrieval quality
+## Priority 1: evidence
 
-- Review false positives in the 691-rule catalog; the current 39-case development set
-  shows useful recall but low precision and is not independent of tuning.
-- Add independent held-out retrieval cases before further threshold changes.
-- Expand tests to multi-stack manifests and ambiguous multi-technology prompts.
-- Measure NDCG, precision, recall, token estimates and latency on the same frozen cases.
-- Keep deterministic local BM25 as default; evaluate optional semantic retrieval only against
-  the recorded baseline.
+- **Paid A/B comparison** (`forge/ab.py`) of none / native / skillforge / sf-hook /
+  sf-catalog / sf-expert on a frozen task suite with repeats: input, output and cached
+  tokens, requests, cost, latency and per-check grader outcomes. Requires a model choice and
+  API budget. Only after this may any rule's evidence change from `untested`.
+- **Expert lists** (`benchmarks/expert/<task>.json`) for the new tasks, each reviewed by a
+  second developer before `sf-expert` runs.
+- **Discrimination check:** run the `none` arm on every task; drop or harden tasks every
+  arm solves.
+- **SQLite ingestion** of A/B JSONL into the `runs` table.
 
-## Priority 2: curate and verify the library
+## Priority 2: retrieval on real prompts
 
-- Complete independent human review of authored rule packs; keep evidence `untested` until
-  behavioral or controlled evaluation supports a stronger status.
-- Link-check references and record exact documentation versions per authored rule.
-- Add cross-module near-duplicate detection and a source/license review checklist to PR CI.
-- Continue expanding the benchmark task suite with behavioral graders, especially for
-  security and performance tasks.
+- Routing on the 28 task prompts is 55% recall / 21% precision. Candidates, each to be
+  measured on `tasks` and dev sets before adoption: identifier-aware tokenization
+  (`render_report` → render, report; `readFileSync` → read file sync), per-rule symptom
+  vocabulary in `keywords`, sentence weighting that discounts filler sentences.
+- **Optional semantic scorer** (small local embedding model, BM25 + dense fusion) behind a
+  flag, benchmarked on the same sets including latency and install size. Off by default
+  unless it wins.
+- **Version applicability:** the `versions:` field is parsed but not yet used to filter
+  rules against detected dependency versions.
+- **Usage signal:** learn from transcripts which delivered rules were applied.
 
-## Priority 3: product validation
+## Priority 3: library
 
-- Run frozen, repeated Claude comparisons for no-skill, native, skill-only, hook, catalog and
-  expert-selected arms. Record actual input/output/cache tokens, cost, requests, latency and
-  behavioral task outcomes. Credentials and a live Claude Code environment are required.
-- Add at least 100 retrieval cases, 50 negative cases, 30 ambiguous cases, 30 mixed-stack
-  cases, 20 security tasks and 20 performance tasks.
-- Validate installation and hook behavior on Windows and Linux in CI in addition to macOS.
-- Review documentation after results change; publish only reproducible measurements.
+- Human technical review of all 57 authored packs; record reviewer and date.
+- Semantic near-duplicate detection across modules (exact duplicates are already rejected).
+- Re-pin upstream modules periodically and diff rule text before accepting updates.
+- Grow toward 1,000-2,000 rules where review capacity allows; architecture is linear in
+  rule count (measure load and ranking time at 2,000).
+
+## Priority 4: platform
+
+- Validate `react-waterfall`'s grader (needs Node and TypeScript in CI).
+- Confirm hook behavior inside live Claude Code sessions on macOS, Linux and Windows
+  (CI exercises the hook through `sh` on all three, but not inside Claude Code).
+- Combined delivery arm (catalog plus brief), only if both do well on their own.

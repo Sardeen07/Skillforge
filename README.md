@@ -11,7 +11,8 @@ others report little gain on software-engineering tasks, with most skills changi
 nothing. So *which* guidance is curated may matter as much as how it is retrieved.
 See [STATUS.md](STATUS.md).
 
-> Status: working pipeline, **not yet benchmarked against native skills**. Every rule's
+> Status: working pipeline with a 691-rule library and offline benchmarks, **not yet
+> benchmarked against native skills with a model**. Every rule's
 > evidence status is `untested` until measured runs show it helps.
 
 ## How it works
@@ -23,10 +24,16 @@ See [STATUS.md](STATUS.md).
   applicability (technologies), `requires` (steps that must come with it), `conflicts`,
   provenance (pinned source and license) and evidence status. A later step of a
   procedure is delivered together with the steps before it, or not at all.
-- **Retrieval** (`retrieval.py`) is BM25 over each rule's title, tags and text. A
-  technology named in the prompt, or found in the project's manifests, reorders and
-  demotes rules. It never selects a rule on its own. When the evidence is weak, or split
-  between technologies, nothing is delivered.
+- **Retrieval** (`retrieval.py`) is local, deterministic BM25 over each rule's title, tags,
+  keywords and text, ranked sentence by sentence. Technologies named in the prompt (from
+  `technologies.json`: aliases such as `k8s`, `PostgreSQL`, `Next.js`, with implications such
+  as Next.js → React) or found in the project's manifests (package.json, requirements,
+  pyproject, go.mod, Cargo.toml, Maven/Gradle, Gemfile, composer.json, pubspec, Dockerfile,
+  Terraform, GitHub workflows) reorder and demote rules but never select one on their own.
+  A rule must clear an evidence threshold and match at least two prompt words; a prompt that
+  names several technologies gets each one's best rule first. When evidence is split between
+  technologies nothing technology-specific is guessed (technology-agnostic rules still
+  apply), and weak or vague prompts get nothing. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 - **Delivery is the open question**, so it is a switch, not a decision
   (`SKILLFORGE_HOOK`):
 
@@ -50,67 +57,97 @@ See [STATUS.md](STATUS.md).
 /plugin marketplace add Sardeen07/Skillforge
 /plugin install skillforge@skillforge
 ```
-Requires Python 3.9+ on the PATH (`python3`, `python` or `py`). The hook is off
-unless you set `SKILLFORGE_HOOK`. With it on and no usable Python, it does nothing
-rather than blocking your prompt.
+Requires Python 3.9+ on the PATH (`python3`, `python` or `py`; the stock macOS `python3`
+works). No packages, network access or API key are needed at runtime. The SkillForge skill
+is available immediately; the automatic hook is off unless you set `SKILLFORGE_HOOK`:
+
+| Variable | Values | Default |
+|---|---|---|
+| `SKILLFORGE_HOOK` | `off`, `brief`, `catalog`, `fixed` | `off` |
+| `SKILLFORGE_HOOK_BUDGET` | estimated tokens per injected brief (200-50,000; invalid values fall back) | 2400 |
+| `SKILLFORGE_STACK` | comma-separated technologies, overriding manifest detection | detected |
+| `SKILLFORGE_LOG` | where selection logs go | `~/.skillforge/compose.log` |
+| `SKILLFORGE_SYNONYM_WEIGHT` | opt-in query expansion (measured: small recall gain, more false positives) | 0 |
+
+With the hook on and no usable Python, or on any internal error, the hook prints nothing and
+exits 0: it never blocks a prompt. `/forge-status` shows what the last brief delivered and why.
+Troubleshooting is in [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md).
 
 ## Try it
 
 ```sh
 py=forge/py.mjs      # picks a working python3 or python for you
-node $py plugin/skills/skillforge/scripts/compose.py "Our Postgres workers wait on each other. Deep report pages are slow."
-node $py plugin/skills/skillforge/scripts/compose.py --catalog
+node $py plugin/skills/skillforge/scripts/compose.py "Build a scalable Next.js application with PostgreSQL, Redis caching, JWT authentication, and optimized database queries."
+node $py plugin/skills/skillforge/scripts/compose.py --catalog            # module overview
+node $py plugin/skills/skillforge/scripts/compose.py --catalog redis      # one module's rules
 node $py plugin/skills/skillforge/scripts/compose.py --rule postgres/data-pagination
-node $py plugin/skills/skillforge/scripts/compose.py --status      # what the last brief delivered, and why
+node $py plugin/skills/skillforge/scripts/compose.py --status             # what the last brief delivered, and why
 ```
+
+The first command delivers, within budget, the coding core plus rules for several of the
+concerns it names (Next.js data loading, PostgreSQL/SQL queries, Redis caching, JWT
+verification), and prints which were dropped and why to the log.
 
 ## Measure it
 
 ```sh
-python -m pip install -r requirements-dev.txt        # embedded Postgres for the behavioral grader (use a .venv)
-npm test                                              # unit, hook, session, runner, scanner, grader and library validation tests
-npm run graders                                       # do graders pass correct solutions and fail broken ones?
-npm run retrieval                                     # recall@4, precision@4, NDCG@4, latency and dependencies
-npm run retrieval -- --baseline                       # the old keyword module selector, for comparison
-npm run retrieval -- --cases benchmarks/retrieval/negatives.jsonl --stack react,postgres
-npm run retrieval -- --cases benchmarks/retrieval/ambiguous.jsonl   # vague prompts and follow-ups
-npm run retrieval -- --cases benchmarks/retrieval/mixed.jsonl       # prompts naming two technologies
-npm run validate:library                               # metadata, license, references and safety checks
-node forge/py.mjs plugin/skills/skillforge/scripts/compose.py --catalog postgres
-npm run ab -- --dry-run --arms none,native,sf-hook,sf-catalog,sf-expert
+python -m pip install -r requirements-dev.txt   # optional: embedded Postgres for one behavioral grader (use a .venv)
+npm test                     # unit, integration, hook, runner, scanner, grader and benchmark-integrity tests
+npm run validate:library     # schema, provenance, license, reference hosts, duplicates, relations, safety
+npm run retrieval:suite      # recall@4, precision, NDCG@4, abstention, brief size, latency on all dev sets
+npm run retrieval:heldout    # the frozen held-out set (report once per retriever version; never tune on it)
+npm run sweep                # parameter sweep over the dev sets only
+npm run graders              # every task grader passes its reference and fails its broken variants
+npm run cost                 # offline: guidance tokens each delivery arm adds, per task prompt
+npm run ab -- --dry-run --arms none,native,skillforge,sf-hook,sf-catalog,sf-expert
 ```
 
-The routing scorecard scores the rules the brief actually delivers, not the module
-chosen. It classifies every delivered rule as relevant, unnecessary, or supporting (a
-declared dependency), and counts prompts that got no guidance, because recall alone
-rises just by delivering more and precision alone rises by staying silent. Current development numbers are in [STATUS.md](STATUS.md); they come from cases
-seen while tuning, so they are optimistic until a held-out set is scored
-([benchmarks/heldout/](benchmarks/heldout/README.md)).
+Measured results and how to read them are in [docs/BENCHMARKS.md](docs/BENCHMARKS.md).
+In short (2026-11-05): on the development sets the hook's brief reaches 80-90% of labeled
+needs with 64-79% precision and abstains on 44/50 unrelated and 30/30 vague prompts; on the
+frozen held-out set 90.6% recall, 77.2% precision, 10/10 abstained. On the 28 real task
+prompts it is much weaker (55% recall, 21% precision). **No paid model comparison has been
+run**, so nothing here shows better code or lower API cost; offline, the hook adds ~750
+estimated tokens of guidance per task prompt against ~4,600 for loading the same library as
+native skills.
 
 `forge/ab.py` runs real Claude Code sessions in isolated throwaway projects. Arms:
 `none`, `native` (the same modules as ordinary skills), `skillforge` (skill only),
 `sf-modules` (delivery ablation), `sf-hook`, `sf-catalog`, and `sf-expert` (rules a
-developer chose for the task in advance, delivered the same way as `sf-hook`).
-`--crowd DIR` (repeatable) installs extra skills in every arm, and `--task` can be
-repeated for a suite; results are summarized per task. Paid runs
-need an explicit `--model`, a behavioral grader, and a reviewed expert list for
-`sf-expert`; `--freeze` locks the conditions across reruns. Read [docs/BENCHMARK_PROTOCOL.md](docs/BENCHMARK_PROTOCOL.md) first.
+developer chose for the task in advance, delivered the same way as `sf-hook`). It records
+input, output and cached tokens, cost, turns, per-check grader results and the rules each
+arm received. Paid runs need an explicit `--model`, a behavioral grader, and a reviewed
+expert list for `sf-expert`; `--freeze` locks the conditions across reruns. Read
+[docs/BENCHMARK_PROTOCOL.md](docs/BENCHMARK_PROTOCOL.md) first.
 
 ## Current coding library
 
-| Module | Source | Status |
-|---|---|---|
-| coding-core | Authored; inspired by Ponytail and Superpowers | provisional |
-| systematic-debugging | obra/superpowers @ 5bf4e78 (MIT) | provisional |
-| test-driven-development | obra/superpowers @ 5bf4e78 (MIT) | provisional |
-| react-performance | vercel-labs/agent-skills @ 063bee9 (MIT per skill metadata) | provisional |
-| postgres | supabase/agent-skills @ 8331f91 (MIT) | provisional |
-| verification-before-completion | obra/superpowers @ 5bf4e78 (MIT) | candidate (not exported; core covers it) |
+691 rules in 63 modules plus the coding core (`npm run validate:library` prints the
+statistics). Every rule is `evidence: untested`.
 
-Modules keep their original text, license and attribution (see each `SOURCE.json`).
-Library modules are stored as `MODULE.md`, not `SKILL.md`, so Claude Code never
-registers them as separate skills. Procedural guides are split into sections when
-loaded; the files themselves are not edited.
+| Source | Modules | Rules | Provenance |
+|---|---:|---:|---|
+| Authored packs (`modules/*/RULES.md`) | 57 | 515 | SkillForge text (MIT), each rule citing the official documentation or standard it was checked against; drafted with Claude, **pending human review** |
+| vercel-labs/agent-skills | 3 | 114 | react-performance @ 063bee9, react-native and react-composition @ 1a2c79d (MIT per skill metadata) |
+| supabase/agent-skills | 1 | 31 | postgres @ 8331f91 (MIT) |
+| obra/superpowers | 2 | 31 | systematic-debugging, test-driven-development @ 5bf4e78 (MIT) |
+
+Coverage: Python, JavaScript, TypeScript, Java, C++, C, Rust, Go, Swift, Kotlin, PHP, Ruby,
+C#, SQL; React, Next.js, Vue, Angular, Svelte, HTML/CSS, Tailwind, accessibility, web
+performance, front-end state and component architecture; Node/Express, FastAPI, Django,
+Flask, Spring Boot, REST and GraphQL API design, authentication and authorization,
+distributed systems, caching and background jobs; PostgreSQL, MySQL, SQLite, MongoDB, Redis
+and database design; LLM applications (prompting, RAG, embeddings, vector search, agents,
+tool calling, evaluation, inference, fine-tuning, token and context management, AI
+security) and ML engineering; Docker, Kubernetes, CI/CD and GitHub Actions, AWS/GCP/Azure,
+Terraform, Linux and networking, observability; architecture, security, testing, TDD,
+debugging, code quality and review, concurrency, error handling, profiling and memory;
+SwiftUI/UIKit, Android, Flutter, React Native and mobile architecture.
+
+Imported modules keep their original text, license and attribution (`SOURCE.json`) and are
+stored as `MODULE.md`, not `SKILL.md`, so Claude Code never registers them separately.
+`trailofbits/skills` (CC-BY-SA-4.0) and `anthropics/skills` (no repository license) were
+considered and not imported. How to add rules: [docs/CONTRIBUTING_LIBRARY.md](docs/CONTRIBUTING_LIBRARY.md).
 
 ## Building the library
 
@@ -132,17 +169,3 @@ Microsoft Store alias that prints "Python was not found" **and exits 0**.
 - `tests/`: retrieval, delivery, hook, runner and builder tests
 - `docs/`: protocol and database notes; `docs/history/` holds earlier handoffs and reviews
 - [STATUS.md](STATUS.md): where things stand. [ROADMAP.md](ROADMAP.md): what is not built.
-
-## Library curation and current evidence
-
-Authored packs are in `plugin/library/modules/*/RULES.md`; imported material retains its
-pinned upstream commit under module provenance. Every authored rule has a focused rule ID,
-tags, an HTTPS reference, and an evidence status. New authored packs remain `untested` and
-marked for human review. `npm run validate:library` checks schema, source/license metadata,
-references against the reviewed host list, exact duplicates, relations, and scanner safety
-flags. Add `--verify-links` to HEAD-check referenced URLs (network-dependent).
-
-The retrieval set has 39 development cases and has been used for tuning. Current scorecard
-results and limitations are in [STATUS.md](STATUS.md); they do not establish task success or
-reduced API cost. No paid model comparison has been run. Benchmark coverage is still below
-the requested 100 retrieval, 50 negative, and larger task/security/performance suites.
