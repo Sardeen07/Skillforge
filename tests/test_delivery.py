@@ -329,11 +329,26 @@ class Relations(unittest.TestCase):
 
 class Ambiguity(unittest.TestCase):
     def test_split_evidence_abstains(self):
+        # Evidence split between React and Flask, with no technology-agnostic rule that fits.
+        # (The earlier prompt here, "the same user lookup runs four times while rendering one
+        # page", stopped being a split once the threshold rose for the 691-rule library: its
+        # Postgres match no longer clears the bar, and the dev set labels it a React problem.)
         root = ROOT / 'plugin/library'
         index = json.loads((root / 'index.json').read_text(encoding='utf-8'))
-        task = 'the same user lookup runs four times while rendering one page'
+        task = 'a value computed at module scope is leaking between requests'
         _, _, log = build_brief(index, root, 'coding', [task])
         self.assertEqual(log['misses'], [task])
+
+    def test_split_evidence_keeps_technology_agnostic_rules(self):
+        # Spring and FastAPI rules compete, so no framework is guessed, but the API-design
+        # rule that applies to either is still delivered.
+        root = ROOT / 'plugin/library'
+        index = json.loads((root / 'index.json').read_text(encoding='utf-8'))
+        task = 'our REST API returns 200 with an error message in the body when validation fails'
+        _, _, log = build_brief(index, root, 'coding', [task])
+        got = [u['id'] for u in log['units'][1:] if u['result'] == 'delivered']
+        self.assertIn('api-design/status-codes-precise', got)
+        self.assertFalse([r for r in got if r.startswith(('spring-boot/', 'fastapi/'))], got)
 
 
 class GraderValidation(unittest.TestCase):
@@ -452,7 +467,8 @@ class MixedTechnologies(unittest.TestCase):
         self.assertTrue(got & {'react-performance', 'nextjs'})
 
     def test_ambiguous_symptom_still_abstains(self):
-        self.assertEqual(self.modules('the same user lookup runs four times while rendering one page'), set())
+        self.assertEqual(self.modules('the orders page is slow'), set())
+        self.assertEqual(self.modules('a value computed at module scope is leaking between requests'), set())
 
 
 if __name__ == '__main__': unittest.main()

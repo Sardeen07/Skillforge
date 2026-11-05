@@ -34,12 +34,13 @@ fix improve performance code faster slow slower
 # fix/improve/performance/code/slow describe almost every task, so they cannot tell rules apart.
 
 K1, B = 1.2, 0.75
-# MIN_SCORE: the evidence floor for delivering a rule (abstain below it). Retuned for the
-# 500+ rule library on the development set only (benchmarks/retrieval/dev.jsonl and the
-# negative/ambiguous dev sets); see docs/BENCHMARKS.md for the sweep. Held-out cases
-# were scored once, after tuning.
-MIN_SCORE = float(os.environ.get('SKILLFORGE_MIN_SCORE', '10.0'))
-RELATIVE = 0.45     # within one prompt part, drop rules scoring under this share of the best
+# MIN_SCORE, RELATIVE, MIN_MATCHED and BRIEF_RELATIVE were chosen with
+# forge/sweep_retrieval.py on the development sets only (dev, mixed, security, performance,
+# tasks, negatives, ambiguous; 2,400-token budget): 12 / 0.75 / 2 / 0.55. MIN_SCORE 14 has a
+# slightly higher F1 but leaves about twice as many prompts with no guidance, so it was not
+# chosen. See docs/BENCHMARKS.md. The held-out set was scored once, after this choice.
+MIN_SCORE = float(os.environ.get('SKILLFORGE_MIN_SCORE', '12.0'))
+RELATIVE = float(os.environ.get('SKILLFORGE_RELATIVE', '0.75'))  # drop rules under this share of a part's best
 PER_PART = 4        # at most this many rules per prompt part, unless coverage needs more
 MAX_PER_PART = 7    # hard cap when a part names many technologies or concerns
 NAMED_BOOST, OTHER_TECH, OFF_STACK, ON_STACK, HINT_BOOST = 2.0, 0.05, 0.5, 1.2, 1.3
@@ -47,14 +48,22 @@ NAMED_BOOST, OTHER_TECH, OFF_STACK, ON_STACK, HINT_BOOST = 2.0, 0.05, 0.5, 1.2, 
 # within this ratio, the part is ambiguous ("the orders page is slow": query or render?)
 # and nothing is delivered for it rather than guessing.
 AMBIGUOUS = 0.8
-# OFF by default (0): measured on the original dev set, 1 raised precision 42%->48% but
-# cut recall 58%->50%, so it mostly suppressed output. With no technology named and no
-# stack, a technology-specific rule must also match this many distinct prompt words in
-# its title, tags and keywords.
+# With no technology named and no stack, a technology-specific rule must also match this
+# many distinct prompt words in its title, tags and keywords (0 turns the guard off).
 MIN_FIELD_HITS = int(os.environ.get('SKILLFORGE_MIN_FIELD_HITS', '2'))
 EXPANDED_WEIGHT = 0.5  # weight of a query word recovered by expand() relative to one the prompt wrote
-SYNONYM_WEIGHT = 0.5   # weight of a curated synonym (synonyms.json)
-COVERAGE_FLOOR = 0.75  # a coverage pick (named technology or clause) may score this share of MIN_SCORE
+# Curated synonyms (synonyms.json) are OFF by default: on the development sets, weight 0.3
+# added ~1.3 points of recall but cut abstention on unrelated prompts from 92.5% to 86.2%
+# (forge/sweep_retrieval.py --synonym-weight 0,0.3,0.5). Opt in with SKILLFORGE_SYNONYM_WEIGHT.
+SYNONYM_WEIGHT = float(os.environ.get('SKILLFORGE_SYNONYM_WEIGHT', '0'))
+# Coordination: a rule must match at least this many distinct words the prompt wrote
+# (synonyms and word forms do not count). One shared generic word ("write", "count",
+# "green") was the main source of rules delivered for unrelated prompts.
+MIN_MATCHED = int(os.environ.get('SKILLFORGE_MIN_MATCHED', '2'))
+BRIEF_RELATIVE = float(os.environ.get('SKILLFORGE_BRIEF_RELATIVE', '0.55'))  # see interleave(); +4.6 pts precision, -1 pt recall
+MAX_RULES = int(os.environ.get('SKILLFORGE_MAX_RULES', '0'))
+COVERAGE_FLOOR = 0.6   # a named technology's coverage pick may score this share of MIN_SCORE
+CLAUSE_FLOOR = 0.75    # a clause's coverage pick may score this share of MIN_SCORE
 MIN_SECTION, MAX_SECTION = 500, 3500  # characters, for splitting procedural guides
 TOKENIZER_VERSION = 2  # bump when terms()/stem() change, so cached indexes are rebuilt
 
@@ -329,7 +338,9 @@ class Taxonomy:
         self.implies = {t: set(v.get('implies', [])) for t, v in techs.items()}
         self.strong, self.weak = [], []
         for t, v in techs.items():
-            for alias in [t, *v.get('aliases', [])]:
+            # Only listed aliases count: a canonical name such as "go", "c" or "cloud" is
+            # an ordinary word in most prompts ("let us go to the next step").
+            for alias in v.get('aliases', []):
                 self.strong.append((phrase_text(alias), t))
             for alias in v.get('hints', []):
                 self.weak.append((phrase_text(alias), t))
@@ -392,6 +403,7 @@ class Index:
         n = len(rules)
         self.idf = {t: math.log(1 + (n - c + 0.5) / (c + 0.5)) for t, c in df.items()}
         self.fields = {r['id']: set(terms(f"{r['title']} {r['tags']} {r.get('keywords', '')}")) for r in rules}
+        self.position = {id(r): i for i, r in enumerate(rules)}
         self.postings = {}
         for i, d in enumerate(self.docs):
             for t in d:
@@ -413,7 +425,7 @@ class Index:
             for base in candidates:
                 if base in self.idf and base not in out:
                     out[base] = EXPANDED_WEIGHT
-            for syn in sorted(self.synonyms.get(t, ())):
+            for syn in sorted(self.synonyms.get(t, ()) if SYNONYM_WEIGHT > 0 else ()):
                 if syn in self.idf and syn not in out:
                     out[syn] = SYNONYM_WEIGHT
         return out
@@ -435,6 +447,11 @@ class Index:
                 totals[i] = totals.get(i, 0.0) + weight * idf * tf * (K1 + 1) / (
                     tf + K1 * (1 - B + B * self.lengths[i] / self.avg))
         return [(s, self.rules[i]) for i, s in sorted(totals.items())]
+
+    def matched(self, rule_index, wanted):
+        """Distinct prompt-written words (weight 1.0) that occur in the rule."""
+        doc = self.docs[rule_index]
+        return sum(1 for t, w in wanted.items() if w == 1.0 and t in doc)
 
 
 def technologies(index, taxonomy=None):
@@ -499,12 +516,20 @@ def rank(index_data, idx, parts, stack=(), context=None):
     stack_terms = tax.closure({tax.canon(s) for s in stack}) if stack else set()
     ranked = []
     for part in parts:
-        def score(text, floor=MIN_SCORE):
+        def score(text, floor=MIN_SCORE, tech_credit=False):
             # The threshold applies to the evidence itself; priors only reorder and demote.
             out = []
+            wanted_here = idx.expand(set(terms(text)))
             for s, r in idx.scores(text):
                 if s < floor:
                     continue
+                if MIN_MATCHED > 1:
+                    # For a named technology's coverage pick, the rule's own technology named in
+                    # the prompt counts as a matched word: Postgres rules rarely say "postgres".
+                    hits_here = idx.matched(idx.position[id(r)], wanted_here) + bool(
+                        tech_credit and context.own[r['id']] & named_direct)
+                    if hits_here < MIN_MATCHED:
+                        continue
                 a = s * prior(context.own[r['id']], named, stack_terms, hinted)
                 if a >= floor:
                     out.append((a, s, r))
@@ -518,7 +543,12 @@ def rank(index_data, idx, parts, stack=(), context=None):
 
         scored = score(part)
         if not named and ambiguous(scored, context):
-            ranked.append((part, []))
+            # Split between technologies: do not guess one. Rules that do not depend on the
+            # technology (API design, security, testing) still apply if they clear the bar.
+            generic = [x for x in scored if not context.own[x[2]['id']]]
+            top = generic[0][0] if generic else 0
+            ranked.append((part, Hits((round(a, 2), r) for a, _, r in generic
+                                      if a >= RELATIVE * top)[:PER_PART] if generic else []))
             continue
         best = scored[0][0] if scored else 0
         kept = [x for x in scored if x[0] >= RELATIVE * best]
@@ -531,21 +561,30 @@ def rank(index_data, idx, parts, stack=(), context=None):
             for tech in sorted(own_named):
                 top = next((x for x in scored if tech in context.own[x[2]['id']]), None)
                 if top is None:
-                    top = next((x for x in score(part, MIN_SCORE * COVERAGE_FLOOR)
+                    top = next((x for x in score(part, MIN_SCORE * COVERAGE_FLOOR, tech_credit=True)
                                 if tech in context.own[x[2]['id']]), None)
                 if top and all(top[2] is not f[2] for f in firsts):
                     firsts.append(top)
+        protected = {id(f[2]) for f in firsts}
         pieces = clauses(part)
         if len(pieces) >= 2:
             for piece in pieces:
-                top = next(iter(score(piece, MIN_SCORE * COVERAGE_FLOOR)), None)
+                top = next(iter(score(piece, MIN_SCORE * CLAUSE_FLOOR)), None)
                 if top and all(top[2] is not f[2] for f in firsts):
                     firsts.append(top)
         firsts.sort(key=lambda x: (-x[0], x[2]['id']))
         chosen = firsts + [x for x in kept if all(x[2] is not f[2] for f in firsts)]
         cap = min(MAX_PER_PART, max(PER_PART, len(firsts)))
-        ranked.append((part, [(round(a, 2), r) for a, _, r in chosen][:cap]))
+        hits = Hits((round(a, 2), r) for a, _, r in chosen[:cap])
+        hits.coverage = protected
+        ranked.append((part, hits))
     return ranked
+
+
+class Hits(list):
+    """One part's ranked hits. `coverage` holds the rules picked to cover a technology the
+    part names; the brief-level relative cut in interleave() never removes those."""
+    coverage = frozenset()
 
 
 def ambiguous(scored, context, allow_related=True):
@@ -624,7 +663,8 @@ def detect_stack(folder, max_files=200, taxonomy=None):
             continue
         low = text.lower()
         for package, tech in tax.packages.items():
-            if re.search(r'(?:^|[\s"\'/:])' + re.escape(package) + r'(?=[\s<>=~!\[;"\':,]|$)', low, re.M):
+            # Go module paths may carry a major-version suffix (github.com/jackc/pgx/v5).
+            if re.search(r'(?:^|[\s"\'/:])' + re.escape(package) + r'(?=[\s<>=~!\[;"\':,/]|$)', low, re.M):
                 found.add(tech)
     for tech, patterns in tax.files.items():
         for pattern in patterns:
@@ -645,12 +685,21 @@ def detect_stack(folder, max_files=200, taxonomy=None):
 
 
 def interleave(ranked):
-    """Round-robin across parts so every problem in the prompt gets its best rule first."""
+    """Round-robin across parts so every problem in the prompt gets its best rule first.
+
+    BRIEF_RELATIVE drops a hit scoring under that share of the best hit in the whole prompt,
+    so a weak match from a filler sentence ("Fix it.") cannot ride along with a strong
+    one. MAX_RULES (0 = no cap) bounds the number of ranked rules per brief."""
     out, seen = [], set()
+    best = max((h[0] for _, hits in ranked for h in hits if h[0] is not None), default=0)
+    floor = BRIEF_RELATIVE * best
     depth = max((len(hits) for _, hits in ranked), default=0)
     for i in range(depth):
         for _, hits in ranked:
             if i < len(hits) and hits[i][1]['id'] not in seen:
+                protected = id(hits[i][1]) in getattr(hits, 'coverage', ())
+                if hits[i][0] is not None and hits[i][0] < floor and not protected:
+                    continue
                 seen.add(hits[i][1]['id'])
                 out.append(hits[i])
-    return out
+    return out[:MAX_RULES] if MAX_RULES else out

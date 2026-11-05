@@ -67,7 +67,6 @@
     },
     "node": {
       "aliases": [
-        "node",
         "nodejs",
         "node js",
         "deno",
@@ -77,7 +76,8 @@
         "npm",
         "pnpm",
         "yarn",
-        "event loop"
+        "event loop",
+        "node"
       ],
       "implies": [
         "javascript"
@@ -168,18 +168,21 @@
       "aliases": [
         "rust",
         "rustc",
-        "cargo",
         "borrow checker",
         "tokio",
         "serde",
         "unsafe rust",
-        "clippy"
+        "clippy",
+        "cargo build",
+        "cargo test",
+        "cargo toml"
       ],
       "hints": [
         "crate",
         "crates",
         "lifetime",
-        "lifetimes"
+        "lifetimes",
+        "cargo"
       ],
       "files": [
         "Cargo.toml"
@@ -290,18 +293,23 @@
     "ruby": {
       "aliases": [
         "ruby",
-        "rails",
         "ruby on rails",
         "rspec",
         "activerecord",
         "active record",
-        "sidekiq"
+        "sidekiq",
+        "rails app",
+        "rails api",
+        "rails controller",
+        "rails model",
+        "rails migration"
       ],
       "hints": [
         "gem",
         "gems",
         "bundler",
-        "rake"
+        "rake",
+        "rails"
       ],
       "files": [
         "Gemfile"
@@ -671,18 +679,21 @@
     },
     "express": {
       "aliases": [
-        "express",
         "expressjs",
-        "express js"
-      ],
-      "hints": [
+        "express js",
         "express app",
         "express server",
         "express middleware",
+        "express route",
+        "express router",
+        "express api"
+      ],
+      "hints": [
         "koa",
         "fastify",
         "nestjs",
-        "hono"
+        "hono",
+        "express"
       ],
       "implies": [
         "node",

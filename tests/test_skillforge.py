@@ -169,8 +169,11 @@ class ReferenceRules(unittest.TestCase):
         return [r["id"] for _, r in self.r.rank(self.index, self.ix, [text])[0][1]]
 
     def test_matches_rules_on_frontmatter_not_filename(self):
-        """lock-skip-locked.md is found from "workers", which appears in its tags, not its name."""
-        self.assertIn("postgres/lock-skip-locked", self.ids("concurrent workers queue"))
+        """lock-skip-locked.md is found from "workers", which appears in its tags, not its name.
+        Postgres is named because the 691-rule library also has a tech-agnostic concurrency rule
+        about worker queues, which rightly outranks it when no database is mentioned."""
+        self.assertIn("postgres/lock-skip-locked", self.ids("concurrent workers queue in postgres"))
+        self.assertIn("concurrency/idempotent-retries-concurrency", self.ids("concurrent workers queue"))
 
     def test_matches_the_pagination_rule_the_benchmark_missed(self):
         self.assertIn("postgres/data-pagination", self.ids("slow pagination on deep pages"))
