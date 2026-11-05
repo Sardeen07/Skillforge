@@ -1,0 +1,38 @@
+{
+  "none": {
+    "mean_tokens": 0,
+    "median_tokens": 0.0,
+    "max_tokens": 0,
+    "coverage": 0.0
+  },
+  "native": {
+    "mean_tokens": 4588.642857142857,
+    "median_tokens": 4339.0,
+    "max_tokens": 6851,
+    "coverage": 1.0
+  },
+  "skillforge": {
+    "mean_tokens": 812.6428571428571,
+    "median_tokens": 713.0,
+    "max_tokens": 1804,
+    "coverage": 0.5714285714285714
+  },
+  "sf-hook": {
+    "mean_tokens": 746.6428571428571,
+    "median_tokens": 647.0,
+    "max_tokens": 1738,
+    "coverage": 0.5714285714285714
+  },
+  "sf-catalog": {
+    "mean_tokens": 1226.7142857142858,
+    "median_tokens": 1196.0,
+    "max_tokens": 1651,
+    "coverage": 1.0
+  },
+  "sf-expert": {
+    "mean_tokens": 442.35714285714283,
+    "median_tokens": 399.0,
+    "max_tokens": 1168,
+    "coverage": 1.0
+  }
+}

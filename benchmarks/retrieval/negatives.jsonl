@@ -4,3 +4,47 @@
 {"mode":"coding","task":"translate the welcome message into French","expect":[]}
 {"mode":"coding","task":"format the changelog bullets","expect":[]}
 {"mode":"coding","task":"alphabetize the contributor names","expect":[]}
+{"mode":"coding","task":"write a short poem about the ocean","expect":[]}
+{"mode":"coding","task":"summarize this article about climate policy in two sentences","expect":[]}
+{"mode":"coding","task":"translate the welcome message into French","expect":[]}
+{"mode":"coding","task":"what time zone is Tokyo in","expect":[]}
+{"mode":"coding","task":"suggest a title for my blog post about hiking","expect":[]}
+{"mode":"coding","task":"fix the spelling mistakes in CONTRIBUTING.md","expect":[]}
+{"mode":"coding","task":"change the heading text on the about page to Our Story","expect":[]}
+{"mode":"coding","task":"rename the variable foo to customerCount in this file","expect":[]}
+{"mode":"coding","task":"add my name to the list of authors in the readme","expect":[]}
+{"mode":"coding","task":"update the year in the license file","expect":[]}
+{"mode":"coding","task":"reword this commit message so it is clearer","expect":[]}
+{"mode":"coding","task":"explain what this regular expression matches in plain english","expect":[]}
+{"mode":"coding","task":"write release notes for version 3.2 from these bullet points","expect":[]}
+{"mode":"coding","task":"draft an email to the team announcing the office move","expect":[]}
+{"mode":"coding","task":"make the logo a bit bigger on the landing page","expect":[]}
+{"mode":"coding","task":"change the primary color from blue to green","expect":[]}
+{"mode":"coding","task":"sort the lines of this text file alphabetically","expect":[]}
+{"mode":"coding","task":"convert this markdown table to a bulleted list","expect":[]}
+{"mode":"coding","task":"what does the acronym SaaS stand for","expect":[]}
+{"mode":"coding","task":"give me ideas for a team building activity","expect":[]}
+{"mode":"coding","task":"proofread the product description for the new mug","expect":[]}
+{"mode":"coding","task":"add a link to the documentation in the footer","expect":[]}
+{"mode":"coding","task":"remove the commented out lines at the bottom of the file","expect":[]}
+{"mode":"coding","task":"tell me a joke about programmers","expect":[]}
+{"mode":"coding","task":"write a cover letter for a marketing role","expect":[]}
+{"mode":"coding","task":"change the placeholder text in the newsletter signup box","expect":[]}
+{"mode":"coding","task":"plan a three day trip to Lisbon","expect":[]}
+{"mode":"coding","task":"format this JSON so it is easier to read","expect":[]}
+{"mode":"coding","task":"add a period at the end of each sentence in the FAQ","expect":[]}
+{"mode":"coding","task":"what is the difference between affect and effect","expect":[]}
+{"mode":"coding","task":"count how many words are in this paragraph","expect":[]}
+{"mode":"coding","task":"swap the order of the two paragraphs in the intro","expect":[]}
+{"mode":"coding","task":"recommend a good book on leadership","expect":[]}
+{"mode":"coding","task":"write a tweet announcing our new feature","expect":[]}
+{"mode":"coding","task":"capitalize the words in the navigation menu","expect":[]}
+{"mode":"coding","task":"add an emoji to the slack welcome message","expect":[]}
+{"mode":"coding","task":"generate a list of 20 baby names","expect":[]}
+{"mode":"coding","task":"change the font size of the footer text to 14px","expect":[]}
+{"mode":"coding","task":"write a birthday message for my coworker","expect":[]}
+{"mode":"coding","task":"convert 72 degrees fahrenheit to celsius","expect":[]}
+{"mode":"coding","task":"put the team members in alphabetical order on the team page","expect":[]}
+{"mode":"coding","task":"create a gitignore entry for the .DS_Store files","expect":[]}
+{"mode":"coding","task":"write a thank you note to a customer","expect":[]}
+{"mode":"coding","task":"what is the weather like in Paris in May","expect":[]}

@@ -1,0 +1,2181 @@
+{
+  "summaries": [
+    {
+      "set": "cases",
+      "cases": 74,
+      "mean_score": 0.918918918918919,
+      "recall": 0.90625,
+      "positives": 64,
+      "precision": 0.7721518987341772,
+      "ndcg": 0.8716496643973242,
+      "silent": 2,
+      "abstained": 10,
+      "negatives": 10,
+      "mean_brief_tokens": 417.1756756756757,
+      "mean_unnecessary_tokens": 22.16216216216216,
+      "p95_ms": 3.0277499463409185
+    }
+  ],
+  "rows": {
+    "cases": [
+      {
+        "task": "Our Django admin page for orders takes 20 seconds and the debug toolbar shows 900 queries.",
+        "expected": [
+          "django"
+        ],
+        "needs": [
+          [
+            "django/select-prefetch-related",
+            "postgres/data-n-plus-one"
+          ]
+        ],
+        "picked": [
+          "django"
+        ],
+        "rules": [
+          "django/select-prefetch-related"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 116.42541701439768,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 405,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Two people booked the same hotel room at the same time even though we check availability first.",
+        "expected": [
+          "database-design"
+        ],
+        "needs": [
+          [
+            "concurrency/check-then-act-races",
+            "database-design/transaction-isolation-anomalies",
+            "database-design/constraints-enforce-invariants"
+          ]
+        ],
+        "picked": [],
+        "rules": [],
+        "module_hit": false,
+        "score": 0.0,
+        "precision": null,
+        "precision_at_k": 0.0,
+        "ndcg_at_k": 0.0,
+        "retrieval_ms": 3.0277499463409185,
+        "relevant": 0,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 268,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Our FastAPI service slows to a crawl when 50 users hit the endpoint that calls requests.get to a partner API.",
+        "expected": [
+          "fastapi"
+        ],
+        "needs": [
+          [
+            "fastapi/async-def-vs-def",
+            "python/asyncio-no-blocking-calls"
+          ]
+        ],
+        "picked": [
+          "fastapi"
+        ],
+        "rules": [
+          "fastapi/async-def-vs-def"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.9685829067602754,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 390,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "A user changed the id in the URL from /invoices/41 to /invoices/42 and saw someone else's invoice.",
+        "expected": [
+          "auth"
+        ],
+        "needs": [
+          [
+            "auth/authorization-every-request",
+            "django/drf-permissions-and-scoping"
+          ]
+        ],
+        "picked": [
+          "auth",
+          "database-design"
+        ],
+        "rules": [
+          "auth/authorization-every-request",
+          "database-design/optimistic-locking"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 0.5,
+        "precision_at_k": 0.5,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.883375040255487,
+        "relevant": 1,
+        "unnecessary": 1,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 531,
+        "unnecessary_tokens": 83
+      },
+      {
+        "task": "We store passwords as sha256 hashes in the users table. Is that okay?",
+        "expected": [
+          "auth"
+        ],
+        "needs": [
+          [
+            "auth/password-storage",
+            "php/password-hashing-php"
+          ]
+        ],
+        "picked": [
+          "auth"
+        ],
+        "rules": [
+          "auth/password-storage"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.7209999971091747,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 403,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "The Go service's memory keeps climbing and pprof shows thousands of goroutines stuck on channel sends.",
+        "expected": [
+          "go"
+        ],
+        "needs": [
+          [
+            "go/goroutine-leaks"
+          ]
+        ],
+        "picked": [
+          "go"
+        ],
+        "rules": [
+          "go/goroutine-leaks"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.8376250993460417,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 384,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Customers were charged twice when the mobile app retried a checkout request after a timeout.",
+        "expected": [
+          "api-design"
+        ],
+        "needs": [
+          [
+            "api-design/idempotency-keys",
+            "distributed-systems/idempotent-consumers"
+          ]
+        ],
+        "picked": [
+          "mobile-architecture"
+        ],
+        "rules": [
+          "mobile-architecture/network-efficiency-mobile"
+        ],
+        "module_hit": false,
+        "score": 0.0,
+        "precision": 0.0,
+        "precision_at_k": 0.0,
+        "ndcg_at_k": 0.0,
+        "retrieval_ms": 2.730916952714324,
+        "relevant": 0,
+        "unnecessary": 1,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 395,
+        "unnecessary_tokens": 89
+      },
+      {
+        "task": "Every time the cache entry for the homepage expires, the database CPU spikes to 100 percent.",
+        "expected": [
+          "distributed-systems"
+        ],
+        "needs": [
+          [
+            "distributed-systems/cache-stampede"
+          ]
+        ],
+        "picked": [
+          "distributed-systems",
+          "python",
+          "redis"
+        ],
+        "rules": [
+          "redis/ttl-on-cache-keys",
+          "distributed-systems/cache-stampede",
+          "python/asyncio-no-blocking-calls"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 0.3333333333333333,
+        "precision_at_k": 0.3333333333333333,
+        "ndcg_at_k": 0.6309297535714575,
+        "retrieval_ms": 2.8607919812202454,
+        "relevant": 1,
+        "unnecessary": 2,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 653,
+        "unnecessary_tokens": 198
+      },
+      {
+        "task": "Our Kubernetes pods keep getting OOMKilled after a few hours even though the node has free memory.",
+        "expected": [
+          "kubernetes"
+        ],
+        "needs": [
+          [
+            "kubernetes/resource-requests-limits"
+          ]
+        ],
+        "picked": [
+          "kubernetes"
+        ],
+        "rules": [
+          "kubernetes/resource-requests-limits"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.6536659570410848,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 418,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "During every deploy we see a burst of 502 errors from the ingress for about ten seconds.",
+        "expected": [
+          "kubernetes"
+        ],
+        "needs": [
+          [
+            "kubernetes/graceful-termination-k8s",
+            "node-express/graceful-shutdown",
+            "kubernetes/probes-correctly"
+          ]
+        ],
+        "picked": [
+          "kubernetes"
+        ],
+        "rules": [
+          "kubernetes/graceful-termination-k8s"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.606083988212049,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 399,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "The Docker image for our Python API is 2.3 GB and takes forever to pull.",
+        "expected": [
+          "docker"
+        ],
+        "needs": [
+          [
+            "docker/multi-stage-builds"
+          ]
+        ],
+        "picked": [
+          "docker"
+        ],
+        "rules": [
+          "docker/multi-stage-builds",
+          "docker/no-secrets-in-images"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 0.5,
+        "precision_at_k": 0.5,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.764916978776455,
+        "relevant": 1,
+        "unnecessary": 1,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 509,
+        "unnecessary_tokens": 94
+      },
+      {
+        "task": "Someone found our AWS access key in a public GitHub repo. How should the app get credentials instead?",
+        "expected": [
+          "cloud"
+        ],
+        "needs": [
+          [
+            "cloud/no-long-lived-keys",
+            "security/secrets-management"
+          ]
+        ],
+        "picked": [
+          "cloud"
+        ],
+        "rules": [
+          "cloud/no-long-lived-keys",
+          "cloud/private-storage-default"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 0.5,
+        "precision_at_k": 0.5,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.7431249618530273,
+        "relevant": 1,
+        "unnecessary": 1,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 521,
+        "unnecessary_tokens": 99
+      },
+      {
+        "task": "A pull request title containing backticks ran a command in our GitHub Actions workflow.",
+        "expected": [
+          "ci-cd"
+        ],
+        "needs": [
+          [
+            "ci-cd/untrusted-input-injection"
+          ]
+        ],
+        "picked": [
+          "ci-cd"
+        ],
+        "rules": [
+          "ci-cd/untrusted-input-injection"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.566542010754347,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 415,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "terraform apply wants to destroy and recreate the database after I renamed the resource block.",
+        "expected": [
+          "terraform"
+        ],
+        "needs": [
+          [
+            "terraform/refactor-with-moved"
+          ]
+        ],
+        "picked": [
+          "terraform"
+        ],
+        "rules": [
+          "terraform/plan-review-apply",
+          "terraform/refactor-with-moved"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 0.5,
+        "precision_at_k": 0.5,
+        "ndcg_at_k": 0.6309297535714575,
+        "retrieval_ms": 2.690874971449375,
+        "relevant": 1,
+        "unnecessary": 1,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 510,
+        "unnecessary_tokens": 79
+      },
+      {
+        "task": "Our chatbot answered a question using a document that belongs to a different customer.",
+        "expected": [
+          "llm-apps"
+        ],
+        "needs": [
+          [
+            "llm-apps/rag-access-control"
+          ]
+        ],
+        "picked": [
+          "llm-apps"
+        ],
+        "rules": [
+          "llm-apps/rag-access-control"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.671457943506539,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 387,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "The support agent read an email that told it to forward all tickets to an external address, and it did.",
+        "expected": [
+          "llm-apps"
+        ],
+        "needs": [
+          [
+            "llm-apps/prompt-injection-defense",
+            "llm-apps/agent-human-approval"
+          ]
+        ],
+        "picked": [
+          "llm-apps"
+        ],
+        "rules": [
+          "llm-apps/prompt-injection-defense",
+          "llm-apps/agent-human-approval"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.6921669486910105,
+        "relevant": 2,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 532,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Our LLM bill doubled; every request resends the same 8,000 token system prompt and tool definitions.",
+        "expected": [
+          "llm-apps"
+        ],
+        "needs": [
+          [
+            "llm-apps/prompt-caching",
+            "llm-apps/token-budgeting"
+          ]
+        ],
+        "picked": [
+          "llm-apps"
+        ],
+        "rules": [
+          "llm-apps/prompt-caching"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.788458950817585,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 401,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "The model sometimes returns JSON with trailing commas and our parser crashes.",
+        "expected": [
+          "llm-apps"
+        ],
+        "needs": [
+          [
+            "llm-apps/structured-outputs"
+          ]
+        ],
+        "picked": [
+          "llm-apps"
+        ],
+        "rules": [
+          "llm-apps/structured-outputs"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.897333004511893,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 399,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Vector search never finds documents when users paste an exact error code like E1047.",
+        "expected": [
+          "llm-apps"
+        ],
+        "needs": [
+          [
+            "llm-apps/rag-hybrid-retrieval"
+          ]
+        ],
+        "picked": [
+          "llm-apps"
+        ],
+        "rules": [
+          "llm-apps/rag-hybrid-retrieval"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.7331250021234155,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 401,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Our agent got stuck calling the same search tool over and over and burned $40 overnight.",
+        "expected": [
+          "llm-apps"
+        ],
+        "needs": [
+          [
+            "llm-apps/agent-loop-limits"
+          ]
+        ],
+        "picked": [
+          "llm-apps"
+        ],
+        "rules": [
+          "llm-apps/tool-definitions"
+        ],
+        "module_hit": true,
+        "score": 0.0,
+        "precision": 0.0,
+        "precision_at_k": 0.0,
+        "ndcg_at_k": 0.0,
+        "retrieval_ms": 2.7202500496059656,
+        "relevant": 0,
+        "unnecessary": 1,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 403,
+        "unnecessary_tokens": 100
+      },
+      {
+        "task": "The validation accuracy was 97 percent but the model is useless in production; we scaled the features before splitting.",
+        "expected": [
+          "ml-engineering"
+        ],
+        "needs": [
+          [
+            "ml-engineering/data-leakage"
+          ]
+        ],
+        "picked": [
+          "ml-engineering"
+        ],
+        "rules": [
+          "ml-engineering/right-metrics",
+          "ml-engineering/data-leakage"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 0.5,
+        "precision_at_k": 0.5,
+        "ndcg_at_k": 0.6309297535714575,
+        "retrieval_ms": 2.83145799767226,
+        "relevant": 1,
+        "unnecessary": 1,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 525,
+        "unnecessary_tokens": 89
+      },
+      {
+        "task": "In our Vue component, after destructuring the props from a reactive store the values stopped updating.",
+        "expected": [
+          "vue"
+        ],
+        "needs": [
+          [
+            "vue/reactivity-destructuring"
+          ]
+        ],
+        "picked": [
+          "vue"
+        ],
+        "rules": [
+          "vue/reactivity-destructuring"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 3.1939579639583826,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 393,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "The Angular dashboard calls the search API for every keystroke and shows results from an older query.",
+        "expected": [
+          "angular"
+        ],
+        "needs": [
+          [
+            "angular/flattening-operators"
+          ]
+        ],
+        "picked": [
+          "angular"
+        ],
+        "rules": [
+          "angular/flattening-operators",
+          "angular/track-in-control-flow"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 0.5,
+        "precision_at_k": 0.5,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.822207985445857,
+        "relevant": 1,
+        "unnecessary": 1,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 487,
+        "unnecessary_tokens": 74
+      },
+      {
+        "task": "Our Tailwind classes like bg-${color}-500 don't produce any styles in production.",
+        "expected": [
+          "tailwind"
+        ],
+        "needs": [
+          [
+            "tailwind/no-dynamic-class-names"
+          ]
+        ],
+        "picked": [
+          "tailwind"
+        ],
+        "rules": [
+          "tailwind/no-dynamic-class-names"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.777333022095263,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 398,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Keyboard users can't tell which button is focused on our checkout page.",
+        "expected": [
+          "accessibility"
+        ],
+        "needs": [
+          [
+            "accessibility/visible-focus"
+          ]
+        ],
+        "picked": [
+          "accessibility"
+        ],
+        "rules": [
+          "accessibility/visible-focus",
+          "accessibility/keyboard-operable"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 0.5,
+        "precision_at_k": 0.5,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.6347499806433916,
+        "relevant": 1,
+        "unnecessary": 1,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 516,
+        "unnecessary_tokens": 86
+      },
+      {
+        "task": "Screen reader users never hear the 'saved' toast that appears after they submit the form.",
+        "expected": [
+          "accessibility"
+        ],
+        "needs": [
+          [
+            "accessibility/announce-dynamic-content"
+          ]
+        ],
+        "picked": [
+          "accessibility"
+        ],
+        "rules": [
+          "accessibility/announce-dynamic-content"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.733208006247878,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 401,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "The hero image on our landing page shows up last and Lighthouse flags the LCP at 5 seconds.",
+        "expected": [
+          "web-performance"
+        ],
+        "needs": [
+          [
+            "web-performance/optimize-lcp-resource",
+            "nextjs/image-and-font-optimization"
+          ]
+        ],
+        "picked": [
+          "web-performance"
+        ],
+        "rules": [
+          "web-performance/measure-field-data",
+          "web-performance/optimize-lcp-resource"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 0.5,
+        "precision_at_k": 0.5,
+        "ndcg_at_k": 0.6309297535714575,
+        "retrieval_ms": 2.8204580303281546,
+        "relevant": 1,
+        "unnecessary": 1,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 492,
+        "unnecessary_tokens": 75
+      },
+      {
+        "task": "Our Next.js server action that deletes a project can be called by any logged-in user, not just the owner.",
+        "expected": [
+          "nextjs"
+        ],
+        "needs": [
+          [
+            "nextjs/server-actions-authorize",
+            "react-performance/server-auth-actions"
+          ]
+        ],
+        "picked": [
+          "nextjs",
+          "react-performance"
+        ],
+        "rules": [
+          "react-performance/server-auth-actions",
+          "nextjs/server-actions-authorize"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.7447909815236926,
+        "relevant": 2,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 1029,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "We put the Stripe secret key in NEXT_PUBLIC_STRIPE_KEY and now it shows up in the browser bundle.",
+        "expected": [
+          "nextjs"
+        ],
+        "needs": [
+          [
+            "nextjs/no-secrets-in-client"
+          ]
+        ],
+        "picked": [
+          "nextjs"
+        ],
+        "rules": [
+          "nextjs/no-secrets-in-client"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.8094170847907662,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 396,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Our Express app crashes the whole process when an async route handler throws.",
+        "expected": [
+          "node-express"
+        ],
+        "needs": [
+          [
+            "node-express/async-error-handling-express",
+            "javascript/unhandled-promise-rejections"
+          ]
+        ],
+        "picked": [
+          "node-express"
+        ],
+        "rules": [
+          "node-express/async-error-handling-express"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.709625056013465,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 413,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "The Node API gets slow for everyone when one user uploads a big CSV that we parse with readFileSync.",
+        "expected": [
+          "node-express"
+        ],
+        "needs": [
+          [
+            "node-express/dont-block-event-loop",
+            "node-express/stream-large-payloads"
+          ]
+        ],
+        "picked": [
+          "node-express"
+        ],
+        "rules": [
+          "node-express/dont-block-event-loop",
+          "node-express/stream-large-payloads"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.644292078912258,
+        "relevant": 2,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 531,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "In our Spring service the transaction does not roll back when a checked exception is thrown from the method.",
+        "expected": [
+          "spring-boot"
+        ],
+        "needs": [
+          [
+            "spring-boot/transactional-proxy-pitfalls"
+          ]
+        ],
+        "picked": [
+          "spring-boot"
+        ],
+        "rules": [
+          "spring-boot/transactional-proxy-pitfalls"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.7406669687479734,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 416,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Our Rails index page loads each post's author with a separate query.",
+        "expected": [
+          "ruby"
+        ],
+        "needs": [
+          [
+            "ruby/activerecord-n-plus-one"
+          ]
+        ],
+        "picked": [
+          "ruby"
+        ],
+        "rules": [
+          "ruby/activerecord-n-plus-one"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.9177089454606175,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 376,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Our Laravel signup lets users set is_admin by adding a field to the form.",
+        "expected": [
+          "php"
+        ],
+        "needs": [
+          [
+            "php/laravel-mass-assignment"
+          ]
+        ],
+        "picked": [
+          "php"
+        ],
+        "rules": [
+          "php/laravel-mass-assignment"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.686708001419902,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 375,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "The C# service deadlocks under load and we call .Result on async methods in a few places.",
+        "expected": [
+          "csharp"
+        ],
+        "needs": [
+          [
+            "csharp/async-all-the-way"
+          ]
+        ],
+        "picked": [
+          "csharp"
+        ],
+        "rules": [
+          "csharp/async-all-the-way"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.863541943952441,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 401,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Our .NET app runs out of sockets; we create a new HttpClient for every outgoing request.",
+        "expected": [
+          "csharp"
+        ],
+        "needs": [
+          [
+            "csharp/httpclient-lifetime"
+          ]
+        ],
+        "picked": [
+          "csharp"
+        ],
+        "rules": [
+          "csharp/httpclient-lifetime"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.9820000054314733,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 396,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "The Rust code is full of .clone() calls just to make the borrow checker happy.",
+        "expected": [
+          "rust"
+        ],
+        "needs": [
+          [
+            "rust/borrow-instead-of-clone"
+          ]
+        ],
+        "picked": [
+          "rust"
+        ],
+        "rules": [
+          "rust/borrow-instead-of-clone"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.598291961476207,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 394,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Our tokio server stalls when one handler reads a large file with std::fs.",
+        "expected": [
+          "rust"
+        ],
+        "needs": [
+          [
+            "rust/async-no-blocking"
+          ]
+        ],
+        "picked": [
+          "rust"
+        ],
+        "rules": [
+          "rust/async-no-blocking"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.715707989409566,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 393,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "The C program crashes with a stack smash when the username is longer than 32 characters.",
+        "expected": [
+          "c"
+        ],
+        "needs": [
+          [
+            "c/bounded-string-functions"
+          ]
+        ],
+        "picked": [
+          "c"
+        ],
+        "rules": [
+          "c/bounded-string-functions"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.7397499652579427,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 420,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "The C++ code works in debug builds but crashes randomly in release builds.",
+        "expected": [
+          "cpp"
+        ],
+        "needs": [
+          [
+            "cpp/avoid-undefined-behavior"
+          ]
+        ],
+        "picked": [
+          "cpp"
+        ],
+        "rules": [
+          "cpp/avoid-undefined-behavior"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.644625026732683,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 408,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Our Java HashSet contains two customer objects that should be equal.",
+        "expected": [
+          "java"
+        ],
+        "needs": [
+          [
+            "java/equals-hashcode-contract"
+          ]
+        ],
+        "picked": [
+          "java"
+        ],
+        "rules": [
+          "java/equals-hashcode-contract"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.6243749307468534,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 412,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Every function in our Python module that appends to a default list shares items between calls.",
+        "expected": [
+          "python"
+        ],
+        "needs": [
+          [
+            "python/mutable-default-arguments"
+          ]
+        ],
+        "picked": [
+          "python"
+        ],
+        "rules": [
+          "python/mutable-default-arguments"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.9352500569075346,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 419,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Prices in our Python checkout show 19.990000000000002 after adding tax.",
+        "expected": [
+          "python"
+        ],
+        "needs": [
+          [
+            "python/float-money",
+            "database-design/money-and-time-types"
+          ]
+        ],
+        "picked": [
+          "python"
+        ],
+        "rules": [
+          "python/float-money"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.545167109929025,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 400,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Our TypeScript code casts API responses with 'as User' and crashes when the backend changes a field.",
+        "expected": [
+          "typescript"
+        ],
+        "needs": [
+          [
+            "typescript/validate-at-runtime-boundaries"
+          ]
+        ],
+        "picked": [
+          "typescript"
+        ],
+        "rules": [
+          "typescript/avoid-non-null-assertion",
+          "typescript/validate-at-runtime-boundaries"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 0.5,
+        "precision_at_k": 0.5,
+        "ndcg_at_k": 0.6309297535714575,
+        "retrieval_ms": 2.9279999434947968,
+        "relevant": 1,
+        "unnecessary": 1,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 539,
+        "unnecessary_tokens": 105
+      },
+      {
+        "task": "In Kotlin our coroutine never stops after the screen closes because we launched it in GlobalScope.",
+        "expected": [
+          "kotlin"
+        ],
+        "needs": [
+          [
+            "kotlin/structured-concurrency-scopes"
+          ]
+        ],
+        "picked": [
+          "kotlin"
+        ],
+        "rules": [
+          "kotlin/structured-concurrency-scopes"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.730709034949541,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 404,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "The Swift view controller is never deallocated after we added a completion handler that uses self.",
+        "expected": [
+          "swift"
+        ],
+        "needs": [
+          [
+            "swift/retain-cycles-closures"
+          ]
+        ],
+        "picked": [
+          "swift"
+        ],
+        "rules": [
+          "swift/retain-cycles-closures"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.722332952544093,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 419,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Our SwiftUI view model gets recreated and loses its state every time the parent view updates.",
+        "expected": [
+          "swiftui-uikit"
+        ],
+        "needs": [
+          [
+            "swiftui-uikit/state-ownership-swiftui"
+          ]
+        ],
+        "picked": [
+          "swiftui-uikit"
+        ],
+        "rules": [
+          "swiftui-uikit/state-ownership-swiftui"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.956166979856789,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 417,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "The Android app shows 'Application Not Responding' when it loads the settings from the database.",
+        "expected": [
+          "android"
+        ],
+        "needs": [
+          [
+            "android/no-main-thread-io-android"
+          ]
+        ],
+        "picked": [
+          "android"
+        ],
+        "rules": [
+          "android/no-main-thread-io-android"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.771124942228198,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 392,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Our Flutter app throws 'setState called after dispose' after a network request finishes.",
+        "expected": [
+          "flutter"
+        ],
+        "needs": [
+          [
+            "flutter/mounted-check-async"
+          ]
+        ],
+        "picked": [
+          "flutter"
+        ],
+        "rules": [
+          "flutter/mounted-check-async"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.6575420051813126,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 382,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Users lose the notes they typed on the subway because the app needs a connection to save.",
+        "expected": [
+          "mobile-architecture"
+        ],
+        "needs": [
+          [
+            "mobile-architecture/offline-first-local-source",
+            "mobile-architecture/sync-conflicts"
+          ]
+        ],
+        "picked": [],
+        "rules": [],
+        "module_hit": false,
+        "score": 0.0,
+        "precision": null,
+        "precision_at_k": 0.0,
+        "ndcg_at_k": 0.0,
+        "retrieval_ms": 2.65633303206414,
+        "relevant": 0,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 268,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Our MySQL inserts fail with 'Incorrect string value' when a customer name contains an emoji.",
+        "expected": [
+          "mysql"
+        ],
+        "needs": [
+          [
+            "mysql/utf8mb4-charset"
+          ]
+        ],
+        "picked": [
+          "mysql"
+        ],
+        "rules": [
+          "mysql/utf8mb4-charset",
+          "mysql/gap-locks-isolation"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 0.5,
+        "precision_at_k": 0.5,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 3.1021249014884233,
+        "relevant": 1,
+        "unnecessary": 1,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 520,
+        "unnecessary_tokens": 109
+      },
+      {
+        "task": "Two background processes writing to the same SQLite file keep failing with 'database is locked'.",
+        "expected": [
+          "sqlite"
+        ],
+        "needs": [
+          [
+            "sqlite/busy-timeout",
+            "sqlite/wal-mode"
+          ]
+        ],
+        "picked": [
+          "sqlite"
+        ],
+        "rules": [
+          "sqlite/wal-mode"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.8792499797418714,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 372,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "A login form backed by MongoDB lets attackers in by sending {\"$ne\": null} as the password.",
+        "expected": [
+          "mongodb"
+        ],
+        "needs": [
+          [
+            "mongodb/nosql-injection"
+          ]
+        ],
+        "picked": [
+          "mongodb"
+        ],
+        "rules": [
+          "mongodb/nosql-injection"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.703582984395325,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 404,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Redis latency spikes to seconds whenever our cleanup script runs KEYS session:*.",
+        "expected": [
+          "redis"
+        ],
+        "needs": [
+          [
+            "redis/avoid-keys-command"
+          ]
+        ],
+        "picked": [
+          "redis"
+        ],
+        "rules": [
+          "redis/avoid-keys-command"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.763040945865214,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 377,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Two of our workers both thought they held the Redis lock and processed the same payout.",
+        "expected": [
+          "redis"
+        ],
+        "needs": [
+          [
+            "redis/distributed-lock-caveats"
+          ]
+        ],
+        "picked": [
+          "redis"
+        ],
+        "rules": [
+          "redis/distributed-lock-caveats"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.744666999205947,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 410,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Renaming a column in the migration broke the old app servers that were still running during the rollout.",
+        "expected": [
+          "database-design"
+        ],
+        "needs": [
+          [
+            "database-design/expand-contract-migrations",
+            "django/safe-migrations"
+          ]
+        ],
+        "picked": [
+          "database-design"
+        ],
+        "rules": [
+          "database-design/expand-contract-migrations"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.7462500147521496,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 389,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Our GraphQL endpoint fires one SQL query per author when listing 100 posts.",
+        "expected": [
+          "graphql"
+        ],
+        "needs": [
+          [
+            "graphql/dataloader-batching"
+          ]
+        ],
+        "picked": [
+          "graphql",
+          "sql"
+        ],
+        "rules": [
+          "graphql/dataloader-batching",
+          "sql/parameterized-queries"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 0.5,
+        "precision_at_k": 0.5,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.9765419894829392,
+        "relevant": 1,
+        "unnecessary": 1,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 512,
+        "unnecessary_tokens": 94
+      },
+      {
+        "task": "Someone sent a deeply nested GraphQL query that took the API down.",
+        "expected": [
+          "graphql"
+        ],
+        "needs": [
+          [
+            "graphql/query-cost-limits"
+          ]
+        ],
+        "picked": [
+          "graphql"
+        ],
+        "rules": [
+          "graphql/query-cost-limits"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.5957910111173987,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 396,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Our webhook feature lets users enter a URL and someone used it to read http://169.254.169.254.",
+        "expected": [
+          "security"
+        ],
+        "needs": [
+          [
+            "security/ssrf-prevention"
+          ]
+        ],
+        "picked": [
+          "security"
+        ],
+        "rules": [
+          "security/ssrf-prevention"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.9189999913796782,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 435,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "The download endpoint takes a filename parameter and someone fetched ../../etc/passwd.",
+        "expected": [
+          "security"
+        ],
+        "needs": [
+          [
+            "security/path-traversal"
+          ]
+        ],
+        "picked": [
+          "web-performance"
+        ],
+        "rules": [
+          "web-performance/caching-headers"
+        ],
+        "module_hit": false,
+        "score": 0.0,
+        "precision": 0.0,
+        "precision_at_k": 0.0,
+        "ndcg_at_k": 0.0,
+        "retrieval_ms": 2.831541933119297,
+        "relevant": 0,
+        "unnecessary": 1,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 372,
+        "unnecessary_tokens": 70
+      },
+      {
+        "task": "A test passes on my laptop but fails in CI about one time in ten, and it uses time.sleep(0.5).",
+        "expected": [
+          "testing"
+        ],
+        "needs": [
+          [
+            "testing/deterministic-tests",
+            "systematic-debugging/condition-based-waiting#overview",
+            "systematic-debugging/condition-based-waiting#implementation"
+          ]
+        ],
+        "picked": [
+          "ci-cd",
+          "systematic-debugging"
+        ],
+        "rules": [
+          "ci-cd/fast-feedback-pipeline",
+          "systematic-debugging/condition-based-waiting#overview"
+        ],
+        "module_hit": false,
+        "score": 1.0,
+        "precision": 0.5,
+        "precision_at_k": 0.5,
+        "ndcg_at_k": 0.6309297535714575,
+        "retrieval_ms": 2.908749971538782,
+        "relevant": 1,
+        "unnecessary": 1,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 909,
+        "unnecessary_tokens": 104
+      },
+      {
+        "task": "Our alerts page the on-call engineer every time CPU goes above 80 percent, even when users are fine.",
+        "expected": [
+          "observability"
+        ],
+        "needs": [
+          [
+            "observability/slo-based-alerting"
+          ]
+        ],
+        "picked": [
+          "observability"
+        ],
+        "rules": [
+          "observability/slo-based-alerting"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.8961250791326165,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 390,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Our Prometheus bill exploded after we added user_id as a label on the request metric.",
+        "expected": [
+          "observability"
+        ],
+        "needs": [
+          [
+            "observability/metric-cardinality"
+          ]
+        ],
+        "picked": [
+          "observability"
+        ],
+        "rules": [
+          "observability/metric-cardinality"
+        ],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.829083940014243,
+        "relevant": 1,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 371,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Deduplicating customer records takes hours because we compare every record against every other record in a nested loop.",
+        "expected": [
+          "performance-profiling"
+        ],
+        "needs": [
+          [
+            "performance-profiling/algorithmic-complexity",
+            "python/set-dict-membership"
+          ]
+        ],
+        "picked": [
+          "javascript"
+        ],
+        "rules": [
+          "javascript/regex-catastrophic-backtracking"
+        ],
+        "module_hit": false,
+        "score": 0.0,
+        "precision": 0.0,
+        "precision_at_k": 0.0,
+        "ndcg_at_k": 0.0,
+        "retrieval_ms": 2.68154195509851,
+        "relevant": 0,
+        "unnecessary": 1,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 398,
+        "unnecessary_tokens": 92
+      },
+      {
+        "task": "Write a haiku about autumn leaves for my newsletter.",
+        "expected": [],
+        "needs": [],
+        "picked": [],
+        "rules": [],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": null,
+        "precision_at_k": 0.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.5885830400511622,
+        "relevant": 0,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 268,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Summarize the meeting notes from yesterday into three bullet points.",
+        "expected": [],
+        "needs": [],
+        "picked": [],
+        "rules": [],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": null,
+        "precision_at_k": 0.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.656417083926499,
+        "relevant": 0,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 268,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Translate the onboarding email into Spanish and German.",
+        "expected": [],
+        "needs": [],
+        "picked": [],
+        "rules": [],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": null,
+        "precision_at_k": 0.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.481500036083162,
+        "relevant": 0,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 268,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "What is a good name for my cat?",
+        "expected": [],
+        "needs": [],
+        "picked": [],
+        "rules": [],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": null,
+        "precision_at_k": 0.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.47000006493181,
+        "relevant": 0,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 268,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Fix the typo in the second paragraph of the changelog.",
+        "expected": [],
+        "needs": [],
+        "picked": [],
+        "rules": [],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": null,
+        "precision_at_k": 0.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.570082899183035,
+        "relevant": 0,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 268,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Update the copyright year in the footer to 2026.",
+        "expected": [],
+        "needs": [],
+        "picked": [],
+        "rules": [],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": null,
+        "precision_at_k": 0.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.466249978169799,
+        "relevant": 0,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 268,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Draft a polite reply declining the vendor's meeting invite.",
+        "expected": [],
+        "needs": [],
+        "picked": [],
+        "rules": [],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": null,
+        "precision_at_k": 0.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.463166951201856,
+        "relevant": 0,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 268,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Bump the version number in package.json to 2.4.1.",
+        "expected": [],
+        "needs": [],
+        "picked": [],
+        "rules": [],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": null,
+        "precision_at_k": 0.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.6110420003533363,
+        "relevant": 0,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 268,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "Make the button text say 'Continue' instead of 'Next'.",
+        "expected": [],
+        "needs": [],
+        "picked": [],
+        "rules": [],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": null,
+        "precision_at_k": 0.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.584958099760115,
+        "relevant": 0,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 268,
+        "unnecessary_tokens": 0
+      },
+      {
+        "task": "List the files in the src folder.",
+        "expected": [],
+        "needs": [],
+        "picked": [],
+        "rules": [],
+        "module_hit": true,
+        "score": 1.0,
+        "precision": null,
+        "precision_at_k": 0.0,
+        "ndcg_at_k": 1.0,
+        "retrieval_ms": 2.502292045392096,
+        "relevant": 0,
+        "unnecessary": 0,
+        "supporting": [],
+        "supporting_tokens": 0,
+        "dependencies_complete": true,
+        "estimated_tokens": 268,
+        "unnecessary_tokens": 0
+      }
+    ]
+  }
+}

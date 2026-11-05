@@ -2,3 +2,29 @@
 {"mode":"coding","task":"continue","expect":[],"note":"follow-up: rules delivered earlier in the conversation still apply; nothing new to add"}
 {"mode":"coding","task":"fix that","expect":[],"note":"follow-up"}
 {"mode":"coding","task":"ok do it","expect":[],"note":"follow-up"}
+{"mode":"coding","task":"make it faster","expect":[],"note":"no symptom, no technology"}
+{"mode":"coding","task":"it's broken again","expect":[],"note":"no symptom"}
+{"mode":"coding","task":"clean this up a bit","expect":[],"note":"vague"}
+{"mode":"coding","task":"can you take another look","expect":[],"note":"follow-up"}
+{"mode":"coding","task":"try a different approach","expect":[],"note":"follow-up"}
+{"mode":"coding","task":"yes go ahead","expect":[],"note":"follow-up"}
+{"mode":"coding","task":"that didn't work","expect":[],"note":"follow-up"}
+{"mode":"coding","task":"the app is slow","expect":[],"note":"could be query, network, rendering or CPU"}
+{"mode":"coding","task":"the dashboard takes forever","expect":[],"note":"no layer named"}
+{"mode":"coding","task":"something is wrong with the data","expect":[],"note":"vague"}
+{"mode":"coding","task":"users are complaining","expect":[],"note":"no symptom"}
+{"mode":"coding","task":"improve the code quality","expect":[],"note":"vague"}
+{"mode":"coding","task":"why is this not working","expect":[],"note":"no symptom"}
+{"mode":"coding","task":"make the page better","expect":[],"note":"vague"}
+{"mode":"coding","task":"optimize everything","expect":[],"note":"vague"}
+{"mode":"coding","task":"do the same for the other file","expect":[],"note":"follow-up"}
+{"mode":"coding","task":"revert that change","expect":[],"note":"follow-up"}
+{"mode":"coding","task":"now add tests","expect":[],"note":"follow-up: no behavior named"}
+{"mode":"coding","task":"keep going until it passes","expect":[],"note":"follow-up"}
+{"mode":"coding","task":"the numbers look off","expect":[],"note":"vague"}
+{"mode":"coding","task":"it works on my machine","expect":[],"note":"no symptom"}
+{"mode":"coding","task":"the report page is slow sometimes","expect":[],"note":"query, network or render"}
+{"mode":"coding","task":"we have a performance problem","expect":[],"note":"vague"}
+{"mode":"coding","task":"refactor this","expect":[],"note":"vague"}
+{"mode":"coding","task":"looks good, ship it","expect":[],"note":"follow-up"}
+{"mode":"coding","task":"undo the last thing","expect":[],"note":"follow-up"}

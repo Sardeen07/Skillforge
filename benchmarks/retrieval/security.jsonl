@@ -1,0 +1,20 @@
+{"mode":"coding","task":"our search endpoint builds the WHERE clause with string formatting from the query parameter","expect":["sql"],"rules":[["sql/parameterized-queries","security/injection-prevention"]],"category":"security"}
+{"mode":"coding","task":"user comments render as raw HTML and someone injected a script tag","expect":["security"],"rules":[["security/xss-output-encoding"]],"category":"security"}
+{"mode":"coding","task":"a malicious site can submit our change-email form while the user is logged in","expect":["security"],"rules":[["security/csrf-protection"]],"category":"security"}
+{"mode":"coding","task":"the image import feature fetches any URL the user types, including internal admin hosts","expect":["security"],"rules":[["security/ssrf-prevention"]],"category":"security"}
+{"mode":"coding","task":"extracting an uploaded zip wrote files outside the target directory","expect":["security"],"rules":[["security/path-traversal"]],"category":"security"}
+{"mode":"coding","task":"users can upload an html file that runs javascript when others open it","expect":["security"],"rules":[["security/file-upload-safety"]],"category":"security"}
+{"mode":"coding","task":"we generate session tokens with Math.random","expect":["security"],"rules":[["security/cryptography-use"]],"category":"security"}
+{"mode":"coding","task":"the login page redirects to whatever the next parameter says after signing in","expect":["security"],"rules":[["security/open-redirect"]],"category":"security"}
+{"mode":"coding","task":"attackers try thousands of passwords against the login endpoint every minute","expect":["auth"],"rules":[["auth/brute-force-protection"]],"category":"security"}
+{"mode":"coding","task":"the session id stays the same before and after the user logs in","expect":["auth"],"rules":[["auth/session-fixation"]],"category":"security"}
+{"mode":"coding","task":"our oauth login flow does not check the state parameter on callback","expect":["auth"],"rules":[["auth/oauth-pkce-state"]],"category":"security"}
+{"mode":"coding","task":"api keys for customers are stored in plain text in the database","expect":["auth"],"rules":[["auth/api-keys-handling"]],"category":"security"}
+{"mode":"coding","task":"a deep merge of the request body into our config object let someone set __proto__","expect":["javascript"],"rules":[["javascript/avoid-prototype-pollution"]],"category":"security"}
+{"mode":"coding","task":"our docker image contains the npm token we passed as a build arg","expect":["docker"],"rules":[["docker/no-secrets-in-images"]],"category":"security"}
+{"mode":"coding","task":"the container runs as root and mounts the docker socket","expect":["docker"],"rules":[["docker/non-root-user"]],"category":"security"}
+{"mode":"coding","task":"any pod in the cluster can connect to the production database","expect":["kubernetes"],"rules":[["kubernetes/network-policies"]],"category":"security"}
+{"mode":"coding","task":"the IAM policy for our lambda allows s3:* on every bucket","expect":["cloud"],"rules":[["cloud/iam-least-privilege"]],"category":"security"}
+{"mode":"coding","task":"the model output is rendered as markdown and an image link leaked the conversation to another domain","expect":["llm-apps"],"rules":[["llm-apps/output-handling-security"]],"category":"security"}
+{"mode":"coding","task":"we put the production database password in the LLM system prompt so the agent can query it","expect":["llm-apps"],"rules":[["llm-apps/secrets-and-pii-in-prompts"]],"category":"security"}
+{"mode":"coding","task":"the android app exports an activity that other apps can launch with arbitrary intents","expect":["android"],"rules":[["android/secure-storage-android"]],"category":"security"}

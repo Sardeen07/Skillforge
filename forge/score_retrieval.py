@@ -66,7 +66,7 @@ def evaluate(cases, index, stack=(), baseline=False, k=4, budget=None):
             selected = compose(index, c['mode'], [c['task']], stack=stack)[0]
             picked, rules, used = [m['name'] for m in selected if m['kind'] != 'core'], [], None
             precision = complete = None
-            relevant_n = unnecessary_n = 0
+            relevant_n = unnecessary_n = wasted = 0
             supporting = []
         else:
             _, _, log = build_brief(index, ROOT / 'plugin/library', c['mode'], [c['task']], stack=stack,
@@ -79,6 +79,7 @@ def evaluate(cases, index, stack=(), baseline=False, k=4, budget=None):
             relevant_n = sum(relevant(r, c.get('rules', [])) for r in ranked)
             unnecessary_n = len(ranked) - relevant_n
             supporting = [u['id'] for u in units if u['required_by']]
+            wasted = sum(size.get(i, 0) for i in ranked if not relevant(i, c.get('rules', [])))
             precision = relevant_n / len(ranked) if ranked else None
             have = {u['id'] for u in units}
             complete = all(set(requires.get(u['id'], [])) <= have for u in units)
@@ -94,26 +95,24 @@ def evaluate(cases, index, stack=(), baseline=False, k=4, budget=None):
                          precision_at_k=precision_k, ndcg_at_k=ndcg_k, retrieval_ms=elapsed_ms,
                          relevant=relevant_n, unnecessary=unnecessary_n, supporting=supporting,
                          supporting_tokens=sum(size.get(i, 0) for i in supporting),
-                         dependencies_complete=complete, estimated_tokens=used))
+                         dependencies_complete=complete, estimated_tokens=used, unnecessary_tokens=wasted))
     return rows
 
 
-def main():
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument('--cases', default=str(ROOT / 'benchmarks/retrieval/dev.jsonl'))
-    ap.add_argument('--stack', default='')
-    ap.add_argument('--baseline', action='store_true')
-    ap.add_argument('--k', type=int, default=4)
-    ap.add_argument('--budget', type=int, help='brief budget in estimated tokens (default: the mode budget)')
-    ap.add_argument('--min', type=float, dest='floor', help='fail below this mean case score')
-    ap.add_argument('--json')
-    ap.add_argument('-v', '--verbose', action='store_true')
-    a = ap.parse_args()
-    if hasattr(sys.stdout, 'reconfigure'): sys.stdout.reconfigure(encoding='utf-8')
-    index = json.loads((ROOT / 'plugin/library/index.json').read_text(encoding='utf-8'))
-    cases = [json.loads(l) for l in Path(a.cases).read_text(encoding='utf-8').splitlines() if l.strip()]
-    if not cases: ap.error('cases must not be empty')
-    rows = evaluate(cases, index, tuple(filter(None, a.stack.split(','))), a.baseline, a.k, a.budget)
+def check_labels(cases, ids, modules, where):
+    """Every labeled rule pattern must match a rule and every expected module must exist.
+    A pattern that matches nothing makes a case unscorable (it once hid a dev case for months)."""
+    bad = []
+    for n, c in enumerate(cases, 1):
+        for need in c.get('rules', []):
+            bad += [f'{where}:{n}: rule pattern {w!r} matches no rule' for w in need
+                    if not any(fnmatch.fnmatch(i, w) for i in ids)]
+        bad += [f'{where}:{n}: unknown module {m!r}' for m in c['expect'] if m not in modules]
+    return bad
+
+
+def report(rows, a, name, heldout=False):
+    print(f'\n== {name}: {len(rows)} cases')
     for r in rows:
         if a.verbose or r['score'] < 1:
             got = r['picked'] if a.baseline else r['rules']
@@ -121,33 +120,97 @@ def main():
     positive = [r for r in rows if r['expected']]
     negative = [r for r in rows if not r['expected']]
     mean = sum(r['score'] for r in rows) / len(rows)
+    summary = {'set': name, 'cases': len(rows), 'mean_score': mean}
     if positive:
         label = 'module hit' if a.baseline else f'rule recall@{a.k}'
-        print(f"{label}: {sum(r['score'] for r in positive) / len(positive):.1%} over {len(positive)} cases; "
+        rec = sum(r['score'] for r in positive) / len(positive)
+        print(f"{label}: {rec:.1%} over {len(positive)} cases; "
               f"module hit {sum(r['module_hit'] for r in positive)}/{len(positive)}")
+        summary.update(recall=rec, positives=len(positive))
         if not a.baseline:
             rel = sum(r['relevant'] for r in positive); unn = sum(r['unnecessary'] for r in positive)
+            silent = sum(not r['picked'] for r in positive)
             print(f"selected rules: {rel} relevant, {unn} unnecessary (precision {rel / max(rel + unn, 1):.1%}); "
-                  f"no guidance for {sum(not r['picked'] for r in positive)}/{len(positive)} prompts that needed some")
+                  f"no guidance for {silent}/{len(positive)} prompts that needed some")
+            ndcg_mean = sum(r['ndcg_at_k'] for r in positive) / len(positive)
+            summary.update(precision=rel / max(rel + unn, 1), ndcg=ndcg_mean, silent=silent)
     if negative:
-        print(f"abstained {sum(r['score'] == 1 for r in negative)}/{len(negative)} unrelated tasks")
+        abst = sum(r['score'] == 1 for r in negative)
+        print(f"abstained {abst}/{len(negative)} cases that should get no rule")
+        summary.update(abstained=abst, negatives=len(negative))
     if not a.baseline:
+        ms = sorted(r['retrieval_ms'] for r in rows)
+        p95 = ms[min(len(ms) - 1, int(0.95 * len(ms)))]
         print(f"mean precision@{a.k}: {sum(r['precision_at_k'] for r in rows) / len(rows):.1%}; "
-              f"mean NDCG@{a.k}: {sum(r['ndcg_at_k'] for r in rows) / len(rows):.3f}; "
-              f"mean local runtime: {sum(r['retrieval_ms'] for r in rows) / len(rows):.2f} ms")
+              f"mean NDCG@{a.k} (cases needing rules): {summary.get('ndcg', 0):.3f}; "
+              f"local runtime mean {sum(ms) / len(ms):.2f} ms, p95 {p95:.2f} ms")
         sup = [i for r in rows for i in r['supporting']]
         if sup:
             common = sorted(set(sup), key=lambda i: -sup.count(i))[:3]
             print(f"supporting rules: {len(sup)} included as dependencies, ~{sum(r['supporting_tokens'] for r in rows)} "
-                  f"estimated tokens in total; most often {', '.join(f'{i} (x{sup.count(i)})' for i in common)}. "
-                  "Review that each is truly needed.")
-        else:
-            print('supporting rules: none included')
+                  f"estimated tokens in total; most often {', '.join(f'{i} (x{sup.count(i)})' for i in common)}.")
+        brief = sum(r['estimated_tokens'] for r in rows) / len(rows)
+        waste = sum(r['unnecessary_tokens'] for r in rows) / len(rows)
         print(f"dependencies complete in {sum(bool(r['dependencies_complete']) for r in rows)}/{len(rows)} briefs; "
-              f"mean brief ~{sum(r['estimated_tokens'] for r in rows) / len(rows):.0f} estimated tokens")
-    print(f'mean case score {mean:.1%}. Development routing only; these cases were seen while tuning.')
-    if a.json: Path(a.json).write_text(json.dumps(rows, indent=2) + '\n', encoding='utf-8')
-    if a.floor is not None and mean < a.floor: sys.exit(f'retrieval floor: {mean:.1%} < {a.floor:.1%}')
+              f"mean brief ~{brief:.0f} estimated tokens, of which ~{waste:.0f} are unnecessary rules")
+        summary.update(mean_brief_tokens=brief, mean_unnecessary_tokens=waste, p95_ms=p95)
+    note = ('Held-out: report once per retriever version; do not tune on misses.' if heldout
+            else 'Development routing only; these cases were seen while tuning.')
+    print(f'mean case score {mean:.1%}. {note}')
+    return summary
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument('--cases', action='append', help='a JSONL case file; repeatable (default: dev set)')
+    ap.add_argument('--suite', action='store_true', help='every development set in benchmarks/retrieval/')
+    ap.add_argument('--heldout', action='store_true', help='the frozen held-out set (benchmarks/heldout/cases.jsonl)')
+    ap.add_argument('--stack', default='')
+    ap.add_argument('--baseline', action='store_true')
+    ap.add_argument('--k', type=int, default=4)
+    ap.add_argument('--budget', type=int, help='brief budget in estimated tokens (default: the mode budget)')
+    ap.add_argument('--min', type=float, dest='floor', help='fail if any set\'s mean case score is below this')
+    ap.add_argument('--json')
+    ap.add_argument('-v', '--verbose', action='store_true')
+    a = ap.parse_args()
+    if hasattr(sys.stdout, 'reconfigure'): sys.stdout.reconfigure(encoding='utf-8')
+    index = json.loads((ROOT / 'plugin/library/index.json').read_text(encoding='utf-8'))
+    files = list(a.cases or [])
+    if a.suite:
+        files += sorted(str(p) for p in (ROOT / 'benchmarks/retrieval').glob('*.jsonl'))
+    if a.heldout:
+        files.append(str(ROOT / 'benchmarks/heldout/cases.jsonl'))
+    files = files or [str(ROOT / 'benchmarks/retrieval/dev.jsonl')]
+    library = load_rules(index, ROOT / 'plugin/library')
+    ids = {r['id'] for r in library}
+    modules = {r['module'] for r in library}
+    stack = tuple(filter(None, a.stack.split(',')))
+    summaries, all_rows, failed = [], {}, []
+    for f in files:
+        cases = [json.loads(l) for l in Path(f).read_text(encoding='utf-8').splitlines() if l.strip()]
+        if not cases: ap.error(f'{f}: cases must not be empty')
+        bad = check_labels(cases, ids, modules, Path(f).name)
+        if bad:
+            sys.exit('invalid labels:\n' + '\n'.join(bad))
+        rows = evaluate(cases, index, stack, a.baseline, a.k, a.budget)
+        s = report(rows, a, Path(f).stem, heldout='heldout' in str(f))
+        summaries.append(s)
+        all_rows[Path(f).stem] = rows
+        if a.floor is not None and s['mean_score'] < a.floor:
+            failed.append(f"{s['set']}: {s['mean_score']:.1%} < {a.floor:.1%}")
+    if len(summaries) > 1:
+        print('\n| set | cases | recall@%d | precision | NDCG@%d | abstained | mean brief (est. tokens) | unnecessary tokens |' % (a.k, a.k))
+        print('|---|---:|---:|---:|---:|---:|---:|---:|')
+        for s in summaries:
+            pct = lambda key: f"{s[key]:.1%}" if key in s else '-'
+            ab = f"{s['abstained']}/{s['negatives']}" if 'negatives' in s else '-'
+            nd = f"{s['ndcg']:.3f}" if 'ndcg' in s else '-'
+            print(f"| {s['set']} | {s['cases']} | {pct('recall')} | {pct('precision')} | {nd} | {ab} | "
+                  f"{s.get('mean_brief_tokens', 0):.0f} | {s.get('mean_unnecessary_tokens', 0):.0f} |")
+    if a.json:
+        Path(a.json).write_text(json.dumps({'summaries': summaries, 'rows': all_rows}, indent=2) + '\n', encoding='utf-8')
+    if failed:
+        sys.exit('retrieval floor: ' + '; '.join(failed))
 
 
 if __name__ == '__main__': main()

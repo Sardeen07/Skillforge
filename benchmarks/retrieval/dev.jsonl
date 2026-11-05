@@ -27,7 +27,7 @@
 {"mode": "coding", "task": "one customer can read another customer's records", "expect": ["postgres"], "rules": [["postgres/security-rls-basics"]]}
 {"mode": "coding", "task": "turning on row security made every read crawl", "expect": ["postgres"], "rules": [["postgres/security-rls-performance"]]}
 {"mode": "coding", "task": "we run out of available connections when traffic spikes", "expect": ["postgres"], "rules": [["postgres/conn-pooling", "postgres/conn-limits"]]}
-{"mode": "coding", "task": "fix the infinite loop in this binary search", "expect": ["systematic-debugging"], "rules": [["systematic-debugging#*"]]}
+{"mode": "coding", "task": "fix the infinite loop in this binary search", "expect": ["systematic-debugging"], "rules": [["systematic-debugging/*"]]}
 {"mode": "coding", "task": "the suite passes on its own but fails when run with everything else", "expect": ["systematic-debugging"], "rules": [["systematic-debugging/root-cause-tracing#*", "systematic-debugging/condition-based-waiting#*"]]}
 {"mode": "coding", "task": "we patched it where the error showed up and it broke somewhere else instead", "expect": ["systematic-debugging"], "rules": [["systematic-debugging/root-cause-tracing#*", "systematic-debugging/defense-in-depth#*"]]}
 {"mode": "coding", "task": "our tests mock so much that they still pass when the real code is broken", "expect": ["test-driven-development"], "rules": [["test-driven-development/writing-good-tests#*"]]}
@@ -37,3 +37,73 @@
 {"mode": "coding", "task": "deleting a customer locks up and scans everything", "expect": ["postgres"], "rules": [["postgres/schema-foreign-key-indexes"]]}
 {"mode": "coding", "task": "we hold a row lock while calling the payment api", "expect": ["postgres"], "rules": [["postgres/lock-short-transactions"]]}
 {"mode": "coding", "task": "We run eight fulfilment workers against Postgres, but throughput barely improves past two of them \u2014 they seem to spend most of their time waiting rather than working. Separately, the orders report is fine on the first few pages and unusably slow deep into it, and a customer's account page takes seconds to list their own orders. Make this faster. Keep the same behaviour.", "expect": ["postgres"], "rules": [["postgres/lock-skip-locked"], ["postgres/data-pagination"], ["postgres/schema-foreign-key-indexes"]], "note": "pg-queue-throughput/task.txt verbatim; the short-transaction defect is only visible in the code, so it is not expected from the text"}
+{"mode":"coding","task":"our python function keeps items from the previous call in its default list argument","expect":["python"],"rules":[["python/mutable-default-arguments"]],"category":"language"}
+{"mode":"coding","task":"all the lambdas we create in a loop print the last index","expect":["python"],"rules":[["python/late-binding-closures"]],"category":"language"}
+{"mode":"coding","task":"the asyncio task we created in the background disappears and never finishes","expect":["python"],"rules":[["python/asyncio-keep-task-references"]],"category":"language"}
+{"mode":"coding","task":"we call subprocess with shell=True and pass the user's filename into the command","expect":["python"],"rules":[["python/subprocess-safely","security/injection-prevention"]],"category":"security"}
+{"mode":"coding","task":"our python service loads pickled data uploaded by users","expect":["python"],"rules":[["python/unsafe-deserialization","security/deserialization-safety"]],"category":"security"}
+{"mode":"coding","task":"timestamps from datetime.utcnow are an hour off after daylight saving changes","expect":["python"],"rules":[["python/timezone-aware-datetimes"]],"category":"language"}
+{"mode":"coding","task":"fetch treats a 500 response from the server as success in our javascript client","expect":["javascript"],"rules":[["javascript/fetch-error-handling"]],"category":"language"}
+{"mode":"coding","task":"sorting the array in our javascript helper also changed the caller's array","expect":["javascript"],"rules":[["javascript/array-methods-mutation","react-performance/js-tosorted-immutable"]],"category":"language"}
+{"mode":"coding","task":"large integer ids from the API change their last digits after JSON.parse in the browser","expect":["javascript"],"rules":[["javascript/number-precision"]],"category":"language"}
+{"mode":"coding","task":"a regex that validates emails hangs the node process on some inputs","expect":["javascript"],"rules":[["javascript/regex-catastrophic-backtracking"]],"category":"security"}
+{"mode":"coding","task":"typescript lets us index an array and get undefined at runtime without any error","expect":["typescript"],"rules":[["typescript/strict-mode"]],"category":"language"}
+{"mode":"coding","task":"our typescript state object has loading, data and error optional fields and impossible combinations happen","expect":["typescript"],"rules":[["typescript/discriminated-unions"]],"category":"language"}
+{"mode":"coding","task":"the java service leaks jdbc connections until the pool is exhausted","expect":["java"],"rules":[["java/try-with-resources"]],"category":"backend"}
+{"mode":"coding","task":"concurrent map writes in our java cache occasionally corrupt entries","expect":["java"],"rules":[["java/concurrent-collections"]],"category":"concurrency"}
+{"mode":"coding","task":"returning a string_view from a function in our c++ code prints garbage","expect":["cpp"],"rules":[["cpp/dangling-references"]],"category":"language"}
+{"mode":"coding","task":"our c++ class with a raw pointer member gets a double free when copied","expect":["cpp"],"rules":[["cpp/rule-of-zero","cpp/raii-ownership"]],"category":"language"}
+{"mode":"coding","task":"printf with a user supplied string in our c logging code","expect":["c"],"rules":[["c/format-string-safety"]],"category":"security"}
+{"mode":"coding","task":"our rust library panics on bad input because it calls unwrap everywhere","expect":["rust"],"rules":[["rust/result-not-panic"]],"category":"language"}
+{"mode":"coding","task":"go test -race reports a data race on our in-memory map","expect":["go"],"rules":[["go/data-races"]],"category":"concurrency"}
+{"mode":"coding","task":"our golang http client hangs forever when the upstream stops responding","expect":["go"],"rules":[["go/http-server-timeouts","distributed-systems/timeouts-everywhere"]],"category":"backend"}
+{"mode":"coding","task":"errors.Is does not match our sentinel error after we added context in go","expect":["go"],"rules":[["go/wrap-errors"]],"category":"language"}
+{"mode":"coding","task":"the swift app crashes with unexpectedly found nil while unwrapping an optional","expect":["swift"],"rules":[["swift/avoid-force-unwrap"]],"category":"mobile"}
+{"mode":"coding","task":"kotlin coroutine keeps running after cancel because we catch Exception around the suspend call","expect":["kotlin"],"rules":[["kotlin/cancellation-cooperation"]],"category":"mobile"}
+{"mode":"coding","task":"php code builds the sql query by concatenating $_GET values","expect":["php"],"rules":[["php/pdo-prepared-statements","sql/parameterized-queries"]],"category":"security"}
+{"mode":"coding","task":"rails uniqueness validation still lets duplicate emails in under load","expect":["ruby"],"rules":[["ruby/database-constraints-rails","database-design/constraints-enforce-invariants"]],"category":"database"}
+{"mode":"coding","task":"entity framework query loads the entire table into memory before filtering","expect":["csharp"],"rules":[["csharp/ef-core-queries"]],"category":"performance"}
+{"mode":"coding","task":"our sql query with NOT IN returns no rows when the subquery has a null","expect":["sql"],"rules":[["sql/null-semantics"]],"category":"database"}
+{"mode":"coding","task":"index on created_at is not used because we filter with date(created_at) = today","expect":["sql"],"rules":[["sql/sargable-predicates"]],"category":"database"}
+{"mode":"coding","task":"count(*) on our 200 million row table makes the dashboard slow","expect":["sql"],"rules":[["sql/count-efficiently"]],"category":"performance"}
+{"mode":"coding","task":"a Next.js page shows stale product prices long after they were updated","expect":["nextjs"],"rules":[["nextjs/fetch-caching-explicit"]],"category":"frontend"}
+{"mode":"coding","task":"marking the root layout use client made our Next.js bundle huge","expect":["nextjs"],"rules":[["nextjs/server-components-default"]],"category":"frontend"}
+{"mode":"coding","task":"vue list items keep the wrong input values after we reorder them","expect":["vue"],"rules":[["vue/v-for-keys"]],"category":"frontend"}
+{"mode":"coding","task":"angular component subscriptions leak and the handler fires twice after navigating back","expect":["angular"],"rules":[["angular/unsubscribe-observables"]],"category":"frontend"}
+{"mode":"coding","task":"svelte effect that sets another state variable causes an infinite loop","expect":["svelte"],"rules":[["svelte/runes-derived"]],"category":"frontend"}
+{"mode":"coding","task":"our modal dialog lets keyboard focus escape to the page behind it","expect":["accessibility"],"rules":[["accessibility/modal-focus-management"]],"category":"frontend"}
+{"mode":"coding","task":"clickable divs in our menu cannot be reached with the tab key","expect":["accessibility"],"rules":[["accessibility/keyboard-operable","html-css/semantic-elements"]],"category":"frontend"}
+{"mode":"coding","task":"the page jumps around while images load and CLS is bad","expect":["web-performance"],"rules":[["html-css/layout-shift-prevention","web-performance/image-optimization"]],"category":"performance"}
+{"mode":"coding","task":"clicking the filter button takes almost a second before anything changes on screen","expect":["web-performance"],"rules":[["web-performance/reduce-inp"]],"category":"performance"}
+{"mode":"coding","task":"we keep a filtered copy of the server list in redux and it goes out of sync","expect":["frontend-architecture"],"rules":[["frontend-architecture/single-source-of-truth","frontend-architecture/classify-state","react-performance/rerender-derived-state-no-effect"]],"category":"frontend"}
+{"mode":"coding","task":"express behind the load balancer rate limits everyone together because req.ip is the proxy","expect":["node-express"],"rules":[["node-express/security-middleware"]],"category":"backend"}
+{"mode":"coding","task":"fastapi endpoint returns the password hash because we return the ORM user object","expect":["fastapi"],"rules":[["fastapi/pydantic-models-io"]],"category":"security"}
+{"mode":"coding","task":"the celery task runs before the django transaction commits and cannot find the new row","expect":["django"],"rules":[["django/atomic-transactions"]],"category":"backend"}
+{"mode":"coding","task":"our flask app was deployed with debug=True","expect":["flask"],"rules":[["flask/no-debug-in-production"]],"category":"security"}
+{"mode":"coding","task":"spring actuator env endpoint is publicly reachable","expect":["spring-boot"],"rules":[["spring-boot/actuator-security"]],"category":"security"}
+{"mode":"coding","task":"our REST API returns 200 with an error message in the body when validation fails","expect":["api-design"],"rules":[["api-design/status-codes-precise","api-design/problem-details-errors"]],"category":"backend"}
+{"mode":"coding","task":"the list endpoint returns all 80,000 records in one response","expect":["api-design"],"rules":[["api-design/pagination-cursor"]],"category":"backend"}
+{"mode":"coding","task":"we verify jwt tokens with decode and never check the signature","expect":["auth"],"rules":[["auth/jwt-verification"]],"category":"security"}
+{"mode":"coding","task":"our single page app stores the access token in localStorage","expect":["auth"],"rules":[["auth/token-storage-browser"]],"category":"security"}
+{"mode":"coding","task":"password reset links never expire and can be used many times","expect":["auth"],"rules":[["auth/password-reset-tokens"]],"category":"security"}
+{"mode":"coding","task":"we save the order and then publish an event to kafka, and sometimes the event is lost","expect":["distributed-systems"],"rules":[["distributed-systems/transactional-outbox"]],"category":"distributed"}
+{"mode":"coding","task":"when the payment provider is down all our request threads hang waiting for it","expect":["distributed-systems"],"rules":[["distributed-systems/circuit-breaker-bulkhead","distributed-systems/timeouts-everywhere"]],"category":"distributed"}
+{"mode":"coding","task":"mongodb query does a COLLSCAN and an in-memory sort","expect":["mongodb"],"rules":[["mongodb/esr-index-rule"]],"category":"performance"}
+{"mode":"coding","task":"redis ran out of memory because cache keys never expire","expect":["redis"],"rules":[["redis/ttl-on-cache-keys"]],"category":"performance"}
+{"mode":"coding","task":"users do not see their own profile edit right after saving because reads go to a replica","expect":["mysql"],"rules":[["mysql/replica-lag-reads","distributed-systems/consistency-models"]],"category":"database"}
+{"mode":"coding","task":"two editors overwrite each other's changes to the same article","expect":["database-design"],"rules":[["database-design/optimistic-locking"]],"category":"concurrency"}
+{"mode":"coding","task":"our retrieval augmented chatbot cuts documents in the middle of sentences and misses context","expect":["llm-apps"],"rules":[["llm-apps/rag-chunking"]],"category":"llm"}
+{"mode":"coding","task":"the language model makes up citations that are not in our documents","expect":["llm-apps"],"rules":[["llm-apps/hallucination-grounding"]],"category":"llm"}
+{"mode":"coding","task":"we changed the prompt and have no idea whether answers got better or worse","expect":["llm-apps"],"rules":[["llm-apps/llm-evaluation-suite"]],"category":"llm"}
+{"mode":"coding","task":"dockerfile reinstalls all npm packages every time we change one source file","expect":["docker"],"rules":[["docker/layer-caching-order"]],"category":"devops"}
+{"mode":"coding","task":"our container takes ten seconds to stop and drops requests during shutdown","expect":["docker"],"rules":[["docker/pid1-signals","node-express/graceful-shutdown"]],"category":"devops"}
+{"mode":"coding","task":"kubernetes liveness probe checks the database and all pods restart when the database blips","expect":["kubernetes"],"rules":[["kubernetes/probes-correctly"]],"category":"devops"}
+{"mode":"coding","task":"our github actions workflow uses a third party action pinned to the main branch","expect":["ci-cd"],"rules":[["ci-cd/pin-actions-sha"]],"category":"security"}
+{"mode":"coding","task":"the s3 bucket with user uploads is publicly readable","expect":["cloud"],"rules":[["cloud/private-storage-default"]],"category":"security"}
+{"mode":"coding","task":"terraform state file is committed to git and two people applied at the same time","expect":["terraform"],"rules":[["terraform/remote-state-locking"]],"category":"devops"}
+{"mode":"coding","task":"the bash deploy script continued after a failed step and deleted the wrong folder","expect":["linux-networking"],"rules":[["linux-networking/bash-strict-mode"]],"category":"devops"}
+{"mode":"coding","task":"server logs are free text and we cannot follow one request across services","expect":["observability"],"rules":[["observability/structured-logs","observability/distributed-tracing"]],"category":"devops"}
+{"mode":"coding","task":"tests break every time we refactor because they assert on private method calls","expect":["testing"],"rules":[["testing/test-behavior-not-implementation","testing/mock-boundaries-only"]],"category":"testing"}
+{"mode":"coding","task":"the android lazy column recomposes every item on every scroll frame","expect":["android"],"rules":[["android/recomposition-performance"]],"category":"mobile"}
+{"mode":"coding","task":"flutter list of ten thousand items is built all at once and scrolls badly","expect":["flutter"],"rules":[["flutter/lazy-lists-flutter"]],"category":"mobile"}
+{"mode":"coding","task":"the react native flatlist stutters when rendering many rows with images","expect":["react-native"],"rules":[["react-native/list-performance-virtualize","react-native/list-performance-images","react-native/list-performance-item-memo"]],"category":"mobile"}
