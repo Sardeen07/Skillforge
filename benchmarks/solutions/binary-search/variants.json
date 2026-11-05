@@ -1,0 +1,28 @@
+{
+  "task": "binary-search",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "smoke",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "hi-exclusive-mixup",
+      "must_fail": [
+        "finds-present"
+      ],
+      "why": "switches to an exclusive upper bound but keeps the inclusive loop condition",
+      "replace": {
+        "broken.py": [
+          [
+            "    lo, hi = 0, len(xs) - 1",
+            "    lo, hi = 0, len(xs) - 2"
+          ]
+        ]
+      }
+    }
+  ]
+}

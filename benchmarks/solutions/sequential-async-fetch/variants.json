@@ -1,0 +1,47 @@
+{
+  "task": "sequential-async-fetch",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "performance",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "unbounded-gather",
+      "must_fail": [
+        "at-most-4-in-flight"
+      ],
+      "must_pass": [
+        "same-results-in-order",
+        "concurrent"
+      ],
+      "why": "parallel but ignores the per-client limit",
+      "replace": {
+        "dashboard.py": [
+          [
+            "        async with gate:\n            return await fetch_widget(wid)",
+            "        return await fetch_widget(wid)"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "as-completed-order",
+      "must_fail": [
+        "same-results-in-order"
+      ],
+      "why": "collects results in completion order",
+      "replace": {
+        "dashboard.py": [
+          [
+            "    return await asyncio.gather(*(one(w) for w in widget_ids))",
+            "    out = []\n    for f in asyncio.as_completed([one(w) for w in reversed(widget_ids)]):\n        out.append(await f)\n    return out"
+          ]
+        ]
+      }
+    }
+  ]
+}

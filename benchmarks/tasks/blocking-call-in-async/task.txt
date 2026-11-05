@@ -1,0 +1,1 @@
+Our async web service stops answering health checks whenever someone requests a report: render_report in service.py calls a slow synchronous library function (build_pdf). While one report renders, every other request waits. Fix it without changing render_report's result.

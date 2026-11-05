@@ -1,0 +1,1 @@
+Signups occasionally hang a worker at 100% CPU for minutes. We traced it to is_valid_display_name in validate.py when people paste long names ending in a symbol. Fix it; the accepted names must stay the same: one or more words of letters/digits/underscore separated by single spaces, up to 40 characters.

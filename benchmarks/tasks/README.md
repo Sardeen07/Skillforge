@@ -3,11 +3,61 @@
 One folder per task repo, each with a hidden `test.py` that `forge/ab.py` copies in
 *after* the agent has finished. The agent never sees it.
 
-| Task | Checks | Use |
-|---|---|---|
-| `pg-queue-throughput` | 4 | The discriminating task. Every defect has a plausible wrong fix. Grader v2 checks behavior against a real Postgres. |
-| `react-waterfall` | 3 | End-to-end smoke test. All arms now solve it; keep it, don't draw conclusions from it. |
-| `binary-search` | 1 | Harness smoke test only. Solved in three tool calls with no skills. |
+30 tasks: 9 security, 10 performance (including `pg-queue-throughput`), 9 correctness,
+concurrency and resilience, and two smoke tests. All but `react-waterfall` are Python
+standard-library fixtures, so their graders run on Linux, macOS and Windows with no
+services; `pg-queue-throughput` also has a behavioral mode against an embedded Postgres.
+
+| Task | Category | Checks | Solution variants validated by `npm run graders` |
+|---|---|---:|---:|
+| `bounded-list-endpoint` | api-design | 4 | 3 |
+| `race-withdraw` | concurrency | 2 | 2 |
+| `transfer-deadlock` | concurrency | 2 | 2 |
+| `file-handle-leak` | correctness | 3 | 2 |
+| `money-rounding` | correctness | 3 | 3 |
+| `idempotent-charge` | distributed | 4 | 2 |
+| `swallowed-errors` | error-handling | 3 | 3 |
+| `react-waterfall` | frontend | - | not validated |
+| `batch-commits-sqlite` | performance | 3 | 2 |
+| `blocking-call-in-async` | performance | 3 | 2 |
+| `cache-stampede` | performance | 3 | 3 |
+| `dedupe-quadratic` | performance | 2 | 3 |
+| `deep-pagination-sqlite` | performance | 4 | 2 |
+| `n-plus-one-sqlite` | performance | 2 | 2 |
+| `regex-redos` | performance | 2 | 2 |
+| `sequential-async-fetch` | performance | 3 | 3 |
+| `unbounded-cache` | performance | 3 | 3 |
+| `pg-queue-throughput` | postgres | - | 10 |
+| `client-timeout` | resilience | 3 | 2 |
+| `retry-with-backoff` | resilience | 4 | 3 |
+| `jwt-verification` | security | 4 | 3 |
+| `open-redirect` | security | 3 | 2 |
+| `password-hashing` | security | 3 | 3 |
+| `path-traversal-download` | security | 4 | 3 |
+| `secure-reset-token` | security | 3 | 3 |
+| `sql-injection-search` | security | 3 | 3 |
+| `ssrf-url-check` | security | 4 | 3 |
+| `unsafe-session-cookie` | security | 3 | 2 |
+| `xss-comment-render` | security | 4 | 3 |
+| `binary-search` | smoke | 2 | 2 |
+
+The 27 tasks added on 2026-11-05 share one grader harness (inlined in each `test.py`): every
+check runs with a time limit, prints `PASS`/`FAIL <name>`, and the run ends with `SCORE: n/m`.
+Checks observe behavior: statement counts from SQLite's trace callback, VM steps from its
+progress handler, measured concurrency, real sockets for timeouts, crafted payloads for
+security fixes. Wall-clock bounds keep at least 5-10x headroom over the reference solution.
+A check whose code holds the GIL (catastrophic regex backtracking) runs in a subprocess,
+because a thread timeout cannot interrupt it.
+
+**Not yet known: whether these tasks discriminate.** A task is useful for comparing arms only
+if the model's default answer is wrong (see below). That has been designed for, not measured:
+no model has been run on the new tasks. Expect several to be solved by every arm.
+
+| Task (before 2026-11-05) | Use |
+|---|---|
+| `pg-queue-throughput` | The discriminating task. Every defect has a plausible wrong fix. |
+| `react-waterfall` | End-to-end smoke test; all arms solved it. Needs Node and TypeScript; grader not validated. |
+| `binary-search` | Harness smoke test only. Grader rewritten on the shared harness and validated on 2026-11-05. |
 
 ## What makes a task worth benchmarking
 

@@ -67,7 +67,9 @@ def validate(task, modes=(None,)):
         with tempfile.TemporaryDirectory() as tmp:
             dest = Path(tmp) / task
             build(task, spec, reference, dest)
-            for mode in modes:
+            # A grader with a single mode ignores GRADER_MODE; run it once.
+            single = 'GRADER_MODE' not in (dest / 'test.py').read_text(encoding='utf-8')
+            for mode in (modes[:1] if single else modes):
                 result = grade(dest, mode)
                 ok, problems, extra = judge(spec, result)
                 rows.append(dict(task=task, variant=spec['name'], mode=result['grader'], ok=ok,

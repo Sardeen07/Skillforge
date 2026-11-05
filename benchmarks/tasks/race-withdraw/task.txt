@@ -1,0 +1,1 @@
+Our wallet balances sometimes go negative even though withdraw() in wallet.py checks the balance first. It happens when a user taps 'withdraw' several times quickly (requests run on parallel threads). Fix it.

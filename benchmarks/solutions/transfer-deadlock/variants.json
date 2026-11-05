@@ -1,0 +1,31 @@
+{
+  "task": "transfer-deadlock",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "concurrency",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "drops-locking",
+      "must_fail": [
+        "no-deadlock-opposite-directions"
+      ],
+      "must_pass": [
+        "moves-money"
+      ],
+      "why": "removes the locks: no deadlock, but concurrent updates lose money",
+      "replace": {
+        "ledger.py": [
+          [
+            "    first, second = sorted((src, dst), key=lambda acct: acct.id)\n    with first.lock:\n        time.sleep(0)  # yield, as a real database call would\n        with second.lock:\n            src.balance -= amount\n            dst.balance += amount",
+            "    b1 = src.balance\n    time.sleep(0)\n    src.balance = b1 - amount\n    b2 = dst.balance\n    time.sleep(0)\n    dst.balance = b2 + amount"
+          ]
+        ]
+      }
+    }
+  ]
+}

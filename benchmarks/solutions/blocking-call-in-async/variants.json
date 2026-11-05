@@ -1,0 +1,32 @@
+{
+  "task": "blocking-call-in-async",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "performance",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "async-wrapper-still-blocks",
+      "must_fail": [
+        "event-loop-stays-responsive",
+        "reports-run-concurrently"
+      ],
+      "must_pass": [
+        "same-result"
+      ],
+      "why": "wraps the call in a coroutine that still runs it on the loop thread",
+      "replace": {
+        "service.py": [
+          [
+            "    pdf = await asyncio.to_thread(build_pdf, order_id)",
+            "    async def run():\n        return build_pdf(order_id)\n    pdf = await run()"
+          ]
+        ]
+      }
+    }
+  ]
+}

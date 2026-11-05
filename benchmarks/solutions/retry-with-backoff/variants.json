@@ -1,0 +1,52 @@
+{
+  "task": "retry-with-backoff",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "resilience",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "fixed-delay",
+      "must_fail": [
+        "exponential-backoff-with-jitter"
+      ],
+      "must_pass": [
+        "retries-transient",
+        "no-retry-on-permanent",
+        "gives-up-after-4"
+      ],
+      "why": "bounded retries with a constant one-second wait",
+      "replace": {
+        "retry.py": [
+          [
+            "            sleep(random.uniform(delay / 2, delay))",
+            "            sleep(1.0)"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "retries-everything",
+      "must_fail": [
+        "no-retry-on-permanent"
+      ],
+      "must_pass": [
+        "retries-transient",
+        "gives-up-after-4"
+      ],
+      "why": "backs off correctly but retries every exception",
+      "replace": {
+        "retry.py": [
+          [
+            "        except TRANSIENT:",
+            "        except Exception:"
+          ]
+        ]
+      }
+    }
+  ]
+}

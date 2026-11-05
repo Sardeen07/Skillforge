@@ -1,0 +1,1 @@
+Someone posted a comment containing a <script> tag and it ran for every visitor. render_comment in render.py builds the HTML for one comment. Make it safe while keeping the same markup.

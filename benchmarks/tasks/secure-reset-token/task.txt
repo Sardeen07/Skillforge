@@ -1,0 +1,1 @@
+An auditor showed they could predict our password-reset tokens after seeing a few of them. new_reset_token() in reset.py generates them. Make the tokens unpredictable; they are put in URLs, so they must stay URL-safe.

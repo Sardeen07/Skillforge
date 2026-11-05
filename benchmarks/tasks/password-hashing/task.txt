@@ -1,0 +1,1 @@
+A security review flagged accounts.py: it stores passwords as plain SHA-256 hex digests, so two users with the same password get the same stored value and leaked hashes crack quickly. Make hash_password/verify_password safe with only the Python standard library. Existing callers only use these two functions.

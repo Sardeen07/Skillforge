@@ -1,0 +1,1 @@
+Customers report invoice totals that are off by a cent, and our accountant says we must round each line's tax half-up to the cent (e.g. 0.125 -> 0.13) before summing. invoice_total in invoice.py takes prices as decimal strings. Make the totals exact; it should return a string with two decimals.

@@ -1,0 +1,55 @@
+{
+  "task": "password-hashing",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "security",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "salted-sha256",
+      "must_fail": [
+        "not-fast-hash"
+      ],
+      "must_pass": [
+        "verifies",
+        "salted"
+      ],
+      "why": "adds a salt but keeps one fast SHA-256 round",
+      "replace": {
+        "accounts.py": [
+          [
+            "    digest = hashlib.scrypt(password.encode(), salt=salt, n=N, r=R, p=P, dklen=32)",
+            "    digest = hashlib.sha256(salt + password.encode()).digest()"
+          ],
+          [
+            "        got = hashlib.scrypt(password.encode(), salt=base64.b64decode(salt), n=int(n), r=int(r), p=int(p),\n                             dklen=len(expected))",
+            "        got = hashlib.sha256(base64.b64decode(salt) + password.encode()).digest()"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "unsalted-scrypt",
+      "must_fail": [
+        "salted"
+      ],
+      "must_pass": [
+        "verifies",
+        "not-fast-hash"
+      ],
+      "why": "slow KDF but a fixed salt",
+      "replace": {
+        "accounts.py": [
+          [
+            "    salt = secrets.token_bytes(16)",
+            "    salt = b\"static-salt-1234\""
+          ]
+        ]
+      }
+    }
+  ]
+}

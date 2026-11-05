@@ -1,0 +1,53 @@
+{
+  "task": "jwt-verification",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "security",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "no-expiry-check",
+      "must_fail": [
+        "rejects-expired"
+      ],
+      "must_pass": [
+        "accepts-valid",
+        "rejects-tampered-payload",
+        "rejects-alg-none"
+      ],
+      "why": "verifies the signature but ignores exp",
+      "replace": {
+        "tokens.py": [
+          [
+            "    if not isinstance(claims.get(\"exp\"), (int, float)) or claims[\"exp\"] <= time.time():\n        raise InvalidToken(\"expired\")\n",
+            ""
+          ]
+        ]
+      }
+    },
+    {
+      "name": "trusts-header-alg",
+      "must_fail": [
+        "rejects-alg-none"
+      ],
+      "must_pass": [
+        "accepts-valid",
+        "rejects-tampered-payload",
+        "rejects-expired"
+      ],
+      "why": "skips verification when the token itself says alg none",
+      "replace": {
+        "tokens.py": [
+          [
+            "        if json.loads(_unb64(header)).get(\"alg\") != \"HS256\":\n            raise InvalidToken(\"unexpected algorithm\")\n        expected",
+            "        if json.loads(_unb64(header)).get(\"alg\") == \"none\":\n            return json.loads(_unb64(payload))\n        expected"
+          ]
+        ]
+      }
+    }
+  ]
+}

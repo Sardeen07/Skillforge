@@ -1,0 +1,1 @@
+Our log scanner crashes with 'Too many open files' after a few hours. count_errors in logscan.py is called on thousands of files. Fix the leak, including when a file contains invalid bytes and decoding raises.

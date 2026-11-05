@@ -1,0 +1,1 @@
+Mobile clients retry POST /charges when the network times out, and some customers were charged twice. The client already sends an Idempotency-Key header with each logical payment. Update charge() in payments.py so a repeated key never charges again and returns the original result, even if the retries arrive at the same time.

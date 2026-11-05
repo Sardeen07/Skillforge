@@ -1,0 +1,52 @@
+{
+  "task": "bounded-list-endpoint",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "api-design",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "no-max-limit",
+      "must_fail": [
+        "max-page-size"
+      ],
+      "must_pass": [
+        "default-page-size",
+        "cursor-walks-everything-once",
+        "other-customers-isolated"
+      ],
+      "why": "honors any limit the client sends",
+      "replace": {
+        "api.py": [
+          [
+            "    limit = max(1, min(int(limit or DEFAULT_LIMIT), MAX_LIMIT))",
+            "    limit = max(1, int(limit or DEFAULT_LIMIT))"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "cursor-off-by-one",
+      "must_fail": [
+        "cursor-walks-everything-once"
+      ],
+      "must_pass": [
+        "max-page-size",
+        "other-customers-isolated"
+      ],
+      "why": "uses >= on the cursor, so the last item of each page repeats",
+      "replace": {
+        "api.py": [
+          [
+            "        if o[\"id\"] > after and",
+            "        if o[\"id\"] >= after and"
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+The monthly revenue report (customer_totals in report.py) got slower every month as we added customers; with a few thousand it now takes seconds and the database log is full of tiny queries. Make it efficient without changing its output.

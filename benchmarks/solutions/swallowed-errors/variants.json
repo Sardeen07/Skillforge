@@ -1,0 +1,51 @@
+{
+  "task": "swallowed-errors",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "error-handling",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "logs-without-traceback",
+      "must_fail": [
+        "logs-with-traceback"
+      ],
+      "must_pass": [
+        "continues-and-reports",
+        "keyboard-interrupt-stops"
+      ],
+      "why": "logs the message with logger.error, losing the traceback",
+      "replace": {
+        "sync.py": [
+          [
+            "            logger.exception(\"failed to push contact %s\", c.get(\"id\"))",
+            "            logger.error(\"failed to push contact %s\", c.get(\"id\"))"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "bare-except-collects",
+      "must_fail": [
+        "keyboard-interrupt-stops"
+      ],
+      "must_pass": [
+        "continues-and-reports",
+        "logs-with-traceback"
+      ],
+      "why": "reports failures but a bare except still swallows Ctrl+C",
+      "replace": {
+        "sync.py": [
+          [
+            "        except Exception:  # one bad contact must not stop the sync; KeyboardInterrupt still does",
+            "        except BaseException:"
+          ]
+        ]
+      }
+    }
+  ]
+}

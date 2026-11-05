@@ -1,0 +1,36 @@
+{
+  "task": "unsafe-session-cookie",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "security",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "json-unsigned",
+      "must_fail": [
+        "rejects-tampering"
+      ],
+      "must_pass": [
+        "round-trip",
+        "no-code-execution"
+      ],
+      "why": "switches to JSON (no code execution) but does not sign it",
+      "replace": {
+        "sessions.py": [
+          [
+            "    return body.decode() + \".\" + _sign(body)",
+            "    return body.decode()"
+          ],
+          [
+            "        body, sig = cookie.rsplit(\".\", 1)\n        if not hmac.compare_digest(_sign(body.encode()), sig):\n            return None\n        data",
+            "        body = cookie\n        data"
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "task": "xss-comment-render",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "security",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "escapes-text-not-url-scheme",
+      "must_fail": [
+        "rejects-javascript-urls"
+      ],
+      "must_pass": [
+        "normal-markup",
+        "escapes-body",
+        "escapes-attributes"
+      ],
+      "why": "HTML-escapes everything but still allows javascript: links",
+      "replace": {
+        "render.py": [
+          [
+            "escape(_safe_url(website), quote=True)",
+            "escape(website, quote=True)"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "no-quote-escaping",
+      "must_fail": [
+        "escapes-attributes"
+      ],
+      "must_pass": [
+        "normal-markup",
+        "escapes-body"
+      ],
+      "why": "escapes < and & but not quotes inside attributes",
+      "replace": {
+        "render.py": [
+          [
+            "a, t, w = escape(author, quote=True)",
+            "a, t, w = escape(author, quote=False)"
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "task": "secure-reset-token",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "security",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "longer-random-choice",
+      "must_fail": [
+        "not-from-seedable-prng"
+      ],
+      "must_pass": [
+        "url-safe-and-long",
+        "unique"
+      ],
+      "why": "makes the token longer but keeps the predictable Mersenne Twister",
+      "replace": {
+        "reset.py": [
+          [
+            "import secrets\n\n\ndef new_reset_token() -> str:\n    return secrets.token_urlsafe(32)",
+            "import random\nimport string\n\n\ndef new_reset_token() -> str:\n    return \"\".join(random.choice(string.ascii_letters) for _ in range(40))"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "hex-uuid1",
+      "must_fail": [
+        "not-from-seedable-prng"
+      ],
+      "must_pass": [
+        "url-safe-and-long",
+        "unique"
+      ],
+      "why": "uuid1 encodes time and MAC address; the variant also reseeds per call",
+      "replace": {
+        "reset.py": [
+          [
+            "import secrets\n\n\ndef new_reset_token() -> str:\n    return secrets.token_urlsafe(32)",
+            "import random\n\n\ndef new_reset_token() -> str:\n    return \"%032x\" % random.getrandbits(128)"
+          ]
+        ]
+      }
+    }
+  ]
+}

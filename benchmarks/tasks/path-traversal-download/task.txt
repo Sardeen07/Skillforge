@@ -1,0 +1,1 @@
+Our download endpoint calls read_upload(base_dir, name) from files.py with the name from the URL. A security report says someone downloaded ../config/secrets.env with it. Fix read_upload so it can only read files inside base_dir; it should raise PermissionError otherwise.

@@ -1,0 +1,35 @@
+{
+  "task": "regex-redos",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "performance",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "length-check-after-regex",
+      "must_fail": [
+        "no-catastrophic-backtracking"
+      ],
+      "must_pass": [
+        "accepts-and-rejects"
+      ],
+      "why": "fixes the pattern semantics but keeps the nested quantifier, so long inputs still backtrack",
+      "replace": {
+        "validate.py": [
+          [
+            "NAME = re.compile(r\"\\w+(?: \\w+)*\")",
+            "NAME = re.compile(r\"(\\w+ ?)*\\w\")"
+          ],
+          [
+            "    return 0 < len(name) <= 40 and NAME.fullmatch(name) is not None",
+            "    return NAME.fullmatch(name) is not None and 0 < len(name) <= 40"
+          ]
+        ]
+      }
+    }
+  ]
+}

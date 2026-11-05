@@ -1,0 +1,31 @@
+{
+  "task": "race-withdraw",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "concurrency",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "lock-only-the-update",
+      "must_fail": [
+        "never-negative-under-concurrency"
+      ],
+      "must_pass": [
+        "single-thread-behavior"
+      ],
+      "why": "locks the subtraction but not the check, so check-then-act still races",
+      "replace": {
+        "wallet.py": [
+          [
+            "        with self._lock:  # the check and the update must be one atomic step\n            if self.balance < amount:\n                raise InsufficientFunds(amount)\n            time.sleep(0.001)  # fraud check call\n            self.balance -= amount\n            return self.balance",
+            "        if self.balance < amount:\n            raise InsufficientFunds(amount)\n        time.sleep(0.001)  # fraud check call\n        with self._lock:\n            self.balance -= amount\n            return self.balance"
+          ]
+        ]
+      }
+    }
+  ]
+}

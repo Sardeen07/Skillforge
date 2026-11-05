@@ -1,0 +1,1 @@
+Our product search lets people see every product, including unpublished ones, when they type something like ' OR '1'='1 into the search box. Searching for names with an apostrophe, like O'Brien's, also crashes. Fix search_products in store.py.

@@ -1,0 +1,51 @@
+{
+  "task": "sql-injection-search",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "security",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "strip-quotes",
+      "must_fail": [
+        "apostrophe-works"
+      ],
+      "must_pass": [
+        "finds-products",
+        "injection-blocked"
+      ],
+      "why": "strips quotes instead of binding parameters: blocks these payloads but breaks legitimate names",
+      "replace": {
+        "store.py": [
+          [
+            "    sql = \"select name from products where published = 1 and name like ? order by name\"\n    return [row[0] for row in conn.execute(sql, (f\"%{term}%\",))]",
+            "    term = term.replace(chr(39), \"\")\n    sql = f\"select name from products where published = 1 and name like '%{term}%' order by name\"\n    return [row[0] for row in conn.execute(sql)]"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "unchanged",
+      "must_fail": [
+        "injection-blocked",
+        "apostrophe-works"
+      ],
+      "must_pass": [
+        "finds-products"
+      ],
+      "why": "the unfixed fixture",
+      "replace": {
+        "store.py": [
+          [
+            "    sql = \"select name from products where published = 1 and name like ? order by name\"\n    return [row[0] for row in conn.execute(sql, (f\"%{term}%\",))]",
+            "    sql = f\"select name from products where published = 1 and name like '%{term}%' order by name\"\n    return [row[0] for row in conn.execute(sql)]"
+          ]
+        ]
+      }
+    }
+  ]
+}

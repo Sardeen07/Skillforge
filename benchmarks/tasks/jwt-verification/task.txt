@@ -1,0 +1,1 @@
+Our API accepts tokens it should not: a pentester changed the user id inside a token and was let in, and another sent a token with "alg": "none". Tokens are HS256 JWTs signed with SECRET. Fix decode_token in tokens.py so it returns the claims only for genuine, unexpired tokens and raises InvalidToken otherwise.

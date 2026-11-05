@@ -1,0 +1,52 @@
+{
+  "task": "ssrf-url-check",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "security",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "hostname-denylist",
+      "must_fail": [
+        "blocks-internal-hosts"
+      ],
+      "must_pass": [
+        "allows-public",
+        "blocks-other-schemes"
+      ],
+      "why": "blocks 'localhost' and '169.254.169.254' by name but never resolves hostnames",
+      "replace": {
+        "fetcher.py": [
+          [
+            "        ips = [parts.hostname] if _is_ip(parts.hostname) else resolve(parts.hostname)\n        return bool(ips) and all(_public(ip) for ip in ips)",
+            "        return parts.hostname not in (\"localhost\", \"169.254.169.254\") and (not _is_ip(parts.hostname) or _public(parts.hostname))"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "any-public-address",
+      "must_fail": [
+        "blocks-internal-hosts"
+      ],
+      "must_pass": [
+        "allows-public",
+        "blocks-literal-ips",
+        "blocks-other-schemes"
+      ],
+      "why": "accepts a host if any of its addresses is public",
+      "replace": {
+        "fetcher.py": [
+          [
+            "all(_public(ip) for ip in ips)",
+            "any(_public(ip) for ip in ips)"
+          ]
+        ]
+      }
+    }
+  ]
+}

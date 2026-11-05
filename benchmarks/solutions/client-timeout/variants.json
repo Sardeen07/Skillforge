@@ -1,0 +1,32 @@
+{
+  "task": "client-timeout",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "resilience",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "timeout-too-long",
+      "must_fail": [
+        "default-timeout"
+      ],
+      "must_pass": [
+        "works",
+        "custom-timeout"
+      ],
+      "why": "adds a timeout, but a 60-second default",
+      "replace": {
+        "client.py": [
+          [
+            "def fetch_status(url, timeout=5.0):",
+            "def fetch_status(url, timeout=60.0):"
+          ]
+        ]
+      }
+    }
+  ]
+}

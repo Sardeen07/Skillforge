@@ -1,0 +1,1 @@
+load_dashboard in dashboard.py fetches 12 widgets and takes 12x as long as a single widget. Each fetch is an independent async call. Speed it up, but the widget API allows at most 4 requests in flight per client. Results must stay in input order.

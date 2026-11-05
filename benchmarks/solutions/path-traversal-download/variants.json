@@ -1,0 +1,51 @@
+{
+  "task": "path-traversal-download",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "security",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "startswith-prefix-check",
+      "must_fail": [
+        "blocks-prefix-sibling"
+      ],
+      "must_pass": [
+        "reads-normal-files",
+        "blocks-dotdot",
+        "blocks-absolute"
+      ],
+      "why": "string prefix check accepts /srv/uploads-old when the base is /srv/uploads",
+      "replace": {
+        "files.py": [
+          [
+            "    if os.path.commonpath([base, path]) != base:",
+            "    if not path.startswith(base):"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "strip-dotdot-only",
+      "must_fail": [
+        "blocks-absolute"
+      ],
+      "must_pass": [
+        "reads-normal-files"
+      ],
+      "why": "removes '../' from the name but still accepts absolute paths",
+      "replace": {
+        "files.py": [
+          [
+            "    base = os.path.realpath(base_dir)\n    path = os.path.realpath(os.path.join(base, name))\n    if os.path.commonpath([base, path]) != base:\n        raise PermissionError(f\"{name!r} is outside the upload directory\")\n",
+            "    name = name.replace(\"../\", \"\")\n    path = os.path.join(base_dir, name)\n"
+          ]
+        ]
+      }
+    }
+  ]
+}

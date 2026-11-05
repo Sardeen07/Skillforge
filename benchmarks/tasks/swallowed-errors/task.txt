@@ -1,0 +1,1 @@
+sync_contacts in sync.py reports success even when pushes to the CRM fail, so missing contacts go unnoticed for weeks, and Ctrl+C does not stop it. Make it keep going past individual failures, return the ids that failed, log each failure with its traceback via the module logger, and let KeyboardInterrupt stop the run.

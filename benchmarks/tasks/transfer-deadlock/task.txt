@@ -1,0 +1,1 @@
+Our ledger service occasionally freezes completely and has to be restarted. It started after we made transfer() in ledger.py thread-safe. Transfers between the same two accounts in opposite directions seem to be involved. Fix it; money must still never be created or lost.

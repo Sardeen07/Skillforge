@@ -1,0 +1,32 @@
+{
+  "task": "batch-commits-sqlite",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "performance",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "commit-every-1000-no-rollback",
+      "must_fail": [
+        "all-or-nothing"
+      ],
+      "must_pass": [
+        "imports-all-rows",
+        "few-commits"
+      ],
+      "why": "batches commits but leaves earlier batches behind when a later row fails",
+      "replace": {
+        "importer.py": [
+          [
+            "    with conn:\n        conn.executemany(\"insert into events (kind, payload) values (?, ?)\", rows)",
+            "    rows = list(rows)\n    for i in range(0, len(rows), 2000):\n        conn.executemany(\"insert into events (kind, payload) values (?, ?)\", rows[i:i + 2000])\n        conn.commit()"
+          ]
+        ]
+      }
+    }
+  ]
+}

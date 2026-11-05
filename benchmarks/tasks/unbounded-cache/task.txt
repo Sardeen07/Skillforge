@@ -1,0 +1,1 @@
+Our pricing worker's memory grows all day until it is OOM-killed; restarts make it go away for a while. price_for in pricing.py is called with many different (sku, region) pairs. Keep the caching benefit for repeated lookups but stop the growth. Keep at most about 10,000 entries.

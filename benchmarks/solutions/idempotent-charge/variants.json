@@ -1,0 +1,33 @@
+{
+  "task": "idempotent-charge",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "distributed",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "check-then-charge-no-lock",
+      "must_fail": [
+        "concurrent-retries-charge-once"
+      ],
+      "must_pass": [
+        "charges",
+        "retry-returns-original",
+        "different-keys-charge-separately"
+      ],
+      "why": "remembers results but two simultaneous retries both miss the lookup",
+      "replace": {
+        "payments.py": [
+          [
+            "    with _guard:\n        lock = _locks.setdefault(scope, threading.Lock())\n    with lock:\n        if scope not in _results:\n            _results[scope] = gateway.charge(customer, amount)\n        return _results[scope]",
+            "    if scope not in _results:\n        _results[scope] = gateway.charge(customer, amount)\n    return _results[scope]"
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "task": "dedupe-quadratic",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "performance",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "set-loses-order",
+      "must_fail": [
+        "same-output"
+      ],
+      "why": "fast, but returns duplicates in set order",
+      "replace": {
+        "dedupe.py": [
+          [
+            "    return list(dupes)",
+            "    return sorted(dupes)"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "seen-still-a-list",
+      "must_fail": [
+        "fast-on-60k"
+      ],
+      "must_pass": [
+        "same-output"
+      ],
+      "why": "fixes the dupes list but keeps the O(n) membership test on seen",
+      "replace": {
+        "dedupe.py": [
+          [
+            "    seen, dupes = set(), {}",
+            "    seen, dupes = [], {}"
+          ],
+          [
+            "            seen.add(email)",
+            "            seen.append(email)"
+          ]
+        ]
+      }
+    }
+  ]
+}

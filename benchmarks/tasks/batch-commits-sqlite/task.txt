@@ -1,0 +1,1 @@
+Importing a 20,000-line CSV with import_events in importer.py takes minutes on our laptops' disks, and the database file is busy the whole time. Make the import fast. A failed import must not leave half the rows behind.

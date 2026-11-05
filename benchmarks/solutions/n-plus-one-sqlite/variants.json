@@ -1,0 +1,28 @@
+{
+  "task": "n-plus-one-sqlite",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "performance",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "inner-join-drops-customers",
+      "must_fail": [
+        "same-output"
+      ],
+      "why": "one query, but an inner join drops customers with no orders",
+      "replace": {
+        "report.py": [
+          [
+            "left join orders o",
+            "join orders o"
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+When our homepage cache entry expires under load, dozens of threads recompute it at once and the database falls over. Fix get_or_compute in cache.py so that concurrent misses for the same key compute it once, while different keys do not wait for each other.

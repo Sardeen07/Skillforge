@@ -1,0 +1,1 @@
+Our nightly sync job hangs forever when the partner API accepts the connection but never answers; we have to kill it by hand. fetch_status in client.py makes the call. Make it give up within 5 seconds by default (the caller may pass a different timeout) and raise TimeoutError so the job can move on.

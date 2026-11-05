@@ -1,0 +1,33 @@
+{
+  "task": "deep-pagination-sqlite",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "performance",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "offset-cursor",
+      "must_fail": [
+        "stable-under-inserts",
+        "deep-pages-cheap"
+      ],
+      "must_pass": [
+        "old-api-still-works",
+        "cursor-pages-cover-everything"
+      ],
+      "why": "a 'cursor' that is just an encoded offset: same cost and same duplicates",
+      "replace": {
+        "feed.py": [
+          [
+            "        created, last_id = json.loads(base64.urlsafe_b64decode(before))\n        rows = conn.execute(\"select id, created_at, body from events where (created_at, id) < (?, ?) \"\n                            \"order by created_at desc, id desc limit ?\", (created, last_id, per_page)).fetchall()\n    return rows, (_encode(rows[-1]) if len(rows) == per_page else None)",
+            "        offset = int(before)\n        rows = conn.execute(\"select id, created_at, body from events order by created_at desc, id desc limit ? offset ?\", (per_page, offset)).fetchall()\n        return rows, (str(offset + per_page) if len(rows) == per_page else None)\n    return rows, (str(per_page) if len(rows) == per_page else None)"
+          ]
+        ]
+      }
+    }
+  ]
+}

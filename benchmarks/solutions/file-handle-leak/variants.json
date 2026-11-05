@@ -1,0 +1,32 @@
+{
+  "task": "file-handle-leak",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "correctness",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "close-without-finally",
+      "must_fail": [
+        "closes-on-decode-error"
+      ],
+      "must_pass": [
+        "counts",
+        "closes-files"
+      ],
+      "why": "calls f.close() at the end of the loop body, which an exception skips",
+      "replace": {
+        "logscan.py": [
+          [
+            "        with open(path, encoding=\"utf-8\") as f:\n            total += sum(1 for line in f if \"ERROR\" in line)",
+            "        f = open(path, encoding=\"utf-8\")\n        total += sum(1 for line in f if \"ERROR\" in line)\n        f.close()"
+          ]
+        ]
+      }
+    }
+  ]
+}

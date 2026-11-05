@@ -1,0 +1,51 @@
+{
+  "task": "cache-stampede",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "performance",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "global-lock",
+      "must_fail": [
+        "keys-independent"
+      ],
+      "must_pass": [
+        "returns-values",
+        "single-flight"
+      ],
+      "why": "one lock for everything: single flight, but every miss waits for every other",
+      "replace": {
+        "cache.py": [
+          [
+            "    with _guard:\n        lock = _locks.setdefault(key, threading.Lock())\n    with lock:",
+            "    with _guard:"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "no-recheck",
+      "must_fail": [
+        "single-flight"
+      ],
+      "must_pass": [
+        "returns-values",
+        "keys-independent"
+      ],
+      "why": "per-key lock but computes again after acquiring it",
+      "replace": {
+        "cache.py": [
+          [
+            "        if key not in _values:\n            _values[key] = compute()",
+            "        _values[key] = compute()"
+          ]
+        ]
+      }
+    }
+  ]
+}

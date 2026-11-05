@@ -1,0 +1,1 @@
+Our session cookie is a base64 pickle of the session dict (sessions.py). A researcher showed a crafted cookie runs code on our server, and users can also edit their own cookie to change user_id. Fix dump_session/load_session. load_session should return None for any cookie it does not trust. Sessions only hold JSON-friendly values.

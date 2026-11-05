@@ -1,0 +1,1 @@
+find_duplicate_emails in dedupe.py was fine in testing, but on our real export of 60,000 customers it runs for many minutes. Make it fast; the output must not change (duplicates in order of their second appearance, compared case-insensitively, each reported once).

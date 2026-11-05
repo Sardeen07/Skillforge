@@ -1,0 +1,51 @@
+{
+  "task": "unbounded-cache",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "performance",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "lru-unbounded",
+      "must_fail": [
+        "bounded-memory"
+      ],
+      "must_pass": [
+        "correct-prices",
+        "still-caches"
+      ],
+      "why": "lru_cache(maxsize=None) is just as unbounded",
+      "replace": {
+        "pricing.py": [
+          [
+            "@lru_cache(maxsize=10_000)",
+            "@lru_cache(maxsize=None)"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "no-cache",
+      "must_fail": [
+        "still-caches"
+      ],
+      "must_pass": [
+        "correct-prices",
+        "bounded-memory"
+      ],
+      "why": "removes the cache entirely",
+      "replace": {
+        "pricing.py": [
+          [
+            "@lru_cache(maxsize=10_000)\n",
+            ""
+          ]
+        ]
+      }
+    }
+  ]
+}

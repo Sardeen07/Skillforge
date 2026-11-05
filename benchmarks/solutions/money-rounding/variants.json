@@ -1,0 +1,50 @@
+{
+  "task": "money-rounding",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "correctness",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "decimal-bankers-rounding",
+      "must_fail": [
+        "half-up-per-line"
+      ],
+      "must_pass": [
+        "simple",
+        "no-float-drift"
+      ],
+      "why": "uses Decimal but the default ROUND_HALF_EVEN",
+      "replace": {
+        "invoice.py": [
+          [
+            "        tax = (subtotal * rate).quantize(CENT, rounding=ROUND_HALF_UP)",
+            "        tax = (subtotal * rate).quantize(CENT)"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "decimal-from-float",
+      "must_fail": [
+        "half-up-per-line"
+      ],
+      "must_pass": [
+        "simple"
+      ],
+      "why": "Decimal(float(price)) reintroduces binary rounding error",
+      "replace": {
+        "invoice.py": [
+          [
+            "        subtotal = Decimal(price) * qty",
+            "        subtotal = Decimal(float(price)) * qty"
+          ]
+        ]
+      }
+    }
+  ]
+}

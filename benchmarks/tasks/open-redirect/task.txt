@@ -1,0 +1,1 @@
+After login we redirect to the ?next= parameter. Phishing emails now use our login link with next=https://evil.example to bounce users to a fake site. Fix safe_next in redirects.py: it should return the path when it stays on our site and '/' otherwise.
