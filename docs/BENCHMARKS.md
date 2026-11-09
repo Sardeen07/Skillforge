@@ -107,7 +107,29 @@ money-rounding grader (0.30 × 8.25% rounds to 0.02, not 0.03); a ReDoS check th
 grader because the regex engine holds the GIL (now run in a subprocess); broken variants
 that were too weak to fail (a chunked-commit variant, an as-completed ordering variant).
 
-## 4. Paid model comparison (not run)
+## 4. Paid model comparison
+
+### Smoke test (2026-11-09): one session per arm, Opus 5.5, `pg-queue-throughput`
+
+`--isolation flags` (operator's login; user settings, plugins, skills and MCP servers off,
+checked per session from Claude Code's init event: no contamination in any session).
+
+| Arm | Score | Cost | Turns | Output tokens | Cache read | Cache write | Seconds | Rules delivered |
+|---|---:|---:|---:|---:|---:|---:|---:|---|
+| none | 4/4 | $0.198 | 7 | 4,784 | 68,931 | 11,105 | 54 | - |
+| native | 4/4 | $0.269 | 10 | 5,579 | 115,776 | 16,732 | 64 | loaded the postgres skill |
+| sf-hook | 4/4 | $0.235 | 8 | 5,242 | 98,649 | 13,802 | 62 | 3 of the 4 expert rules |
+| sf-expert | 4/4 | $0.224 | 7 | 4,853 | 81,878 | 13,860 | 57 | the 4 expert rules |
+
+Total: **$0.93** for four sessions. One session per arm supports no conclusion, but two
+observations matter for the next run: (1) Opus 5.5 solved this task fully **without any
+guidance**, so `pg-queue-throughput` no longer discriminates between arms on this model, and
+the cheapest arm was the one with no guidance; (2) per-session cost is ~$0.20-0.27, so the
+recommended 80-session run would cost about **$15-25**, not the $25-120 first estimated.
+Before that run, the `none` arm should be run once on every task to find the tasks this
+model actually fails; only those can show whether guidance helps.
+
+### Full comparison (not run)
 
 `forge/ab.py` runs real Claude Code sessions per arm in isolated projects and records input,
 output and cached tokens, cost, turns, per-check grader results and the rules delivered.

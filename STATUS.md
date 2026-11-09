@@ -46,8 +46,16 @@ is input text size, not model usage or cost.
 - Authored rules have automated checks (structure, references on reviewed hosts, safety
   scan, duplicates) but no human technical review yet.
 
+## First paid data (2026-11-09)
+
+A 4-session smoke test on Opus 5.5 (`pg-queue-throughput`, one session per arm): every arm
+scored 4/4, costs $0.20-0.27 per session, and the no-guidance arm was cheapest. The task no
+longer discriminates on this model. Details: docs/BENCHMARKS.md §4.
+
 ## Next feedback loop
 
+0. **Find discriminating tasks:** run the `none` arm once on all 30 tasks (~$6-8) and keep
+   the tasks Opus 5.5 fails without guidance.
 1. **Paid comparison, small and frozen:** `none, native, sf-hook, sf-expert` on 4-6 tasks,
    5 repeats, one pinned model, `--freeze` (command in docs/BENCHMARKS.md §4). Needs expert
    lists reviewed for each task. Record tokens (input/output/cached), cost and grader checks.

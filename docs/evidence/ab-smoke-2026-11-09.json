@@ -1,0 +1,85 @@
+[
+  {
+    "arm": "sf-expert",
+    "status": "ok",
+    "score": "4/4",
+    "cost": 0.2243636,
+    "turns": 7,
+    "input_tokens": 12,
+    "output_tokens": 4853,
+    "cache_read": 81878,
+    "cache_write": 13860,
+    "elapsed_seconds": 56.761,
+    "delivered_rules": [
+      "postgres/lock-skip-locked",
+      "postgres/lock-short-transactions",
+      "postgres/data-pagination",
+      "postgres/schema-foreign-key-indexes"
+    ],
+    "delivery_check": "ok",
+    "skills_invoked": [],
+    "contamination": [],
+    "model": "claude-opus-5-5",
+    "isolation": "flags"
+  },
+  {
+    "arm": "native",
+    "status": "ok",
+    "score": "4/4",
+    "cost": 0.2686552,
+    "turns": 10,
+    "input_tokens": 16,
+    "output_tokens": 5579,
+    "cache_read": 115776,
+    "cache_write": 16732,
+    "elapsed_seconds": 63.88,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [
+      "native-skills:postgres"
+    ],
+    "contamination": [],
+    "model": "claude-opus-5-5",
+    "isolation": "flags"
+  },
+  {
+    "arm": "none",
+    "status": "ok",
+    "score": "4/4",
+    "cost": 0.1983542,
+    "turns": 7,
+    "input_tokens": 12,
+    "output_tokens": 4784,
+    "cache_read": 68931,
+    "cache_write": 11105,
+    "elapsed_seconds": 53.817,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "model": "claude-opus-5-5",
+    "isolation": "flags"
+  },
+  {
+    "arm": "sf-hook",
+    "status": "ok",
+    "score": "4/4",
+    "cost": 0.2350418,
+    "turns": 8,
+    "input_tokens": 14,
+    "output_tokens": 5242,
+    "cache_read": 98649,
+    "cache_write": 13802,
+    "elapsed_seconds": 61.607,
+    "delivered_rules": [
+      "postgres/lock-skip-locked",
+      "postgres/schema-foreign-key-indexes",
+      "postgres/data-pagination"
+    ],
+    "delivery_check": "ok",
+    "skills_invoked": [],
+    "contamination": [],
+    "model": "claude-opus-5-5",
+    "isolation": "flags"
+  }
+]
