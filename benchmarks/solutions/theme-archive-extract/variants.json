@@ -1,0 +1,32 @@
+{
+  "task": "theme-archive-extract",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "security-hard",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "name-check-only",
+      "must_fail": [
+        "blocks-symlink-escape"
+      ],
+      "must_pass": [
+        "installs-normal-theme",
+        "blocks-dotdot-and-absolute-names"
+      ],
+      "why": "rejects '..' and absolute names but extracts symlinks",
+      "replace": {
+        "themes.py": [
+          [
+            "            if not (m.isfile() or m.isdir()):\n                raise UnsafeArchive(f\"{m.name}: links and special files are not allowed\")\n",
+            ""
+          ]
+        ]
+      }
+    }
+  ]
+}

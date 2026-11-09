@@ -1,0 +1,1 @@
+Finance downloads our customer list with export_customers in export.py and opens it in Excel. Some rows come out broken: names with commas spill into the next column, and notes containing quotes or line breaks garble the file. Fix the export.

@@ -1,0 +1,1 @@
+We need an audit trail of login attempts for our SIEM. Implement log_login(username, ip, success) in audit.py: one line per attempt in the format `login user=<username> ip=<ip> success=<true|false>`, through the existing 'audit' logger.

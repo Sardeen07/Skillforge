@@ -1,0 +1,1 @@
+Users upload theme packs (.tar.gz) and install_theme in themes.py unpacks them into themes/<name>. A security researcher showed they could overwrite a file outside the themes folder with a crafted archive. Make extraction safe; normal themes (nested folders and files) must still install.

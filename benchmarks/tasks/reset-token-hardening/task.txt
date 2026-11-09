@@ -1,0 +1,1 @@
+A security review of accounts.py found that password reset links never expire and can be used again and again. Make reset tokens expire after 30 minutes and work only once.

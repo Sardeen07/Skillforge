@@ -1,0 +1,31 @@
+{
+  "task": "oversell-workers",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "concurrency-hard",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "thread-lock",
+      "must_fail": [
+        "no-oversell-across-worker-processes"
+      ],
+      "must_pass": [
+        "single-process"
+      ],
+      "why": "the obvious fix: a threading.Lock, which does nothing across gunicorn's worker processes",
+      "replace": {
+        "shop.py": [
+          [
+            "def buy(path, sku, qty=1):\n    \"\"\"Reserve qty units of sku. Returns True if reserved, False if out of stock.\"\"\"\n    conn = connect(path)\n    try:\n        time.sleep(0.01)  # payment authorization\n        # One atomic statement: the check and the decrement cannot interleave with another\n        # worker *process* (gunicorn runs several), which an in-process lock cannot prevent.\n        cur = conn.execute(\"update items set stock = stock - ? where sku = ? and stock >= ?\", (qty, sku, qty))\n        conn.commit()\n        return cur.rowcount == 1\n    finally:\n        conn.close()\n",
+            "_lock = __import__(\"threading\").Lock()\n\n\ndef buy(path, sku, qty=1):\n    \"\"\"Reserve qty units of sku. Returns True if reserved, False if out of stock.\"\"\"\n    with _lock:\n        conn = connect(path)\n        try:\n            (stock,) = conn.execute(\"select stock from items where sku = ?\", (sku,)).fetchone()\n            if stock < qty:\n                return False\n            time.sleep(0.01)  # payment authorization\n            conn.execute(\"update items set stock = ? where sku = ?\", (stock - qty, sku))\n            conn.commit()\n            return True\n        finally:\n            conn.close()\n"
+          ]
+        ]
+      }
+    }
+  ]
+}

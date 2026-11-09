@@ -1,0 +1,55 @@
+{
+  "task": "reset-token-hardening",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "security-hard",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "expiry-and-single-use-plaintext",
+      "must_fail": [
+        "not-stored-in-plaintext"
+      ],
+      "must_pass": [
+        "valid-token-resets",
+        "expires-after-30-minutes",
+        "single-use",
+        "other-tokens-revoked-after-reset"
+      ],
+      "why": "does exactly what the review asked but keeps raw tokens in the database",
+      "replace": {
+        "accounts.py": [
+          [
+            "def _digest(token):\n    return hashlib.sha256(token.encode()).hexdigest()",
+            "def _digest(token):\n    return token"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "no-sibling-revocation",
+      "must_fail": [
+        "other-tokens-revoked-after-reset"
+      ],
+      "must_pass": [
+        "valid-token-resets",
+        "expires-after-30-minutes",
+        "single-use",
+        "not-stored-in-plaintext"
+      ],
+      "why": "deletes only the used token; older links stay live",
+      "replace": {
+        "accounts.py": [
+          [
+            "    for k in [k for k, v in db.reset_tokens.items() if v[\"email\"] == email]:\n        del db.reset_tokens[k]",
+            "    del db.reset_tokens[key]"
+          ]
+        ]
+      }
+    }
+  ]
+}

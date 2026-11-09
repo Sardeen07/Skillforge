@@ -1,0 +1,51 @@
+{
+  "task": "idempotency-hardening",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "distributed-hard",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "lock-and-scope-only",
+      "must_fail": [
+        "rejects-reused-key-with-different-request"
+      ],
+      "must_pass": [
+        "retry-returns-same-charge",
+        "concurrent-retries-charge-once",
+        "keys-scoped-per-customer"
+      ],
+      "why": "fixes both reported incidents but silently answers a different request with the old result",
+      "replace": {
+        "payments.py": [
+          [
+            "            if saved_request != request:\n                raise IdempotencyConflict(f\"key {idempotency_key!r} was used for a different request\")\n",
+            ""
+          ]
+        ]
+      }
+    },
+    {
+      "name": "lock-only",
+      "must_fail": [
+        "keys-scoped-per-customer"
+      ],
+      "must_pass": [
+        "concurrent-retries-charge-once"
+      ],
+      "why": "serializes retries but keys are still global",
+      "replace": {
+        "payments.py": [
+          [
+            "    scope = (id(gateway), customer, idempotency_key)",
+            "    scope = (id(gateway), idempotency_key)"
+          ]
+        ]
+      }
+    }
+  ]
+}

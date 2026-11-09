@@ -1,5 +1,5 @@
 {
-  "library_digest": "86a12593ddfa534a",
+  "library_digest": "ee624de875921e9c",
   "token_estimate": "characters / 4 (estimate, not a measured token count)",
   "modes": {
     "coding": {
@@ -2110,7 +2110,7 @@
     },
     {
       "name": "security",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "Application security (OWASP Top 10) across languages",
@@ -2129,7 +2129,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 2236,
+      "est_tokens": 2418,
       "path": "modules/security/RULES.md",
       "references": [],
       "source": {

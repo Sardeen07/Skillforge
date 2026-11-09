@@ -1,0 +1,31 @@
+{
+  "task": "login-audit-log",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "security-hard",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "plain-format",
+      "must_fail": [
+        "cannot-forge-lines"
+      ],
+      "must_pass": [
+        "writes-the-format"
+      ],
+      "why": "the obvious implementation: interpolates the raw username",
+      "replace": {
+        "audit.py": [
+          [
+            "_clean(username), _clean(ip)",
+            "username, ip"
+          ]
+        ]
+      }
+    }
+  ]
+}

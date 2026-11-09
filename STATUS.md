@@ -54,10 +54,11 @@ longer discriminates on this model. Details: docs/BENCHMARKS.md §4.
 
 ## Next feedback loop
 
-0. **Build harder tasks.** The `none` arm solved all 30 tasks on Opus 5.5 (one attempt each,
-   $3.33; two partial scores were grader bugs, now fixed). Until some task defeats the
-   unguided model, a paid comparison can measure only the cost of extra context, not a
-   quality gain.
+0. **Compare arms on the discriminating tasks.** The `none` arm solved all 30 original tasks
+   on Opus 5.5. Of 8 harder tasks added on 2026-11-09, two defeat it on both attempts
+   (`csv-export`, `reset-token-hardening`) and the hook delivers the covering rule for both.
+   Next: `none, native, sf-hook` (and `sf-expert` once its lists are reviewed) on those two,
+   5 repeats each.
 1. **Paid comparison, small and frozen:** `none, native, sf-hook, sf-expert` on 4-6 tasks,
    5 repeats, one pinned model, `--freeze` (command in docs/BENCHMARKS.md §4). Needs expert
    lists reviewed for each task. Record tokens (input/output/cached), cost and grader checks.

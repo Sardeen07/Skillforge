@@ -3,8 +3,9 @@
 One folder per task repo, each with a hidden `test.py` that `forge/ab.py` copies in
 *after* the agent has finished. The agent never sees it.
 
-30 tasks: 9 security, 10 performance (including `pg-queue-throughput`), 9 correctness,
-concurrency and resilience, and two smoke tests. All but `react-waterfall` are Python
+38 tasks: 30 from 2026-11-05 (9 security, 10 performance including `pg-queue-throughput`,
+9 correctness/concurrency/resilience, two smoke tests) and 8 harder trap tasks from
+2026-11-09 (see docs/BENCHMARKS.md §4; two of them defeat unguided Opus 5.5). All but `react-waterfall` are Python
 standard-library fixtures, so their graders run on Linux, macOS and Windows with no
 services; `pg-queue-throughput` also has a behavioral mode against an embedded Postgres.
 

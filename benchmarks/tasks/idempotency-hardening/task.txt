@@ -1,0 +1,1 @@
+Two incidents with charge() in payments.py this week. (1) A customer was charged twice when the mobile app fired two retries at almost the same moment. (2) A customer was shown another customer's receipt: both apps happened to send the same Idempotency-Key. Make charge() safe for retries.

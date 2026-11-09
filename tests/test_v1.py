@@ -256,6 +256,14 @@ class NativeArm(unittest.TestCase):
                 self.assertTrue(front and re.search(r'^name:', front[1], re.M) and re.search(r'^description:', front[1], re.M), p)
 
 
+class GradeParsing(unittest.TestCase):
+    def test_bare_pass_lines_do_not_swallow_failures(self):
+        import ab
+        text = 'GRADER: behavioral\nPASS a\nPASS b\nFAIL c AssertionError: x\nFAIL d boom\nSCORE: 2/4\n'
+        got = [(c['name'], c['passed']) for c in ab.grade_checks(text)]
+        self.assertEqual(got, [('a', True), ('b', True), ('c', False), ('d', False)])
+
+
 class IsolatedAuth(unittest.TestCase):
     def test_paid_runs_need_a_credential_the_isolated_config_can_see(self):
         import ab

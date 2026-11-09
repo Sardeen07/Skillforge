@@ -45,7 +45,8 @@ ROOT = Path(__file__).resolve().parents[1]
 MODULES = ROOT / 'plugin/library/modules'
 CREDS = Path.home() / '.claude/.credentials.json'
 SCORE = re.compile(r'SCORE:\s*(\d+)\s*/\s*(\d+)')
-CHECK = re.compile(r'^(PASS|FAIL)\s+(\S+)\s+(.*)$', re.M)
+# Reason is optional and never spans lines: a bare 'PASS name' must not swallow the next line.
+CHECK = re.compile(r'^(PASS|FAIL)[ \t]+(\S+)(?:[ \t]+(.*))?$', re.M)
 ARMS = {'none': None, 'native': None,
         'skillforge': {'SKILLFORGE_HOOK': 'off', 'SKILLFORGE_DELIVERY': 'rules'},
         'sf-modules': {'SKILLFORGE_HOOK': 'off', 'SKILLFORGE_DELIVERY': 'modules'},

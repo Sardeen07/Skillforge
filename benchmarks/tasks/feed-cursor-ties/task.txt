@@ -1,0 +1,1 @@
+Users of our infinite-scroll feed see the same post twice, or miss posts, when they scroll while new posts are arriving. page() in feed.py uses page numbers. Add page_after(conn, cursor=None, limit=20) returning (rows, next_cursor), newest first, with next_cursor None on the last page, so the app can switch to cursors. Keep page() for old clients.

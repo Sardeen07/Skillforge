@@ -145,6 +145,35 @@ must be harder: longer multi-file fixtures, defects whose obvious fix is wrong (
 cannot know without guidance. Repeats would also be needed to catch occasional failures.
 Raw rows: [evidence/ab-none-all-2026-11-09.json](evidence/ab-none-all-2026-11-09.json).
 
+### Harder tasks (2026-11-09): 8 tasks with traps, `none` arm, 2 attempts each
+
+Eight tasks whose obvious fix looks complete but misses a practice a library rule states
+(overselling across worker processes, idempotency-key scoping and reuse, Retry-After as an
+HTTP date, reset-token storage and revocation, cursor ties, tar symlink escapes, CSV formula
+injection, log forging). Prompts describe symptoms only. Graders validated against the
+reference and the "obvious fix" variant of each. 16 sessions, $1.99.
+
+| Task | Unguided Opus 5.5 (2 attempts) | Trap missed | Hook delivers the trap's rule? |
+|---|---|---|---|
+| `csv-export` | 1/2, 1/2 | formulas left live (fixed quoting only) | yes (`security/csv-formula-injection`) |
+| `reset-token-hardening` | 3/5, 3/5 | tokens stored raw; older links still work after a reset | yes (`auth/password-reset-tokens`) |
+| `oversell-workers` | 2/2, 2/2 | - | no |
+| `idempotency-hardening` | 4/4, 4/4 | - | yes |
+| `retry-after-client` | 6/6, 6/6 | - | partly (no rule mentions the HTTP-date form) |
+| `feed-cursor-ties` | 3/3, 3/3 | - | yes |
+| `theme-archive-extract` | 3/3, 3/3 | - | yes |
+| `login-audit-log` | 2/2, 2/2 | - | no |
+
+**Two tasks discriminate:** the model consistently did what the prompt asked and stopped,
+missing the practice nobody asked for. For both, the hook delivers the rule that covers the
+trap, so these are the first tasks where a guided arm *could* score higher. Whether it does
+is the next measurement. `security/csv-formula-injection` was added to the library while
+designing `csv-export`; that is disclosed here because it means the rule exists *because of*
+the task, which favors SkillForge on it.
+
+The run also exposed a runner bug: a bare `PASS name` line swallowed the next line when
+parsing, so a second failed check went unrecorded (scores were unaffected). Fixed, with a test.
+
 ### Full comparison (not run)
 
 `forge/ab.py` runs real Claude Code sessions per arm in isolated projects and records input,

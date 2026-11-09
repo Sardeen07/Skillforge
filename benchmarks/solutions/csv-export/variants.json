@@ -1,0 +1,31 @@
+{
+  "task": "csv-export",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "security-hard",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "csv-module-only",
+      "must_fail": [
+        "neutralizes-spreadsheet-formulas"
+      ],
+      "must_pass": [
+        "quotes-commas-quotes-newlines"
+      ],
+      "why": "the obvious fix: csv.writer quoting, which leaves formulas live",
+      "replace": {
+        "export.py": [
+          [
+            "    if isinstance(value, str) and value.startswith(FORMULA_START):\n        return \"'\" + value\n",
+            ""
+          ]
+        ]
+      }
+    }
+  ]
+}

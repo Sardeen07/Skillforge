@@ -1,0 +1,1 @@
+During yesterday's flash sale we sold 37 mugs but only had 20 in stock. buy() in shop.py checks the stock before reserving, so we don't understand how this happened. Please fix it.

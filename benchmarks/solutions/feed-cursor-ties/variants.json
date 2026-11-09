@@ -1,0 +1,31 @@
+{
+  "task": "feed-cursor-ties",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "database-hard",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "created-at-only-cursor",
+      "must_fail": [
+        "walks-every-post-once-in-order"
+      ],
+      "must_pass": [
+        "old-api-kept"
+      ],
+      "why": "the obvious cursor: the last created_at, which is not unique",
+      "replace": {
+        "feed.py": [
+          [
+            "        created_at, last_id = (int(x) for x in cursor.split(\":\"))\n        rows = conn.execute(\"select id, created_at, body from posts where (created_at, id) < (?, ?) \"\n                            \"order by created_at desc, id desc limit ?\", (created_at, last_id, limit)).fetchall()",
+            "        created_at, last_id = (int(x) for x in cursor.split(\":\"))\n        rows = conn.execute(\"select id, created_at, body from posts where created_at < ? \"\n                            \"order by created_at desc, id desc limit ?\", (created_at, limit)).fetchall()"
+          ]
+        ]
+      }
+    }
+  ]
+}

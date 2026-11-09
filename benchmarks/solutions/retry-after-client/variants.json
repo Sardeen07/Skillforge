@@ -1,0 +1,54 @@
+{
+  "task": "retry-after-client",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "resilience-hard",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "ignores-retry-after",
+      "must_fail": [
+        "honors-retry-after-seconds",
+        "honors-retry-after-http-date"
+      ],
+      "must_pass": [
+        "recovers-from-transient-errors",
+        "gives-up-after-5-attempts",
+        "no-retry-on-other-4xx",
+        "backs-off-without-header"
+      ],
+      "why": "good backoff, but never reads Retry-After",
+      "replace": {
+        "client.py": [
+          [
+            "        wait = _retry_after(headers)\n",
+            "        wait = None\n"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "seconds-only",
+      "must_fail": [
+        "honors-retry-after-http-date"
+      ],
+      "must_pass": [
+        "honors-retry-after-seconds",
+        "backs-off-without-header"
+      ],
+      "why": "parses Retry-After as an integer only; the HTTP-date form falls back to short backoff",
+      "replace": {
+        "client.py": [
+          [
+            "    try:\n        return max(0.0, parsedate_to_datetime(value).timestamp() - time.time())\n    except (TypeError, ValueError, IndexError, OverflowError):\n        return None",
+            "    return None"
+          ]
+        ]
+      }
+    }
+  ]
+}

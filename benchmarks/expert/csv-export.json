@@ -1,0 +1,14 @@
+{
+  "task": "csv-export",
+  "rules": [
+    "security/csv-formula-injection"
+  ],
+  "selected_by": "Claude, when designing the task on 2026-11-09 (the task was built around this rule), before any guided run.",
+  "note": "The export trap is formula injection; quoting is what the prompt asks for. Selected with knowledge of the trap: an upper bound for selection.",
+  "review": {
+    "reviewed_by": "",
+    "reviewed_on": "",
+    "changes": "",
+    "instructions": "A second developer reviews this list without seeing model output: read task.txt and the fixture, then the catalog. ab.py refuses paid sf-expert runs until reviewed_by is set."
+  }
+}
