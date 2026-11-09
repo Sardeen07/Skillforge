@@ -138,10 +138,10 @@ def hook_budget():
     return int(m[1]) if m else None
 
 
-def manifest(task_dirs, model, tools, crowds):
+def manifest(task_dirs, model, tools, crowds, isolation='config'):
     """Everything a rerun must hold fixed for its scores to be comparable."""
     return {
-        'model': model, 'tools': tools, 'hook_budget_tokens': hook_budget(),
+        'model': model, 'tools': tools, 'hook_budget_tokens': hook_budget(), 'isolation': isolation,
         'guidance_sha256': digest_tree(ROOT / 'plugin'),
         'runner_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         'crowd_sha256': [digest_tree(Path(c)) for c in crowds] if crowds else None,
@@ -294,6 +294,33 @@ def save_artifacts(dest, save_to):
         return f'not saved: {exc}'
 
 
+# Isolation without a separate config dir: the user's login, but no user-level settings,
+# plugins, skills from enabled user plugins, or MCP servers, and no saved session history.
+FLAG_ISOLATION = ['--setting-sources', 'project,local', '--strict-mcp-config', '--no-session-persistence']
+USER_SKILLS = Path.home() / '.claude/skills'
+
+
+def session_inventory(stdout):
+    """Skills, plugins and MCP servers Claude Code reported loading (its init event)."""
+    for line in stdout.splitlines():
+        try: event = json.loads(line)
+        except json.JSONDecodeError: continue
+        if event.get('type') == 'system' and event.get('subtype') == 'init':
+            name = lambda x: x.get('name', str(x)) if isinstance(x, dict) else str(x)
+            return {k: sorted(name(x) for x in (event.get(k) or [])) for k in ('skills', 'plugins', 'mcp_servers')}
+    return None
+
+
+def contamination(inventory):
+    """Anything in the session that came from the operator's own setup rather than the arm."""
+    if not inventory:
+        return []
+    user_skills = {p.name for p in USER_SKILLS.iterdir()} if USER_SKILLS.is_dir() else set()
+    found = [f'mcp:{m}' for m in inventory['mcp_servers']]
+    found += [f'skill:{s}' for s in inventory['skills'] if s in user_skills]
+    return found
+
+
 def activation_events(stdout):
     """Count only actual tool calls and their successful tool results, not prose."""
     calls = {}
@@ -323,7 +350,7 @@ def activation_events(stdout):
     return activated, bool(delivered), result
 
 
-def run_one(arm, task_dir, task, tools, timeout, dry, keep, model=None, crowd=None, save_to=None):
+def run_one(arm, task_dir, task, tools, timeout, dry, keep, model=None, crowd=None, save_to=None, isolation='config'):
     dest = Path(tempfile.mkdtemp(prefix=f'sf-{arm}-'))
     support = Path(tempfile.mkdtemp(prefix=f'sfsup-{arm}-'))
     started = time.monotonic()
@@ -335,11 +362,12 @@ def run_one(arm, task_dir, task, tools, timeout, dry, keep, model=None, crowd=No
     log = support / 'compose.jsonl'  # outside the project, so the agent under test cannot read it
     try:
         extra = setup(arm, task_dir, dest, support, crowd)
-        cfg = support / 'cfg'; cfg.mkdir()
-        if CREDS.exists(): shutil.copy2(CREDS, cfg)
         tmp = support / 'tmp'; tmp.mkdir()
-        env = {**os.environ, 'CLAUDE_CONFIG_DIR': str(cfg), 'TMPDIR': str(tmp),
-               'TEMP': str(tmp), 'TMP': str(tmp), 'SKILLFORGE_LOG': str(log)}
+        env = {**os.environ, 'TMPDIR': str(tmp), 'TEMP': str(tmp), 'TMP': str(tmp), 'SKILLFORGE_LOG': str(log)}
+        if isolation == 'config':
+            cfg = support / 'cfg'; cfg.mkdir()
+            if CREDS.exists(): shutil.copy2(CREDS, cfg)
+            env['CLAUDE_CONFIG_DIR'] = str(cfg)
         # Parent experiment switches must not contaminate the assigned arm.
         for name in SWITCHES: env.pop(name, None)
         env.update(ARMS[arm] or {})
@@ -347,8 +375,9 @@ def run_one(arm, task_dir, task, tools, timeout, dry, keep, model=None, crowd=No
         cmd = ['claude', '-p', task, '--output-format', 'stream-json', '--verbose',
                '--tools', tools, '--allowedTools', tools, *extra]
         if model: cmd += ['--model', model]
+        if isolation == 'flags': cmd += FLAG_ISOLATION
         if dry:
-            print(f'[{arm}] isolated config; model={model}; settings={ARMS[arm]}; fixture={task_dir.name}; '
+            print(f'[{arm}] isolation={isolation}; model={model}; settings={ARMS[arm]}; fixture={task_dir.name}; '
                   f'plugins={len(extra) // 2}')
             return None
         proc = subprocess.run(cmd, cwd=dest, capture_output=True, text=True,
@@ -357,6 +386,8 @@ def run_one(arm, task_dir, task, tools, timeout, dry, keep, model=None, crowd=No
         (dest / 'stderr.txt').write_text(proc.stderr, encoding='utf-8')
         row['activated'], row['brief'], result = activation_events(proc.stdout)
         row['skills_invoked'] = skills_invoked(proc.stdout)
+        row['inventory'] = session_inventory(proc.stdout)
+        row['contamination'] = contamination(row['inventory'])
         log_text = log.read_text(encoding='utf-8') if log.exists() else ''
         row['hook_briefs'], row['catalogs'] = hook_evidence(log_text)
         row['rule_fetches'] = rule_fetches(proc.stdout)
@@ -375,7 +406,10 @@ def run_one(arm, task_dir, task, tools, timeout, dry, keep, model=None, crowd=No
                        cache_write=usage.get('cache_creation_input_tokens'),
                        model_usage=result.get('modelUsage'))
         if proc.returncode != 0 or not result or result.get('is_error'):
-            row['error'] = f'Claude failed or missing result; exit={proc.returncode}'
+            row['error'] = f'Claude failed or missing result; exit={proc.returncode}: {(result or {}).get("result", "")}'[:300]
+            return row
+        if row['contamination']:
+            row['error'] = f"user customizations leaked into the session: {', '.join(row['contamination'])}"
             return row
         shutil.copy2(task_dir / 'test.py', dest / 'test.py')
         try:
@@ -431,6 +465,9 @@ def main():
     ap.add_argument('--allow-static-grader', action='store_true',
                     help='grade without Postgres (static checks only); results are not comparable to behavioral runs')
     ap.add_argument('--crowd', action='append', help='directory of skill folders to install in every arm; repeatable')
+    ap.add_argument('--isolation', choices=('config', 'flags'), default='config',
+                    help='config: empty CLAUDE_CONFIG_DIR (needs a file or env credential); flags: your login, '
+                         'with --setting-sources project,local --strict-mcp-config --no-session-persistence')
     ap.add_argument('--freeze', help='manifest file: written on first use, then any change refuses the run')
     a = ap.parse_args()
     arms = [s.strip() for s in a.arms.split(',')]
@@ -438,14 +475,15 @@ def main():
     if 'Skill' not in a.tools.split(','): ap.error('--tools must include Skill')
     if a.repeats < 1 or a.timeout < 1: ap.error('repeats and timeout must be positive')
     if not a.dry_run and not a.model: ap.error('--model is required to make paid comparisons reproducible')
-    if not a.dry_run and not isolated_auth_available():
+    if not a.dry_run and a.isolation == 'config' and not isolated_auth_available():
         sys.exit('Each arm runs Claude Code with a fresh, empty config (CLAUDE_CONFIG_DIR) so your own\n'
                  'plugins, skills and settings cannot leak into the comparison. That config needs a\n'
                  'credential it can see, and none was found: no ~/.claude/.credentials.json (macOS keeps\n'
                  'the login in the Keychain) and no ANTHROPIC_API_KEY, ANTHROPIC_AUTH_TOKEN or\n'
                  'CLAUDE_CODE_OAUTH_TOKEN in the environment. Either run `claude setup-token` and export\n'
                  'CLAUDE_CODE_OAUTH_TOKEN (uses your Claude subscription), or export ANTHROPIC_API_KEY\n'
-                 '(billed per token), then rerun.')
+                 '(billed per token), then rerun. Or pass --isolation flags to use your normal login\n'
+                 'with user-level settings, plugins and MCP servers switched off.')
     if a.crowd and not all(Path(c).is_dir() for c in a.crowd): ap.error('--crowd must be a directory')
     task_dirs = [Path(t).resolve() for t in (a.task or [str(ROOT / 'benchmarks/tasks/react-waterfall')])]
     if not a.dry_run:
@@ -458,11 +496,12 @@ def main():
                 ap.error(f"sf-expert selections not yet reviewed by a second developer: {', '.join(unreviewed)}. "
                          'Record the reviewer under "review" in benchmarks/expert/<task>.json.')
     if a.freeze:
-        changed = check_freeze(a.freeze, manifest(task_dirs, a.model, a.tools, a.crowd))
+        changed = check_freeze(a.freeze, manifest(task_dirs, a.model, a.tools, a.crowd, a.isolation))
         if changed:
             ap.error(f"frozen conditions changed since {a.freeze}: {', '.join(changed)}. "
                      'Start a new manifest (and a new output file) for a new experiment.')
     common = dict(plugin_sha256=digest_tree(ROOT / 'plugin'), seed=a.seed, model=a.model, tools=a.tools,
+                  isolation=a.isolation,
                   crowd=a.crowd, crowd_sha256=[digest_tree(Path(c)) for c in a.crowd] if a.crowd else None,
                   runner_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
     rows = []; rng = random.Random(a.seed)
@@ -477,7 +516,7 @@ def main():
         for repeat in range(a.repeats):
             for arm in rng.sample(arms, len(arms)):
                 save_to = artifacts / task_dir.name / f'{stamp}-r{repeat + 1}-{arm}'
-                row = run_one(arm, task_dir, task, a.tools, a.timeout, a.dry_run, a.keep, a.model, a.crowd, save_to)
+                row = run_one(arm, task_dir, task, a.tools, a.timeout, a.dry_run, a.keep, a.model, a.crowd, save_to, a.isolation)
                 if row is None: continue
                 row.update(metadata, repeat=repeat + 1, settings=ARMS[arm])
                 rows.append(row)
