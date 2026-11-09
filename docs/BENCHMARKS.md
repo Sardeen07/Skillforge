@@ -129,6 +129,22 @@ recommended 80-session run would cost about **$15-25**, not the $25-120 first es
 Before that run, the `none` arm should be run once on every task to find the tasks this
 model actually fails; only those can show whether guidance helps.
 
+### Discrimination check (2026-11-09): `none` arm on all 30 tasks, Opus 5.5
+
+One session per task, no guidance, $3.33 in total ($0.08-0.20 per session, 4-7 turns).
+28 tasks scored full marks. The two partial scores were **grader bugs, not model failures**:
+`retry-with-backoff` rejected a correct "full jitter" schedule (it compared single runs
+instead of averages), and `regex-redos`'s task text contradicted itself about newline
+separators. Both graders were fixed and revalidated; re-grading the saved solutions gives
+full marks. So **Opus 5.5 solves all 30 tasks without any guidance**, on one attempt each.
+
+Consequence: with this model, no current task can show a quality benefit from SkillForge
+(or from native skills); a comparison could only measure added cost. Discriminating tasks
+must be harder: longer multi-file fixtures, defects whose obvious fix is wrong (as
+`pg-queue-throughput` was for earlier models), or project-specific conventions the model
+cannot know without guidance. Repeats would also be needed to catch occasional failures.
+Raw rows: [evidence/ab-none-all-2026-11-09.json](evidence/ab-none-all-2026-11-09.json).
+
 ### Full comparison (not run)
 
 `forge/ab.py` runs real Claude Code sessions per arm in isolated projects and records input,

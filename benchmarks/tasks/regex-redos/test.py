@@ -57,7 +57,8 @@ def _():
     v = load("validate")
     for ok in ("Ann", "Ann Lee", "dev_42 rocks", "a" * 40):
         assert v.is_valid_display_name(ok), ok
-    for bad in ("", " Ann", "Ann ", "Ann  Lee", "Ann!", "a" * 41, "Ann\nLee"):
+    # Only names the old pattern also rejected: the task says accepted names must not change.
+    for bad in ("", " Ann", "Ann ", "Ann  Lee", "Ann!", "a" * 41):
         assert not v.is_valid_display_name(bad), repr(bad)
 
 

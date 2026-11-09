@@ -101,7 +101,7 @@ def _():
 def _():
     r = load("retry")
     runs = []
-    for _ in range(5):
+    for _ in range(40):
         waits = []
         try:
             r.call_with_retry(Flaky(100), sleep=waits.append)
@@ -110,7 +110,11 @@ def _():
         runs.append(waits)
     for waits in runs:
         assert len(waits) == 3, f"slept {len(waits)} times between 4 attempts"
-        assert all(w > 0 for w in waits) and waits[2] > waits[0], waits
+        assert all(w >= 0 for w in waits), waits
+    # Any jitter scheme (full, equal, decorrelated) still grows on average: compare means
+    # over many runs, never one run, where full jitter can legitimately shrink a wait.
+    mean = lambda i: sum(w[i] for w in runs) / len(runs)
+    assert mean(2) > 1.5 * mean(0), f"mean waits {mean(0):.3f}, {mean(1):.3f}, {mean(2):.3f}: not exponential"
     assert len({tuple(w) for w in runs}) > 1, "no jitter: every run waited exactly the same"
 
 
