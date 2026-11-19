@@ -414,8 +414,10 @@ def run_one(arm, task_dir, task, tools, timeout, dry, keep, model=None, crowd=No
             return row
         shutil.copy2(task_dir / 'test.py', dest / 'test.py')
         try:
+            # Graders print UTF-8 on every platform (Windows would otherwise use its legacy code page).
             test = subprocess.run([sys.executable, 'test.py'], cwd=dest, capture_output=True,
-                                  text=True, encoding='utf-8', timeout=300)
+                                  text=True, encoding='utf-8', errors='replace', timeout=300,
+                                  env={**os.environ, 'PYTHONIOENCODING': 'utf-8'})
         except subprocess.TimeoutExpired:
             row.update(status='grader_timeout', passed=False, error='grader timed out; no fabricated score')
             return row

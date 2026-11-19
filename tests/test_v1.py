@@ -264,6 +264,22 @@ class GradeParsing(unittest.TestCase):
         self.assertEqual(got, [('a', True), ('b', True), ('c', False), ('d', False)])
 
 
+class GraderEncoding(unittest.TestCase):
+    def test_graders_run_with_utf8_output_and_failures_carry_reasons(self):
+        import validate_graders as vg
+        with tempfile.TemporaryDirectory() as d:
+            Path(d, 'test.py').write_text(
+                'import os\nprint("FAIL lookalike stra\\u00dfe registered: " + os.environ.get("PYTHONIOENCODING", ""))\n'
+                'print("SCORE: 0/1")\n', encoding='utf-8')
+            result = vg.grade(Path(d))
+        self.assertEqual(result['failed'], ['lookalike'])
+        self.assertIn('straße', result['reasons']['lookalike'])
+        self.assertIn('utf-8', result['reasons']['lookalike'])
+        ok, problems, _ = vg.judge({'expect': 'pass'}, result)
+        self.assertFalse(ok)
+        self.assertIn('straße registered', problems[0])
+
+
 class IsolatedAuth(unittest.TestCase):
     def test_paid_runs_need_a_credential_the_isolated_config_can_see(self):
         import ab

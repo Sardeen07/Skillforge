@@ -34,14 +34,17 @@ def build(task, spec, reference, dest):
 
 
 def grade(folder, mode=None):
-    env = {**os.environ, **({'GRADER_MODE': mode} if mode else {})}
+    # PYTHONIOENCODING: graders print UTF-8 on every platform (Windows would otherwise use its
+    # legacy code page, and a non-ASCII failure message crashed the reader).
+    env = {**os.environ, 'PYTHONIOENCODING': 'utf-8', **({'GRADER_MODE': mode} if mode else {})}
     r = subprocess.run([sys.executable, 'test.py'], cwd=folder, capture_output=True, text=True,
-                       encoding='utf-8', timeout=300, env=env)
+                       encoding='utf-8', errors='replace', timeout=300, env=env)
     m = SCORE.search(r.stdout)
     header = re.search(r'^GRADER: (.+)$', r.stdout, re.M)
     return dict(score=f'{m[1]}/{m[2]}' if m else None, full=bool(m) and m[1] == m[2],
                 failed=re.findall(r'^FAIL\s+(\S+)', r.stdout, re.M),
                 passed=re.findall(r'^PASS\s+(\S+)', r.stdout, re.M),
+                reasons=dict(re.findall(r'^FAIL[ \t]+(\S+)[ \t]*(.*)$', r.stdout, re.M)),
                 grader=header[1] if header else 'unknown', output=r.stdout + r.stderr)
 
 
@@ -50,9 +53,11 @@ def judge(spec, result):
     if result['score'] is None:
         return False, ['grader printed no SCORE'], []
     if spec.get('expect') == 'pass':
-        return result['full'], ([] if result['full'] else [f"correct solution failed {result['failed']}"]), []
+        detail = '; '.join(f"{c}: {result.get('reasons', {}).get(c, '')[:200]}" for c in result['failed'])
+        return result['full'], ([] if result['full'] else [f"correct solution failed {result['failed']} ({detail})"]), []
     problems = [f'should fail {c}' for c in spec.get('must_fail', []) if c not in result['failed']]
-    problems += [f'should pass {c}' for c in spec.get('must_pass', []) if c not in result['passed']]
+    problems += [f"should pass {c} ({result.get('reasons', {}).get(c, 'not reported')[:200]})"
+                 for c in spec.get('must_pass', []) if c not in result['passed']]
     if result['full']:
         problems.append('broken solution got full marks')
     extra = [c for c in result['failed'] if c not in spec.get('must_fail', [])]

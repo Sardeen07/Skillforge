@@ -1,5 +1,5 @@
 """Run with:  python3 -m unittest discover tests"""
-import importlib.util, json, sqlite3, subprocess, sys, tempfile, unittest
+import importlib.util, json, os, sqlite3, subprocess, sys, tempfile, unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -216,7 +216,8 @@ class BenchmarkTasks(unittest.TestCase):
                 self.assertTrue((task / "test.py").exists())
                 try:
                     r = subprocess.run([sys.executable, "test.py"], cwd=task,
-                                       capture_output=True, text=True, encoding="utf-8",
+                                       capture_output=True, text=True, encoding="utf-8", errors="replace",
+                                       env={**os.environ, "PYTHONIOENCODING": "utf-8"},
                                        timeout=300 if "pgserver" in (task / "test.py").read_text(encoding="utf-8") else 15)
                 except subprocess.TimeoutExpired:
                     continue  # binary-search hangs on its own bug; that is a failure
