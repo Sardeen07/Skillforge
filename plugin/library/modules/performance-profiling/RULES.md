@@ -56,3 +56,10 @@ keywords: server slow but cpu low
 refs: https://www.brendangregg.com/usemethod.html
 
 For each resource (CPU, memory, disk, network, connection pools, thread pools) check utilization, saturation (queueing) and errors. Low CPU with high latency usually means waiting: on locks, I/O, a pool, or a downstream dependency.
+
+## load-test-before-launch: Load-test critical paths with realistic traffic shapes
+tags: performance, load testing, k6, locust, capacity, latency percentiles, launch
+keywords: site fell over on launch day
+refs: https://k6.io/docs/
+
+Before a launch or a big change, load-test the critical user paths with production-like data volumes and traffic mix (k6, Locust, Gatling), ramp past the expected peak, and watch p95/p99 latency, error rate and saturation of downstream dependencies (database connections, queues) to find the first bottleneck.

@@ -42,3 +42,24 @@ keywords: connection leak, too many connections
 refs: https://flask.palletsprojects.com/en/3.0.x/appcontext/
 
 Store per-request resources on `g`, create them lazily, and release them in `@app.teardown_appcontext`, which runs even when the request raised. Do not keep request data in module globals; threaded servers share them across requests.
+
+## sqlalchemy-session-scope: Tie each SQLAlchemy session to one Flask request and remove it at teardown
+tags: flask, sqlalchemy, database session, flask-sqlalchemy, teardown, connection pool, transactions
+keywords: QueuePool limit reached, connection timed out, sqlalchemy session reused by every request
+refs: https://flask-sqlalchemy.readthedocs.io/en/stable/contexts/
+
+Use Flask-SQLAlchemy (its session belongs to the app context and is removed at teardown) or, with plain SQLAlchemy, a `scoped_session` that you `remove()` in `teardown_appcontext`. A single global SQLAlchemy session reused by every request mixes transactions between users and exhausts the pool ("QueuePool limit of size 5 overflow 10 reached").
+
+## flask-input-validation: Validate request data with a schema, not request.form lookups
+tags: flask, validation, request json, marshmallow, pydantic, input, 400 bad request
+keywords: KeyError on missing field, request.get_json, request.form
+refs: https://flask.palletsprojects.com/en/3.0.x/api/#flask.Request.get_json
+
+`request.json["x"]` raises a 500 on a missing field and accepts any type. Parse bodies with a schema library (marshmallow, pydantic, flask-smorest) and return 400 with field errors; `request.get_json(silent=True)` returns None for non-JSON instead of raising. Cap request size with `MAX_CONTENT_LENGTH`.
+
+## flask-production-config: Load configuration from the environment per deployment
+tags: flask, configuration, environment variables, config from prefixed env, secrets, deployment
+keywords: config.py with production password, app.config.from_object
+refs: https://flask.palletsprojects.com/en/3.0.x/config/#configuring-from-environment-variables
+
+Keep defaults in code, override per environment with `app.config.from_prefixed_env()` (Flask 2.2+) or an instance-folder file that is not committed, and fail at startup when a required setting is missing. Never ship development defaults such as `SECRET_KEY = "dev"` to production.

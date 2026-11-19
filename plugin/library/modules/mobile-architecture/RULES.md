@@ -56,3 +56,10 @@ keywords: crash only on some devices
 refs: https://developer.android.com/topic/performance/vitals
 
 Ship crash reporting with symbolication (dSYMs, ProGuard/R8 mappings), track ANR/hang rates, cold-start time and frame drops per release and device class, and roll out releases in stages so regressions are caught before reaching everyone.
+
+## mobile-feature-flags-kill-switch: Ship risky features behind remotely controlled flags
+tags: mobile, feature flags, remote config, kill switch, release, rollback, app store review
+keywords: cannot roll back a mobile release
+refs: https://firebase.google.com/docs/remote-config
+
+A mobile release cannot be rolled back instantly. Gate new or risky features behind remote flags (Firebase Remote Config, LaunchDarkly, your own endpoint) with safe defaults when the fetch fails, so a bad feature can be switched off without a new build.

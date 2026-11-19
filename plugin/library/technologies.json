@@ -1311,6 +1311,32 @@
         "deep link",
         "deep links"
       ]
+    },
+    "grpc": {
+      "aliases": [
+        "grpc",
+        "protobuf",
+        "protocol buffers",
+        "proto3",
+        "grpc web"
+      ],
+      "hints": [
+        "rpc",
+        "stub",
+        "proto file"
+      ],
+      "packages": [
+        "grpcio",
+        "@grpc/grpc-js",
+        "google.golang.org/grpc",
+        "io.grpc:grpc-netty",
+        "tonic",
+        "grpc"
+      ],
+      "files": [
+        "*.proto",
+        "buf.yaml"
+      ]
     }
   }
 }

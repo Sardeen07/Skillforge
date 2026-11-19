@@ -191,3 +191,45 @@ npm run ab -- --model <model-id> --arms none,native,sf-hook,sf-expert \
 `sf-expert` additionally needs a reviewed `benchmarks/expert/<task>.json` for each task
 (only `pg-queue-throughput` has one). Until such runs exist there is no evidence that
 SkillForge changes task outcomes or total cost, and every rule stays `untested`.
+
+## 5. Library v3 (2026-11-18): 757 rules, 67 modules
+
+**Review of the earlier tests** found: only 346 of 692 rules were the labeled answer of any
+routing case (three modules, architecture, code-quality and react-composition, had none);
+15 modules had 5-7 rules; and three hard-task misses traced to the library (no rule said an
+in-process lock does not coordinate worker processes; no rule mentioned Retry-After's HTTP-date
+form; the log-forging rule lacked "audit log"/"SIEM" vocabulary).
+
+**Changes.** 65 new authored rules: 48 in 27 existing modules (thin modules first) and three new
+modules (`realtime`: WebSockets/SSE, 6; `grpc`: gRPC and Protobuf, 5; `i18n`: localization and
+Unicode, 6), plus a `grpc` technology. Two existing rules were amended because a benchmark task
+exposed the gap (disclosed: this favors SkillForge on those tasks): `distributed-systems/retries-backoff-jitter`
+now names both Retry-After forms, and `security/security-logging` gained audit-log keywords.
+Link check: one new reference was dead (a Gunicorn page) and was replaced; dev.mysql.com still
+refuses automated checks. 36 dev cases and 5 negatives were added, covering every new rule and
+the three untested modules.
+
+| Set | Cases | Recall@4 | Precision | Abstained | vs. 2026-11-05 |
+|---|---:|---:|---:|---:|---|
+| dev | 145 | 84.1% | 68.1% | - | 109 cases: 79.8% / 63.9% |
+| mixed | 30 | 79.2% | 63.5% | - | 80.8% / 64.0% |
+| security | 20 | 90.0% | 66.7% | - | 90.0% / 69.2% |
+| performance | 20 | 90.0% | 76.0% | - | 90.0% / 79.2% |
+| tasks (real task prompts) | 41 | 64.6% | 26.5% | - | 28 cases: 55.4% / 21.4% |
+| negatives | 55 | - | - | 49/55 | 44/50 |
+| ambiguous | 30 | - | - | 30/30 | 30/30 |
+| **held-out** (scored once) | 74 | **90.6%** | **74.4%** | **9/10** | 90.6% / 77.2% / 10/10 |
+
+The new i18n rule first matched unrelated requests ("translate the welcome message into
+French") through generic title words; its title and tags were made specific before the numbers
+above. Likewise, a new Flask rule ("Scope SQLAlchemy sessions to the request") made a
+framework-neutral prompt look Flask-specific and broke the ambiguity safeguard test; it was
+reworded. The held-out set lost one abstention and ~3 points of precision with the larger library;
+it was not tuned on.
+
+**Five more trap tasks** (validated on Python 3.12 and 3.9): `webhook-verification` (replayed
+events), `password-change` (other sessions stay logged in), `login-rate-limit` (spoofable
+X-Forwarded-For), `json-error-handler` (exception details leak), `unique-usernames` (Unicode
+lookalikes). The hook delivers the trap's rule for four of them; `json-error-handler`'s prompt
+("HTML 500 page") retrieves CSS rules instead, a retrieval miss left as is. Not yet run against
+the model.

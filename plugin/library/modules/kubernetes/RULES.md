@@ -70,3 +70,10 @@ keywords: hpa not scaling, flapping replicas
 refs: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
 
 HPA on CPU requires CPU requests to be set. For queue workers or I/O-bound services, scale on a metric that tracks demand (queue depth, requests per second) via custom/external metrics or KEDA. Set min/max replicas and stabilization windows to avoid flapping, and make sure downstream capacity (database connections) scales with it.
+
+## k8s-config-and-rollouts: Roll pods when ConfigMaps or Secrets change
+tags: kubernetes, configmap, secrets, rollout, deployment, configuration change, checksum annotation
+keywords: config change not picked up by pods
+refs: https://kubernetes.io/docs/concepts/configuration/configmap/#mounted-configmaps-are-updated-automatically
+
+Environment variables from a ConfigMap are read only at container start, and mounted files update eventually but most apps never reload them. Trigger a rollout when configuration changes: a checksum annotation of the config in the pod template (Helm), `kubectl rollout restart`, or immutable, versioned ConfigMap names.

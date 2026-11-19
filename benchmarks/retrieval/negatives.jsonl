@@ -48,3 +48,8 @@
 {"mode":"coding","task":"create a gitignore entry for the .DS_Store files","expect":[]}
 {"mode":"coding","task":"write a thank you note to a customer","expect":[]}
 {"mode":"coding","task":"what is the weather like in Paris in May","expect":[]}
+{"mode":"coding","task":"stream the football game tonight on the office TV","expect":[]}
+{"mode":"coding","task":"translate this birthday card into Italian","expect":[]}
+{"mode":"coding","task":"write a haiku about the moon rising","expect":[]}
+{"mode":"coding","task":"recommend a socket wrench set for my garage","expect":[]}
+{"mode":"coding","task":"plan the agenda for our team offsite","expect":[]}

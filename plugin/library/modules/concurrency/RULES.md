@@ -63,3 +63,10 @@ keywords: async made it slower
 refs: https://docs.python.org/3/library/concurrent.futures.html
 
 Async/await and event loops suit many concurrent I/O waits with low overhead; threads suit blocking libraries; processes or native parallelism suit CPU-bound work in runtimes with a global lock. Mixing models (blocking calls on an event loop) is the most common performance bug.
+
+## multi-process-coordination: Coordinate across worker processes in shared state, not in-process locks
+tags: concurrency, multiprocessing, gunicorn workers, uwsgi, in process lock, race condition, database lock
+keywords: threading lock did not help, works in dev fails with several workers, flash sale oversold
+refs: https://gunicorn.org/design/
+
+Production web servers run several worker processes (gunicorn, uWSGI, Puma, PM2 cluster, multiple containers), and a `threading.Lock` or in-memory flag only coordinates threads inside one process. Enforce invariants where all workers meet: an atomic conditional `UPDATE ... WHERE stock >= ?`, a unique constraint, a row lock in a transaction, or a distributed lock with fencing.

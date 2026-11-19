@@ -42,3 +42,24 @@ keywords: md: styles not applying on mobile
 refs: https://tailwindcss.com/docs/responsive-design
 
 Unprefixed utilities apply to all sizes; `md:`/`lg:` apply from that breakpoint up. Style the mobile layout first and add larger-screen overrides. Use `focus-visible:` for keyboard focus rings (never remove outlines without a replacement) and `dark:` with a consistent dark-mode strategy.
+
+## content-paths-coverage: Point Tailwind at every file that contains class names
+tags: tailwind, content configuration, source detection, missing styles, production build, purge
+keywords: styles work in dev but not in production, classes from a package missing
+refs: https://tailwindcss.com/docs/detecting-classes-in-source-files
+
+Tailwind scans source files for class names; classes used only in files it does not scan (a component library in node_modules, templates in another folder, markdown content) are missing from the build. Register extra sources (`@source "../node_modules/@acme/ui"` in v4, the `content` array in v3) instead of safelisting individual classes.
+
+## accessible-utilities: Keep focus, contrast and motion accessible with utilities
+tags: tailwind, accessibility, focus visible, sr only, motion reduce, contrast, outline none
+keywords: outline-none removed focus ring
+refs: https://tailwindcss.com/docs/hover-focus-and-other-states#focus-visible
+
+Do not ship `outline-none` without a `focus-visible:ring-*` replacement, use `sr-only` for text that screen readers need, wrap animations with `motion-safe:`/`motion-reduce:`, and check that text and background color pairs meet contrast ratios (gray-400 on white does not).
+
+## arbitrary-variants-sparingly: Prefer theme variables over arbitrary values in components
+tags: tailwind, arbitrary values, css variables, theming, dark mode, maintainability
+keywords: bg-[var(--x)], hardcoded hex in classes
+refs: https://tailwindcss.com/docs/adding-custom-styles#using-arbitrary-values
+
+Arbitrary values (`w-[317px]`, `bg-[#123456]`) bypass the design system and do not respond to themes. Expose shared values as theme variables (`@theme` in v4) and reference them by name; reserve arbitrary values for genuine one-offs and document why.

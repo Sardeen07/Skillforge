@@ -1,0 +1,33 @@
+{
+  "task": "json-error-handler",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "security-hard",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "echoes-exception-message",
+      "must_fail": [
+        "does-not-leak-internals"
+      ],
+      "must_pass": [
+        "passes-through-success",
+        "validation-errors-are-400",
+        "unexpected-errors-are-json-500"
+      ],
+      "why": "the obvious handler: returns str(exc) to the client",
+      "replace": {
+        "errors.py": [
+          [
+            "            return 500, {\"error\": \"internal_error\", \"request_id\": request_id}",
+            "            return 500, {\"error\": \"internal_error\", \"detail\": str(__import__(\"sys\").exc_info()[1])}"
+          ]
+        ]
+      }
+    }
+  ]
+}

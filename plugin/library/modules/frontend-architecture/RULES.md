@@ -49,3 +49,17 @@ keywords: rerender per keystroke, validation duplicated
 refs: https://react-hook-form.com/get-started
 
 Large forms with hand-rolled state re-render on every keystroke and duplicate validation. Use a form library (React Hook Form, Formik, VeeValidate, Angular reactive forms) with a schema shared with the server where possible, show errors on blur/submit, and disable double submission while pending.
+
+## error-boundaries-and-fallbacks: Isolate failures with error boundaries and fallbacks
+tags: frontend architecture, error boundary, fallback ui, resilience, react, vue, error handling
+keywords: one widget crash blanks the whole page
+refs: https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary
+
+Wrap independent regions (a dashboard widget, a sidebar) in error boundaries (React `ErrorBoundary`, Vue `onErrorCaptured`, Angular `ErrorHandler`) so one failing component shows a local fallback with retry instead of blanking the page, and report the error to your tracker.
+
+## feature-folder-structure: Organize front-end code by feature, not by file type
+tags: frontend architecture, folder structure, modules, feature folders, scalability, imports
+keywords: components folder with 300 files
+refs: https://angular.dev/style-guide#overall-structural-guidelines
+
+Group components, hooks, state and tests that belong to one feature in that feature's folder with a small public index; keep only genuinely shared primitives in a shared folder. Features can then change, move or be deleted together, and import rules can forbid reaching into another feature's internals.

@@ -49,3 +49,24 @@ keywords: comment says what code does, outdated comment
 refs: https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings
 
 Code shows what happens; comments should record why (constraints, trade-offs, links to incidents or specs) and public API contracts. Delete commented-out code (version control keeps it), update comments with the code, and give TODOs an owner or ticket.
+
+## make-illegal-states-unrepresentable: Encode invariants in types, not comments
+tags: clean code, types, invariants, domain modeling, enums, value objects, refactoring
+keywords: status string compared everywhere, boolean flags combinations
+refs: https://fsharpforfunandprofit.com/posts/designing-with-types-making-illegal-states-unrepresentable/
+
+Replace combinations of booleans and nullable fields that can contradict each other with enums, sum types or value objects whose constructors validate (an `EmailAddress` type, an `OrderStatus` enum with allowed transitions). Each invariant is then checked once, at creation, rather than defensively everywhere.
+
+## dead-code-and-flags: Delete dead code and expired feature flags
+tags: clean code, dead code, feature flags, technical debt, maintainability, unused code
+keywords: if False, flag always on
+refs: https://martinfowler.com/articles/feature-toggles.html
+
+Unused functions, branches behind permanently-on flags and commented-out blocks still cost reading time and hide bugs. Give each feature flag an owner and removal date, delete the losing branch once a flag is fully rolled out, and use coverage or static analysis to find unreachable code.
+
+## consistent-formatting-automation: Automate formatting and linting
+tags: code review, formatting, linting, prettier, black, ruff, eslint, pre commit
+keywords: review comments about whitespace
+refs: https://pre-commit.com/
+
+Run a formatter (Black/Ruff, Prettier, gofmt, rustfmt) and a linter automatically in pre-commit hooks and CI, so style never appears in code review and diffs show only meaningful changes. Adopt the formatter's defaults rather than debating options.

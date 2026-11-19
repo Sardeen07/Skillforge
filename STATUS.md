@@ -1,6 +1,6 @@
 # Status
 
-Last updated 2026-11-05. Detailed results: [docs/BENCHMARKS.md](docs/BENCHMARKS.md). Release
+Last updated 2026-11-18. Detailed results: [docs/BENCHMARKS.md](docs/BENCHMARKS.md). Release
 record: [docs/RELEASE_REPORT.md](docs/RELEASE_REPORT.md). Earlier handoffs: [docs/history/](docs/history/).
 
 ## Where things stand
@@ -8,7 +8,7 @@ record: [docs/RELEASE_REPORT.md](docs/RELEASE_REPORT.md). Earlier handoffs: [doc
 **The hypothesis** (a small, well-chosen set of curated rules gives better code per dollar
 than native skill loading) **is still untested with a model.** What exists now:
 
-- A 691-rule library in 63 modules plus the coding core: 515 authored rules in 57 packs
+- A 757-rule library in 66 modules plus the coding core: 581 authored rules in 60 packs
   (each citing the official reference it was checked against, drafted with Claude and
   **pending human review**) and 176 rules from five pinned, MIT-licensed upstream modules.
   Every rule is `evidence: untested`. The validator passes (0 errors, 2 reviewed notices).

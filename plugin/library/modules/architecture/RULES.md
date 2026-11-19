@@ -77,3 +77,10 @@ keywords: will it scale
 refs: https://sre.google/sre-book/software-engineering-in-sre/#intent-based-capacity-planning
 
 Estimate requests per second at peak, read/write ratio, data size growth and latency targets with simple arithmetic before designing. A single well-indexed database handles far more than many designs assume; let numbers, not fashion, justify sharding, caching layers or queues, then load-test the critical path.
+
+## strangler-fig-migration: Replace legacy systems incrementally with the strangler fig pattern
+tags: architecture, legacy migration, strangler fig, rewrite, incremental, routing, refactoring
+keywords: big bang rewrite, migrate monolith
+refs: https://martinfowler.com/bliki/StranglerFigApplication.html
+
+Avoid big-bang rewrites. Put a routing layer in front of the legacy system, move one capability at a time to the new implementation behind it, compare results in shadow mode where possible, and retire legacy paths as traffic moves. The system keeps working, and each step can be rolled back.

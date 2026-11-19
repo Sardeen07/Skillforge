@@ -56,3 +56,17 @@ keywords: just saved data missing
 refs: https://dev.mysql.com/doc/refman/8.4/en/replication.html
 
 Asynchronous replicas lag behind the source, sometimes by seconds. Route reads that must reflect a user's recent write to the source (or wait for the replica to catch up using GTIDs), and monitor lag; use replicas for analytics and tolerant reads.
+
+## mysql-connection-handling: Handle wait_timeout and pool connections correctly
+tags: mysql, connection pool, wait timeout, server has gone away, pool recycle, lost connection
+keywords: MySQL server has gone away, Lost connection to MySQL server during query
+refs: https://dev.mysql.com/doc/refman/8.4/en/gone-away.html
+
+MySQL closes idle connections after `wait_timeout` (8 hours by default, often lower on managed services), so pooled connections die silently. Configure the pool to recycle connections before that (`pool_recycle` in SQLAlchemy) and to validate on checkout (`pool_pre_ping`), and keep the pool size within `max_connections` across all instances.
+
+## mysql-json-columns: Index JSON fields through generated columns
+tags: mysql, json, generated columns, functional index, multi valued index, query performance
+keywords: JSON_EXTRACT in where clause slow
+refs: https://dev.mysql.com/doc/refman/8.4/en/create-table-secondary-indexes.html
+
+A `WHERE JSON_EXTRACT(doc, '$.status') = ?` filter cannot use a normal index. Add a stored or virtual generated column for the path and index it, use a functional index on the expression (8.0.13+), or a multi-valued index for JSON arrays, and query through the same expression.

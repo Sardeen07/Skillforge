@@ -56,3 +56,17 @@ keywords: os.environ scattered
 refs: https://fastapi.tiangolo.com/advanced/settings/
 
 Define a `Settings(BaseSettings)` class, load it once (cache with `@lru_cache`), inject it via `Depends`, and override it in tests. Typed settings fail fast on missing values; use `SecretStr` so secrets are not printed.
+
+## fastapi-auth-dependencies: Enforce authentication with dependencies at router level
+tags: fastapi, authentication, authorization, dependencies, oauth2, security, apirouter
+keywords: forgot to protect an endpoint, Depends(get_current_user)
+refs: https://fastapi.tiangolo.com/tutorial/security/first-steps/
+
+Attach the auth dependency to the router (`APIRouter(dependencies=[Depends(require_user)])`) so new endpoints are protected by default, and add scope or ownership checks in per-endpoint dependencies. Return 401 with `WWW-Authenticate` for missing credentials and 403 for insufficient permission.
+
+## fastapi-testing-overrides: Test with TestClient and dependency overrides
+tags: fastapi, testing, testclient, dependency overrides, pytest, httpx, database
+keywords: tests hit the real database
+refs: https://fastapi.tiangolo.com/advanced/testing-dependencies/
+
+Use `TestClient` (or `httpx.AsyncClient` with `ASGITransport` for async tests), and replace dependencies such as the DB session or current user via `app.dependency_overrides[get_db] = override` instead of patching internals; clear overrides after each test.

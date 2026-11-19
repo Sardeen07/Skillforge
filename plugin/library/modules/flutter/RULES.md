@@ -56,3 +56,10 @@ keywords: content under notch, text overflows
 refs: https://docs.flutter.dev/ui/accessibility-and-internationalization/accessibility
 
 Wrap screens in `SafeArea`, let text scale with system settings and test layouts at large scales, add `Semantics` labels for icon buttons, and use adaptive widgets where platform conventions differ (back navigation, switches, dialogs).
+
+## flutter-http-isolation-and-errors: Handle network errors and timeouts explicitly in Flutter
+tags: flutter, dart, http, dio, timeout, error handling, offline, socketexception
+keywords: app spins forever without network
+refs: https://docs.flutter.dev/cookbook/networking/fetch-data
+
+Set timeouts on every request (`http.get(...).timeout(...)` or Dio's `connectTimeout`/`receiveTimeout`), catch `SocketException`/`TimeoutException`, show a retryable error state instead of an endless spinner, and keep parsing and network code in a repository class that tests can fake.

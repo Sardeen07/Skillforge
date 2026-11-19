@@ -1,0 +1,32 @@
+{
+  "task": "webhook-verification",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "security-hard",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "no-replay-window",
+      "must_fail": [
+        "rejects-replayed-old-events"
+      ],
+      "must_pass": [
+        "accepts-genuine-event",
+        "rejects-tampering-and-wrong-secret"
+      ],
+      "why": "verifies the signature exactly as documented but accepts old requests forever",
+      "replace": {
+        "webhooks.py": [
+          [
+            "    if abs(now - timestamp) > TOLERANCE:\n        raise InvalidSignature(\"timestamp outside the tolerance window (possible replay)\")\n",
+            ""
+          ]
+        ]
+      }
+    }
+  ]
+}

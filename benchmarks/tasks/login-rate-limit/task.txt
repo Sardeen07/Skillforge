@@ -1,0 +1,1 @@
+Implement LoginLimiter.allow in ratelimit.py: at most 5 login attempts per client IP address per minute; return False once a client is over the limit. Our app runs behind one load balancer (an AWS ALB) that adds the client's address to the X-Forwarded-For header, so REMOTE_ADDR is always the load balancer's own address.

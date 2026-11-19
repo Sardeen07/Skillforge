@@ -77,3 +77,24 @@ keywords: arbitrary sort column, sql injection in sort
 refs: https://jsonapi.org/format/#fetching-sparse-fieldsets
 
 Offer explicit filter and sort parameters mapped through an allowlist to indexed columns, never raw SQL fragments or arbitrary field names. Field selection (`?fields=id,name`) reduces payloads for mobile clients; keep defaults small.
+
+## webhook-signature-verification: Verify webhook signatures over the raw body with a replay window
+tags: api design, webhooks, hmac, signature verification, replay attack, timestamp, stripe
+keywords: verify webhook, signature header, x-signature
+refs: https://docs.stripe.com/webhooks#verify-events
+
+Compute the HMAC over the exact raw request body (not re-serialized JSON) plus the signed timestamp, compare with `hmac.compare_digest`, and reject events whose timestamp is outside a short tolerance (e.g. 5 minutes) so captured requests cannot be replayed. Process each event id once, since providers retry deliveries.
+
+## webhook-delivery: Deliver outgoing webhooks asynchronously with retries and signatures
+tags: api design, webhooks, delivery, retries, queue, signing secret, idempotency
+keywords: sending webhooks to customers
+refs: https://www.standardwebhooks.com/
+
+Send webhooks from a background queue, never inline in the request that triggered them; sign each payload with a per-endpoint secret and timestamp, include a unique event id for receiver deduplication, retry with exponential backoff over hours, and disable endpoints that keep failing after notifying their owner.
+
+## conditional-requests-etags: Use ETags for caching and optimistic concurrency
+tags: api design, etag, if none match, if match, 304, 412, caching, concurrency
+keywords: lost update via api, clients refetch unchanged data
+refs: https://www.rfc-editor.org/rfc/rfc9110.html#name-conditional-requests
+
+Return an `ETag` for resources; honor `If-None-Match` with `304 Not Modified` to save bandwidth, and require `If-Match` on updates, answering `412 Precondition Failed` when the resource changed since the client read it. This prevents lost updates between concurrent API clients.

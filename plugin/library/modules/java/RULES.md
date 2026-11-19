@@ -77,3 +77,10 @@ keywords: assertTrue(a.equals(b)), many similar tests
 refs: https://junit.org/junit5/docs/current/user-guide/#writing-tests-parameterized-tests
 
 Use `assertEquals(expected, actual)` or AssertJ (`assertThat(x).isEqualTo(y)`) rather than `assertTrue(a.equals(b))`, which hides the values on failure. Express input tables with `@ParameterizedTest` + `@CsvSource`/`@MethodSource`, use `assertThrows` for exceptions, and mock only collaborators you own the contract of.
+
+## java-time-api: Use java.time with explicit zones, never java.util.Date
+tags: java, java time, instant, zoneddatetime, timezone, date, localdate
+keywords: SimpleDateFormat not thread safe, wrong timezone
+refs: https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/package-summary.html
+
+Use `Instant` for timestamps, `LocalDate` for calendar dates, and `ZonedDateTime` with an explicit `ZoneId` for local-time rules; inject a `Clock` for testability. Avoid `Date`, `Calendar` and `SimpleDateFormat` (mutable, not thread-safe); `DateTimeFormatter` is immutable and thread-safe.

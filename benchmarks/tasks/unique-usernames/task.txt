@@ -1,0 +1,1 @@
+Usernames are supposed to be unique, ignoring case, but someone just registered 'Admin' while 'admin' already exists, and support thinks they are the same account. Fix register() in users.py. Usernames should still be shown the way the person typed them.

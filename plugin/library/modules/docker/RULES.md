@@ -63,3 +63,10 @@ keywords: sending build context 1.5GB
 refs: https://docs.docker.com/build/concepts/context/#dockerignore-files
 
 Exclude `.git`, `node_modules`, virtual environments, build outputs, local `.env` files and credentials from the build context. This speeds up builds, avoids cache invalidation from irrelevant files and prevents secrets from being copied into images by `COPY . .`.
+
+## compose-for-dev-parity: Use Compose with pinned service versions for local development
+tags: docker, docker compose, local development, dev prod parity, services, volumes
+keywords: works on my machine, different postgres version locally
+refs: https://docs.docker.com/compose/
+
+Define local dependencies (database, cache, queue) in `compose.yaml` with the same major versions as production, named volumes for data, health checks, and an `.env.example`. New developers then start the stack with one command and test against the real engines instead of substitutes.

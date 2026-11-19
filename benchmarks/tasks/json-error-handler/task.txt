@@ -1,0 +1,1 @@
+When one of our API views raises, the framework returns an HTML 500 page, which crashes the mobile app's JSON parsing. Make the json_errors decorator in errors.py turn exceptions into JSON responses. Views return (status, payload_dict) and errors should come back the same way; a ValidationError should become a 400 that includes its field errors.

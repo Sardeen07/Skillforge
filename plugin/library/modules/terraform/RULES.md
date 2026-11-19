@@ -56,3 +56,17 @@ keywords: renaming resource destroys it
 refs: https://developer.hashicorp.com/terraform/language/modules/develop/refactoring
 
 Renaming a resource or moving it into a module makes Terraform plan a destroy and create. Declare `moved { from = ... to = ... }` blocks so the plan shows a move, and bring existing infrastructure under management with `import` blocks reviewed in a plan rather than ad-hoc CLI state commands.
+
+## terraform-for-each-over-count: Use for_each with stable keys instead of count for collections
+tags: terraform, for each, count, resource address, collections, destroy recreate
+keywords: removing one item recreated all the others
+refs: https://developer.hashicorp.com/terraform/language/meta-arguments/for_each
+
+With `count`, resources are addressed by index, so removing an element from the middle of a list shifts every later index and Terraform destroys and recreates them. Use `for_each` over a map or set keyed by a stable identifier; reserve `count` for 0-or-1 conditional resources.
+
+## terraform-policy-checks: Lint, validate and policy-check plans in CI
+tags: terraform, ci, tflint, terraform validate, checkov, policy as code, security scanning
+keywords: public bucket merged by mistake
+refs: https://developer.hashicorp.com/terraform/cli/commands/validate
+
+Run `terraform fmt -check`, `terraform validate` and a linter (tflint) on every change, and scan plans with a policy tool (Checkov, Trivy config, OPA/Conftest, Sentinel) for public storage, open security groups and unencrypted resources before apply.

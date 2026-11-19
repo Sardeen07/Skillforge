@@ -56,3 +56,17 @@ keywords: should I use sqlite in production
 refs: https://www.sqlite.org/whentouse.html
 
 SQLite excels for embedded, single-host, read-heavy and moderate-write workloads (apps, edge caches, many websites). Prefer a client/server database when many hosts must write concurrently, when data lives on a network file system, or when you need high sustained write concurrency.
+
+## sqlite-indexes-and-analyze: Index filtered columns and run PRAGMA optimize
+tags: sqlite, index, query planner, analyze, optimize, explain query plan, performance
+keywords: SCAN TABLE in explain query plan, slow sqlite query
+refs: https://www.sqlite.org/queryplanner.html
+
+Check plans with `EXPLAIN QUERY PLAN`: `SCAN table` on a large table means no usable index. Index columns used in `WHERE`, `JOIN` and `ORDER BY` (composite indexes in equality-then-range order), and run `PRAGMA optimize` before closing long-lived connections (or periodically) so the planner has statistics.
+
+## sqlite-backups-online: Back up a live SQLite database with the backup API or VACUUM INTO
+tags: sqlite, backup, vacuum into, wal, corruption, copy database file
+keywords: copied the db file and it was corrupted
+refs: https://www.sqlite.org/backup.html
+
+Copying the database file while it is being written can produce a corrupt copy, and in WAL mode the `-wal` file holds recent commits. Use the online backup API (`sqlite3.Connection.backup` in Python) or `VACUUM INTO 'backup.db'`, and test restores.

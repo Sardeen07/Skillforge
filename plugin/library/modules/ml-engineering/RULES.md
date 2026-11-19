@@ -49,3 +49,24 @@ keywords: gpu at 30 percent utilization
 refs: https://pytorch.org/tutorials/recipes/recipes/tuning_guide.html
 
 Low GPU utilization is usually an input bottleneck. Use `DataLoader(num_workers>0, pin_memory=True, persistent_workers=True)`, preprocess offline where possible, use automatic mixed precision (`torch.autocast`) on supported hardware, and profile before buying more GPUs.
+
+## model-monitoring-drift: Monitor model inputs and outputs for drift in production
+tags: ml, monitoring, data drift, concept drift, model performance, production, alerts
+keywords: model accuracy dropped silently
+refs: https://developers.google.com/machine-learning/guides/rules-of-ml#monitoring
+
+Log a sample of production inputs and predictions, compare feature distributions and prediction rates against the training data (population stability, KS tests), and track delayed ground-truth metrics when labels arrive. Alert on drift and retrain on a schedule or trigger, not when a customer complains.
+
+## baseline-first-ml: Compare every model against a simple baseline
+tags: ml, baseline, evaluation, heuristics, logistic regression, model selection
+keywords: deep learning model barely beats rules
+refs: https://developers.google.com/machine-learning/guides/rules-of-ml#rule_1_don%E2%80%99t_be_afraid_to_launch_a_product_without_machine_learning
+
+Before training a complex model, measure a trivial baseline (majority class, last value, a heuristic) and a simple model (linear/logistic regression, gradient-boosted trees) on the same split. If the complex model does not clearly beat them, its cost and opacity are not justified.
+
+## dataset-versioning: Version datasets and splits alongside code
+tags: ml, data versioning, reproducibility, dvc, train test split, lineage
+keywords: cannot recreate the training set
+refs: https://dvc.org/doc/start
+
+Store immutable snapshots (or content hashes) of training, validation and test data, and record which snapshot each model was trained and evaluated on. Freeze the test split; regenerating it silently changes every reported metric.

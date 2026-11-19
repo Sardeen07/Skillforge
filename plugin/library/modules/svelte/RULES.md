@@ -49,3 +49,17 @@ keywords: window is not defined
 refs: https://kit.svelte.dev/docs/state-management#avoid-shared-state-on-the-server
 
 Code at the top of a component or in a load function runs on the server, where `window`, `document` and `localStorage` do not exist. Access them in `onMount`/`$effect` or behind `import { browser } from '$app/environment'`. Never store per-user data in module-level variables on the server: it is shared across requests.
+
+## stores-vs-runes: Use runes for component state and .svelte.js modules for shared state
+tags: svelte, runes, stores, shared state, svelte 5, state management, writable
+keywords: writable store everywhere, migrate stores to runes
+refs: https://svelte.dev/docs/svelte/stores
+
+In Svelte 5, component state uses `$state`/`$derived`; state shared between components can live in a `.svelte.js`/`.svelte.ts` module exporting an object with `$state` fields. Keep stores for interop with existing code and for streams of values. Never keep per-user state in a module on the server: modules are shared across requests in SvelteKit SSR.
+
+## sveltekit-form-actions-progressive: Use form actions with use:enhance for mutations
+tags: svelte, sveltekit, form actions, progressive enhancement, use enhance, validation, fail
+keywords: fetch POST from on:click, form works without javascript
+refs: https://kit.svelte.dev/docs/form-actions
+
+Implement mutations as form actions in `+page.server.ts`, return `fail(400, { errors, values })` on invalid input so the form re-renders with messages, and add `use:enhance` for client-side submission. Forms then work without JavaScript, and validation stays on the server.

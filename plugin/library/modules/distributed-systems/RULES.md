@@ -18,9 +18,9 @@ A remote call without a timeout can hold a thread, connection or request forever
 ## retries-backoff-jitter: Retry only transient failures, with capped exponential backoff and jitter
 tags: distributed systems, retries, exponential backoff, jitter, retry storm, transient errors
 keywords: retry immediately in loop, thundering herd
-refs: https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/
+refs: https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/, https://www.rfc-editor.org/rfc/rfc9110.html#name-retry-after
 
-Retry only idempotent operations and only on transient errors (timeouts, 503, 429, connection resets), with exponential backoff plus random jitter and a small maximum number of attempts. Retry at one layer only: retries at every layer multiply load during an outage. Respect `Retry-After`.
+Retry only idempotent operations and only on transient errors (timeouts, 503, 429, connection resets), with exponential backoff plus random jitter and a small maximum number of attempts. Retry at one layer only: retries at every layer multiply load during an outage. Respect `Retry-After`, which servers send either as seconds (`120`) or as an HTTP date (`Wed, 21 Oct 2026 07:28:00 GMT`); parse both (RFC 9110 §10.2.3).
 
 ## idempotent-consumers: Make message and job handlers idempotent
 tags: distributed systems, idempotency, at least once delivery, duplicate messages, queue, consumers

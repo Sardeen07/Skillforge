@@ -844,6 +844,30 @@
         "license": "MIT"
       },
       "status": "provisional"
+    },
+    {
+      "name": "realtime",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "grpc",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
+    },
+    {
+      "name": "i18n",
+      "source": {
+        "kind": "authored",
+        "license": "MIT"
+      },
+      "status": "provisional"
     }
   ],
   "rules_note": "Rule relations are declared by hand: a procedural step is delivered only with the steps it depends on. Names are rule IDs within the module. Every rule's evidence status is 'untested' until measured."

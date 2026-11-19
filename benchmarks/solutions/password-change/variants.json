@@ -1,0 +1,32 @@
+{
+  "task": "password-change",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "security-hard",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "no-session-revocation",
+      "must_fail": [
+        "ends-other-sessions"
+      ],
+      "must_pass": [
+        "requires-current-password",
+        "changes-the-password"
+      ],
+      "why": "exactly the requested behavior; leaves every existing session alive",
+      "replace": {
+        "accounts.py": [
+          [
+            "    for sid in [sid for sid, owner in db.sessions.items() if owner == email and sid != session_id]:\n        del db.sessions[sid]\n",
+            ""
+          ]
+        ]
+      }
+    }
+  ]
+}

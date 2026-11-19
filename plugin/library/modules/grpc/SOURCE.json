@@ -1,0 +1,11 @@
+{
+  "kind": "authored",
+  "repo": "Sardeen07/Skillforge",
+  "path": "plugin/library/modules/grpc/RULES.md",
+  "license": "MIT",
+  "checked_against": "gRPC documentation (grpc.io) and Protocol Buffers language guide (proto3)",
+  "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-18; each rule cites the reference it was checked against",
+  "review": "pending human review",
+  "modified": false,
+  "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+}

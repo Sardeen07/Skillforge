@@ -1,0 +1,1 @@
+Add change_password(db, session_id, old_password, new_password) to accounts.py for the account settings page. It must require the user's current password and return True on success, False otherwise.

@@ -91,3 +91,10 @@ keywords: cannot find module at runtime, works in editor
 refs: https://www.typescriptlang.org/tsconfig/#paths
 
 `compilerOptions.paths` only affects type checking; the bundler, test runner and Node must resolve the same aliases (bundler config, `vite-tsconfig-paths`, Node subpath `imports`). In monorepos, use project references or workspace packages with `exports` rather than reaching into another package's `src` through relative paths.
+
+## exhaustive-checks-never: Make switch statements exhaustive with a never check
+tags: typescript, exhaustive, never, switch, union types, compile time safety
+keywords: new enum value not handled
+refs: https://www.typescriptlang.org/docs/handbook/2/narrowing.html#exhaustiveness-checking
+
+End switches over union types with `default: { const unreachable: never = value; throw new Error(...) }`. Adding a member to the union then fails compilation at every switch that does not handle it, instead of silently falling through at runtime.

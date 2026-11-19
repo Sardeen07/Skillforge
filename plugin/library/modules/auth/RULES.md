@@ -91,3 +91,17 @@ keywords: sms codes only
 refs: https://cheatsheetseries.owasp.org/cheatsheets/Multifactor_Authentication_Cheat_Sheet.html
 
 Prefer WebAuthn/passkeys (phishing-resistant) and TOTP; SMS is vulnerable to SIM swapping. Require re-authentication for sensitive changes, provide one-time recovery codes stored hashed, and rate-limit code verification.
+
+## revoke-sessions-on-credential-change: Revoke other sessions and tokens when credentials change
+tags: authentication, sessions, password change, revoke, refresh tokens, account takeover, logout everywhere
+keywords: password change does not log out other devices, refresh tokens survive password reset
+refs: https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#renew-the-session-id-after-any-privilege-level-change
+
+Changing or resetting a password (or enabling MFA) should end every other session and revoke refresh tokens and outstanding reset links for that account, keeping only the current session if appropriate. Otherwise an attacker who already has a session keeps access after the victim "secures" the account. Offer "log out of all devices" too.
+
+## reauthenticate-sensitive-actions: Require recent authentication for sensitive changes
+tags: authentication, reauthentication, step up, email change, password change, mfa, security
+keywords: change email without password
+refs: https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html#reauthentication-after-risk-events
+
+Changing the email address, password, MFA settings or payout details should require the current password or a fresh MFA check, even within a valid session. Verify a new email address by sending a link to it, and notify the old address of the change.

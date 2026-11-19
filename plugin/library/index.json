@@ -1,5 +1,5 @@
 {
-  "library_digest": "ee624de875921e9c",
+  "library_digest": "7341590e280c8b98",
   "token_estimate": "characters / 4 (estimate, not a measured token count)",
   "modes": {
     "coding": {
@@ -145,7 +145,7 @@
     },
     {
       "name": "api-design",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "HTTP and REST API design",
@@ -163,7 +163,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 1522,
+      "est_tokens": 1964,
       "path": "modules/api-design/RULES.md",
       "references": [],
       "source": {
@@ -183,7 +183,7 @@
     },
     {
       "name": "architecture",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "System design, architecture patterns and SOLID design",
@@ -201,7 +201,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 1560,
+      "est_tokens": 1710,
       "path": "modules/architecture/RULES.md",
       "references": [],
       "source": {
@@ -221,7 +221,7 @@
     },
     {
       "name": "auth",
-      "version": 2,
+      "version": 4,
       "kind": "module",
       "mode": "coding",
       "capability": "Authentication, sessions, tokens and authorization",
@@ -240,7 +240,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 1862,
+      "est_tokens": 2208,
       "path": "modules/auth/RULES.md",
       "references": [],
       "source": {
@@ -381,7 +381,7 @@
     },
     {
       "name": "code-quality",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "Clean code, refactoring and code review",
@@ -398,7 +398,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 943,
+      "est_tokens": 1363,
       "path": "modules/code-quality/RULES.md",
       "references": [],
       "source": {
@@ -418,7 +418,7 @@
     },
     {
       "name": "concurrency",
-      "version": 1,
+      "version": 3,
       "kind": "module",
       "mode": "coding",
       "capability": "Concurrency correctness across languages",
@@ -436,7 +436,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 1241,
+      "est_tokens": 1423,
       "path": "modules/concurrency/RULES.md",
       "references": [],
       "source": {
@@ -572,7 +572,7 @@
     },
     {
       "name": "distributed-systems",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "Distributed systems, caching and background jobs",
@@ -591,7 +591,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 1644,
+      "est_tokens": 1692,
       "path": "modules/distributed-systems/RULES.md",
       "references": [],
       "source": {
@@ -650,7 +650,7 @@
     },
     {
       "name": "docker",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "Container images: size, security and build speed",
@@ -669,7 +669,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 1147,
+      "est_tokens": 1289,
       "path": "modules/docker/RULES.md",
       "references": [],
       "source": {
@@ -689,7 +689,7 @@
     },
     {
       "name": "error-handling",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "Error handling and resilience in application code",
@@ -706,7 +706,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 1051,
+      "est_tokens": 1190,
       "path": "modules/error-handling/RULES.md",
       "references": [],
       "source": {
@@ -726,7 +726,7 @@
     },
     {
       "name": "fastapi",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "FastAPI correctness, async and validation",
@@ -744,7 +744,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 1003,
+      "est_tokens": 1285,
       "path": "modules/fastapi/RULES.md",
       "references": [],
       "source": {
@@ -764,7 +764,7 @@
     },
     {
       "name": "flask",
-      "version": 2,
+      "version": 4,
       "kind": "module",
       "mode": "coding",
       "capability": "Flask application structure and security",
@@ -782,7 +782,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 737,
+      "est_tokens": 1230,
       "path": "modules/flask/RULES.md",
       "references": [],
       "source": {
@@ -802,7 +802,7 @@
     },
     {
       "name": "flutter",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "Flutter widget performance, state and async safety",
@@ -821,7 +821,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 1008,
+      "est_tokens": 1150,
       "path": "modules/flutter/RULES.md",
       "references": [],
       "source": {
@@ -841,7 +841,7 @@
     },
     {
       "name": "frontend-architecture",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "Front-end state management and component architecture",
@@ -857,7 +857,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 938,
+      "est_tokens": 1239,
       "path": "modules/frontend-architecture/RULES.md",
       "references": [],
       "source": {
@@ -877,7 +877,7 @@
     },
     {
       "name": "go",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "Go concurrency, errors and services",
@@ -896,7 +896,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 1589,
+      "est_tokens": 1724,
       "path": "modules/go/RULES.md",
       "references": [],
       "source": {
@@ -916,7 +916,7 @@
     },
     {
       "name": "graphql",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "GraphQL schema design, performance and security",
@@ -935,7 +935,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 1033,
+      "est_tokens": 1305,
       "path": "modules/graphql/RULES.md",
       "references": [],
       "source": {
@@ -945,6 +945,45 @@
         "license": "MIT",
         "checked_against": "graphql.org best practices and GraphQL over HTTP specification",
         "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-03; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
+      "name": "grpc",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "gRPC services and Protocol Buffers schema evolution",
+      "overlap_group": "grpc",
+      "applies": [
+        "grpc",
+        "protobuf",
+        "protocol buffers",
+        "proto",
+        "rpc",
+        "microservices"
+      ],
+      "technologies": [
+        "grpc"
+      ],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 769,
+      "path": "modules/grpc/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/grpc/RULES.md",
+        "license": "MIT",
+        "checked_against": "gRPC documentation (grpc.io) and Protocol Buffers language guide (proto3)",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-18; each rule cites the reference it was checked against",
         "review": "pending human review",
         "modified": false,
         "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
@@ -994,8 +1033,47 @@
       "conflicts": []
     },
     {
+      "name": "i18n",
+      "version": 2,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Internationalization, localization and Unicode text handling",
+      "overlap_group": "i18n",
+      "applies": [
+        "i18n",
+        "internationalization",
+        "localization",
+        "l10n",
+        "translation",
+        "unicode",
+        "locale",
+        "timezone"
+      ],
+      "technologies": [],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1009,
+      "path": "modules/i18n/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/i18n/RULES.md",
+        "license": "MIT",
+        "checked_against": "Unicode Standard Annex #15, ICU MessageFormat, MDN Intl documentation",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-18; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
       "name": "java",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "Java correctness, concurrency and resource handling",
@@ -1013,7 +1091,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 1628,
+      "est_tokens": 1777,
       "path": "modules/java/RULES.md",
       "references": [],
       "source": {
@@ -1111,7 +1189,7 @@
     },
     {
       "name": "kubernetes",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "Kubernetes workloads: reliability, resources and security",
@@ -1131,7 +1209,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 1402,
+      "est_tokens": 1565,
       "path": "modules/kubernetes/RULES.md",
       "references": [],
       "source": {
@@ -1236,7 +1314,7 @@
     },
     {
       "name": "ml-engineering",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "Machine learning training, evaluation and deployment hygiene",
@@ -1256,7 +1334,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 958,
+      "est_tokens": 1378,
       "path": "modules/ml-engineering/RULES.md",
       "references": [],
       "source": {
@@ -1276,7 +1354,7 @@
     },
     {
       "name": "mobile-architecture",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "Mobile app architecture, offline-first sync and mobile performance",
@@ -1296,7 +1374,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 1124,
+      "est_tokens": 1258,
       "path": "modules/mobile-architecture/RULES.md",
       "references": [],
       "source": {
@@ -1355,7 +1433,7 @@
     },
     {
       "name": "mysql",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "MySQL/InnoDB schema, indexing and locking",
@@ -1374,7 +1452,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 1065,
+      "est_tokens": 1373,
       "path": "modules/mysql/RULES.md",
       "references": [],
       "source": {
@@ -1513,7 +1591,7 @@
     },
     {
       "name": "performance-profiling",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "Performance profiling, algorithmic complexity and memory management",
@@ -1531,7 +1609,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 1063,
+      "est_tokens": 1199,
       "path": "modules/performance-profiling/RULES.md",
       "references": [],
       "source": {
@@ -1694,7 +1772,7 @@
     },
     {
       "name": "python",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "Python correctness, idioms and runtime pitfalls",
@@ -1713,7 +1791,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 3178,
+      "est_tokens": 3442,
       "path": "modules/python/RULES.md",
       "references": [],
       "source": {
@@ -1993,6 +2071,44 @@
       "conflicts": []
     },
     {
+      "name": "realtime",
+      "version": 1,
+      "kind": "module",
+      "mode": "coding",
+      "capability": "Real-time features with WebSockets and Server-Sent Events",
+      "overlap_group": "realtime",
+      "applies": [
+        "websocket",
+        "sse",
+        "server sent events",
+        "real time",
+        "live updates",
+        "push",
+        "socket io"
+      ],
+      "technologies": [],
+      "rules": {},
+      "status": "provisional",
+      "score": null,
+      "est_tokens": 1013,
+      "path": "modules/realtime/RULES.md",
+      "references": [],
+      "source": {
+        "kind": "authored",
+        "repo": "Sardeen07/Skillforge",
+        "path": "plugin/library/modules/realtime/RULES.md",
+        "license": "MIT",
+        "checked_against": "RFC 6455, WHATWG HTML (Server-sent events), MDN Web Docs",
+        "authorship": "Drafted for SkillForge with Claude (Opus 5.5), 2026-11-18; each rule cites the reference it was checked against",
+        "review": "pending human review",
+        "modified": false,
+        "note": "Original SkillForge text. Each rule cites the authoritative reference it was checked against."
+      },
+      "requires": [],
+      "mentions": [],
+      "conflicts": []
+    },
+    {
       "name": "redis",
       "version": 1,
       "kind": "module",
@@ -2071,7 +2187,7 @@
     },
     {
       "name": "rust",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "Idiomatic Rust ownership, errors and async",
@@ -2090,7 +2206,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 1409,
+      "est_tokens": 1544,
       "path": "modules/rust/RULES.md",
       "references": [],
       "source": {
@@ -2110,7 +2226,7 @@
     },
     {
       "name": "security",
-      "version": 2,
+      "version": 3,
       "kind": "module",
       "mode": "coding",
       "capability": "Application security (OWASP Top 10) across languages",
@@ -2129,7 +2245,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 2418,
+      "est_tokens": 2913,
       "path": "modules/security/RULES.md",
       "references": [],
       "source": {
@@ -2227,7 +2343,7 @@
     },
     {
       "name": "sqlite",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "SQLite concurrency, durability and performance",
@@ -2244,7 +2360,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 964,
+      "est_tokens": 1236,
       "path": "modules/sqlite/RULES.md",
       "references": [],
       "source": {
@@ -2264,7 +2380,7 @@
     },
     {
       "name": "svelte",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "Svelte 5 runes and SvelteKit data loading",
@@ -2282,7 +2398,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 831,
+      "est_tokens": 1131,
       "path": "modules/svelte/RULES.md",
       "references": [],
       "source": {
@@ -2507,7 +2623,7 @@
     },
     {
       "name": "tailwind",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "Tailwind CSS configuration and maintainable utilities",
@@ -2524,7 +2640,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 772,
+      "est_tokens": 1223,
       "path": "modules/tailwind/RULES.md",
       "references": [],
       "source": {
@@ -2544,7 +2660,7 @@
     },
     {
       "name": "terraform",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "Terraform state, modules and safe changes",
@@ -2563,7 +2679,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 1051,
+      "est_tokens": 1332,
       "path": "modules/terraform/RULES.md",
       "references": [],
       "source": {
@@ -2721,7 +2837,7 @@
     },
     {
       "name": "typescript",
-      "version": 1,
+      "version": 2,
       "kind": "module",
       "mode": "coding",
       "capability": "TypeScript type safety and configuration",
@@ -2739,7 +2855,7 @@
       "rules": {},
       "status": "provisional",
       "score": null,
-      "est_tokens": 1844,
+      "est_tokens": 1979,
       "path": "modules/typescript/RULES.md",
       "references": [],
       "source": {

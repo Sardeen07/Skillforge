@@ -1,0 +1,32 @@
+{
+  "task": "login-rate-limit",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "security-hard",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "leftmost-forwarded-for",
+      "must_fail": [
+        "spoofed-header-cannot-bypass"
+      ],
+      "must_pass": [
+        "limits-a-client",
+        "clients-independent-and-window-resets"
+      ],
+      "why": "the common choice: the first X-Forwarded-For entry, which the client controls",
+      "replace": {
+        "ratelimit.py": [
+          [
+            "            return forwarded[-self.TRUSTED_PROXIES]",
+            "            return forwarded[0]"
+          ]
+        ]
+      }
+    }
+  ]
+}

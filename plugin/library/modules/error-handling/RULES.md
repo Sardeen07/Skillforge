@@ -56,3 +56,10 @@ keywords: unhandled exception killed worker
 refs: https://docs.sentry.io/platforms/python/
 
 Every entry point (HTTP middleware, queue consumer loop, CLI main, scheduled job) needs one handler that logs the error with context, reports it to error tracking, returns or records an appropriate failure, and for workers decides whether to retry or dead-letter the message.
+
+## result-types-at-boundaries: Return structured results from fallible operations at API boundaries
+tags: error handling, result type, error codes, api errors, exceptions, boundaries
+keywords: callers parse error strings
+refs: https://www.rfc-editor.org/rfc/rfc9457.html
+
+Callers should branch on stable error codes or types, not on message text. Expose failures across module and service boundaries as typed errors or results with a machine-readable code (`INSUFFICIENT_FUNDS`), keeping human messages separate so they can change and be localized freely.

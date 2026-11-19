@@ -56,3 +56,17 @@ keywords: removed field broke mobile app
 refs: https://graphql.org/learn/best-practices/#versioning
 
 GraphQL APIs are usually unversioned: add fields and types freely, mark old fields `@deprecated(reason: "Use fullName")`, track field usage from operation logs, and remove only after clients have migrated. Run a schema diff check in CI to catch breaking changes.
+
+## persisted-queries: Use persisted queries for first-party clients
+tags: graphql, persisted queries, apq, security, allowlist, caching, query cost
+keywords: arbitrary queries from the internet
+refs: https://www.apollographql.com/docs/apollo-server/performance/apq
+
+For your own web and mobile clients, register the operations at build time and accept only their hashes in production. This blocks arbitrary expensive queries, shrinks requests, and enables GET requests that CDNs can cache.
+
+## graphql-error-masking: Mask internal errors in GraphQL responses
+tags: graphql, errors, error masking, stack traces, security, extensions, logging
+keywords: database error message in graphql response
+refs: https://www.apollographql.com/docs/apollo-server/data/errors#masking-and-logging-errors
+
+GraphQL servers often return exception messages in `errors[].message`, leaking SQL and internal paths. Format errors so unexpected exceptions become a generic message with a request id (logged server-side with the stack), and expose only deliberate user-facing errors with a stable `extensions.code`.

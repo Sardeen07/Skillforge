@@ -91,3 +91,10 @@ keywords: log.Printf, unparseable logs
 refs: https://pkg.go.dev/log/slog
 
 Use `log/slog` (Go 1.21+) with a JSON handler in production: `slog.Info("order placed", "order_id", id, "amount", amt)`. Key-value attributes are queryable in log systems; pass a request-scoped logger via context or dependency injection.
+
+## go-sql-rows-close: Close rows, check rows.Err and reuse the sql.DB pool
+tags: go, database sql, rows close, connection pool, sql db, leaks, error handling
+keywords: too many connections, rows not closed
+refs: https://go.dev/doc/database/querying
+
+Create one `*sql.DB` per database at startup (it is a pool) and configure `SetMaxOpenConns`, `SetMaxIdleConns` and `SetConnMaxLifetime`. After `db.QueryContext`, `defer rows.Close()` and check `rows.Err()` after the loop; an unclosed `Rows` holds a connection until garbage collection.

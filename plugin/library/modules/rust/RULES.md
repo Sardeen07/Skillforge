@@ -77,3 +77,10 @@ keywords: serde_json Value everywhere
 refs: https://serde.rs/container-attrs.html#deny_unknown_fields
 
 Deserialize input into concrete structs instead of `serde_json::Value`, use enums for closed sets, `#[serde(deny_unknown_fields)]` where typos must be rejected, and newtypes with validating `TryFrom` for constrained values (emails, IDs), so invalid states are unrepresentable after parsing.
+
+## rust-error-context: Add context to errors at each boundary
+tags: rust, error handling, anyhow, context, thiserror, error messages, debugging
+keywords: error says only No such file or directory
+refs: https://docs.rs/anyhow/latest/anyhow/trait.Context.html
+
+A bare `?` on an `io::Error` reports "No such file or directory" with no hint of which file or why. Add `.with_context(|| format!("reading config {path:?}"))` (anyhow) or wrap in a `thiserror` variant carrying the operation and inputs, so the final error chain explains what failed.

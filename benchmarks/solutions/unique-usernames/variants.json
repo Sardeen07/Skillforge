@@ -1,0 +1,36 @@
+{
+  "task": "unique-usernames",
+  "reference": "good",
+  "grader_version": 1,
+  "category": "security-hard",
+  "variants": [
+    {
+      "name": "good",
+      "expect": "pass",
+      "why": "reference solution"
+    },
+    {
+      "name": "lower-only",
+      "must_fail": [
+        "lookalike-forms-are-the-same-name",
+        "full-case-folding"
+      ],
+      "must_pass": [
+        "case-insensitive"
+      ],
+      "why": "the obvious fix: compare username.lower()",
+      "replace": {
+        "users.py": [
+          [
+            "    return unicodedata.normalize(\"NFKC\", unicodedata.normalize(\"NFKC\", username).casefold())",
+            "    return username.lower()"
+          ],
+          [
+            "    username = unicodedata.normalize(\"NFC\", username.strip())",
+            "    username = username.strip()"
+          ]
+        ]
+      }
+    }
+  ]
+}

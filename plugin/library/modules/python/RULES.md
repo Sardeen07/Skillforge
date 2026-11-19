@@ -162,3 +162,17 @@ keywords: threads not faster, ProcessPoolExecutor, free threading
 refs: https://docs.python.org/3/library/concurrent.futures.html
 
 In standard CPython the GIL lets only one thread execute Python bytecode at a time: threads help I/O-bound work but not pure-Python CPU work. Use `ProcessPoolExecutor` (or vectorized libraries such as NumPy, which release the GIL) for CPU-bound work, and threads or asyncio for I/O. Free-threaded 3.13 builds are experimental; do not assume them.
+
+## pathlib-and-encoding: Use pathlib and pass encoding explicitly when reading text
+tags: python, pathlib, encoding, utf-8, file io, windows, unicode decode error
+keywords: UnicodeDecodeError on windows, open without encoding
+refs: https://docs.python.org/3/library/pathlib.html
+
+`open(path)` uses the platform's locale encoding, which differs between Linux, macOS and Windows (cp1252), so the same file decodes differently. Pass `encoding="utf-8"` (or enable `PYTHONUTF8=1`), and build paths with `pathlib.Path` rather than string concatenation so separators work everywhere.
+
+## enum-for-closed-sets: Use Enum (or Literal types) for closed sets of values
+tags: python, enum, literal, typing, constants, strings, validation
+keywords: status == "shiped" typo
+refs: https://docs.python.org/3/library/enum.html
+
+Replace magic strings and integers for states and kinds with `enum.Enum`/`StrEnum` (3.11+) or `typing.Literal`, so typos fail at load or type-check time, the set of values is discoverable, and `match` statements can be checked for completeness.

@@ -11,7 +11,7 @@ others report little gain on software-engineering tasks, with most skills changi
 nothing. So *which* guidance is curated may matter as much as how it is retrieved.
 See [STATUS.md](STATUS.md).
 
-> Status: working pipeline with a 691-rule library and offline benchmarks, **not yet
+> Status: working pipeline with a 757-rule library and offline benchmarks, **not yet
 > benchmarked against native skills with a model**. Every rule's
 > evidence status is `untested` until measured runs show it helps.
 
@@ -122,12 +122,12 @@ expert list for `sf-expert`; `--freeze` locks the conditions across reruns. Read
 
 ## Current coding library
 
-691 rules in 63 modules plus the coding core (`npm run validate:library` prints the
+757 rules in 66 modules plus the coding core (`npm run validate:library` prints the
 statistics). Every rule is `evidence: untested`.
 
 | Source | Modules | Rules | Provenance |
 |---|---:|---:|---|
-| Authored packs (`modules/*/RULES.md`) | 57 | 515 | SkillForge text (MIT), each rule citing the official documentation or standard it was checked against; drafted with Claude, **pending human review** |
+| Authored packs (`modules/*/RULES.md`) | 60 | 581 | SkillForge text (MIT), each rule citing the official documentation or standard it was checked against; drafted with Claude, **pending human review** |
 | vercel-labs/agent-skills | 3 | 114 | react-performance @ 063bee9, react-native and react-composition @ 1a2c79d (MIT per skill metadata) |
 | supabase/agent-skills | 1 | 31 | postgres @ 8331f91 (MIT) |
 | obra/superpowers | 2 | 31 | systematic-debugging, test-driven-development @ 5bf4e78 (MIT) |
@@ -142,7 +142,8 @@ tool calling, evaluation, inference, fine-tuning, token and context management, 
 security) and ML engineering; Docker, Kubernetes, CI/CD and GitHub Actions, AWS/GCP/Azure,
 Terraform, Linux and networking, observability; architecture, security, testing, TDD,
 debugging, code quality and review, concurrency, error handling, profiling and memory;
-SwiftUI/UIKit, Android, Flutter, React Native and mobile architecture.
+SwiftUI/UIKit, Android, Flutter, React Native and mobile architecture; real-time
+(WebSockets/SSE), gRPC/Protobuf, and internationalization/Unicode.
 
 Imported modules keep their original text, license and attribution (`SOURCE.json`) and are
 stored as `MODULE.md`, not `SKILL.md`, so Claude Code never registers them separately.
