@@ -1,0 +1,17 @@
+{
+  "model": "claude-opus-5-5",
+  "tools": "Read,Edit,Write,Bash,Glob,Grep,Skill",
+  "hook_budget_tokens": 2400,
+  "isolation": "flags",
+  "guidance_sha256": "16bce8ec20f0e5ba848ed6ce1b24cca2ece9f881c713e62d536b8d2666e3088f",
+  "runner_sha256": "190b85a99ce9d3cd79941ad42efa56be47902d0005f88429e1c899c7a2a36d67",
+  "crowd_sha256": null,
+  "tasks": {
+    "pg-queue-throughput": {
+      "task_sha256": "bcc3ea1b2a30e5f0ef0df7e36caa2797414b8678c8f0a8abf68c8bd48b1e320c",
+      "grader_version": 2,
+      "scorer_sha256": "cedfa73c3dd8b2f1bdebb7f185b4992309ae79efba8626d182d6377d47014388",
+      "expert_sha256": "2f628908b746366592c0795e16a30ea1721dc9d0767dc57e74b8a81209103476"
+    }
+  }
+}

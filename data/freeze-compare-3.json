@@ -1,0 +1,29 @@
+{
+  "model": "claude-opus-5-5",
+  "tools": "Read,Edit,Write,Bash,Glob,Grep,Skill",
+  "hook_budget_tokens": 2400,
+  "isolation": "flags",
+  "guidance_sha256": "a5db16c0d04b8e828e53732c9dc499d47097d07a9f40cc0201c197bf753df98a",
+  "runner_sha256": "bc1b1cea4a791c11e9a0a6a961e7f7275a4468217b7e2561000b7e7da2d2a6bb",
+  "crowd_sha256": null,
+  "tasks": {
+    "csv-export": {
+      "task_sha256": "9700732fd320bb32d570566ec2f018ec2904a065f395064cf0ad168e761f1679",
+      "grader_version": 1,
+      "scorer_sha256": "7163b1be4d3b5c0d5075304b8b90ac6a1625f43d22e5387be725f6612a65565b",
+      "expert_sha256": "491698d56402c5f6fb2e58abb910b409a823900f0db5c21d0459b383f2017187"
+    },
+    "reset-token-hardening": {
+      "task_sha256": "0ca183bc508e3d0db21135f42c370b1ffc48a7eccca85e01c95adcd91a73a351",
+      "grader_version": 1,
+      "scorer_sha256": "9d651a36bfea2efe46d1814a9e1a695f36dc10ab276204dd1e5b809bf00853f8",
+      "expert_sha256": "7d73adf3f6febee9d469fccef678f26ea2def9c4621cc46a146d319f5ff9a250"
+    },
+    "unique-usernames": {
+      "task_sha256": "af35ea9e02f4d2c74a480b0a3af57c407b6023571489fb7d3a64f578a2aaf7ab",
+      "grader_version": 1,
+      "scorer_sha256": "d1f4d80868b1d39dcb2a1fdb43719369dcaa1116896b873a30ddca97f680a7d1",
+      "expert_sha256": "fdc922720b96c659ad0e5f396240d3571469038da74ac7d792bdc697f18a0e44"
+    }
+  }
+}
