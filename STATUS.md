@@ -56,9 +56,9 @@ longer discriminates on this model. Details: docs/BENCHMARKS.md §4.
 
 0. **Compare arms on the discriminating tasks.** The `none` arm solved all 30 original tasks
    on Opus 5.5. Of 8 harder tasks added on 2026-11-09, two defeat it on both attempts
-   (`csv-export`, `reset-token-hardening`) and the hook delivers the covering rule for both.
-   Next: `none, native, sf-hook` (and `sf-expert` once its lists are reviewed) on those two,
-   5 repeats each.
+   (`csv-export`, `reset-token-hardening`); of 5 more added on 2026-11-18, one more does
+   (`unique-usernames`). The hook delivers the covering rule for all three. Next: `none,
+   native, sf-hook` (and `sf-expert` once its lists are reviewed) on those three, 5 repeats each.
 1. **Paid comparison, small and frozen:** `none, native, sf-hook, sf-expert` on 4-6 tasks,
    5 repeats, one pinned model, `--freeze` (command in docs/BENCHMARKS.md §4). Needs expert
    lists reviewed for each task. Record tokens (input/output/cached), cost and grader checks.

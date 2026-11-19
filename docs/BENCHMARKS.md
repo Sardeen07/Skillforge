@@ -231,5 +231,15 @@ it was not tuned on.
 events), `password-change` (other sessions stay logged in), `login-rate-limit` (spoofable
 X-Forwarded-For), `json-error-handler` (exception details leak), `unique-usernames` (Unicode
 lookalikes). The hook delivers the trap's rule for four of them; `json-error-handler`'s prompt
-("HTML 500 page") retrieves CSS rules instead, a retrieval miss left as is. Not yet run against
-the model.
+("HTML 500 page") retrieves CSS rules instead, a retrieval miss left as is.
+
+**Unguided Opus 5.5 on the five new tasks** (2 attempts each, `--isolation flags`, no
+contamination, $1.15): four solved on both attempts (webhook replay window, session revocation,
+rightmost X-Forwarded-For, no error-detail leak). `unique-usernames` scored 2/3 both times: the
+model used `casefold()` but no Unicode normalization, so fullwidth `ａｄｍｉｎ` registers as a
+new user. That is a genuine miss (RFC 8265 maps fullwidth characters and normalizes usernames),
+and the hook delivers `i18n/unicode-normalization` for this prompt.
+
+**Discriminating tasks so far: 3 of 13 trap tasks** (`csv-export`, `reset-token-hardening`,
+`unique-usernames`), each failed on every attempt, and the hook delivers the covering rule for
+all three. Across all 43 tasks, unguided Opus 5.5 fails 3.
