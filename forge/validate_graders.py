@@ -51,7 +51,8 @@ def grade(folder, mode=None):
 def judge(spec, result):
     """(ok, problems, extra failures) for one variant's grading result."""
     if result['score'] is None:
-        return False, ['grader printed no SCORE'], []
+        tail = ' | '.join(l for l in result.get('output', '').strip().splitlines()[-6:])
+        return False, [f'grader printed no SCORE; last output: {tail[:600]}'], []
     if spec.get('expect') == 'pass':
         detail = '; '.join(f"{c}: {result.get('reasons', {}).get(c, '')[:200]}" for c in result['failed'])
         return result['full'], ([] if result['full'] else [f"correct solution failed {result['failed']} ({detail})"]), []

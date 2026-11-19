@@ -52,11 +52,20 @@ def main():
     sys.stdout.flush()
     os._exit(0 if passed == len(CHECKS) else 1)
 
-import socket, threading
+import socket, socketserver, threading
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-# The test servers are on 127.0.0.1. Some machines (e.g. CI macOS images) route urllib through a
-# system proxy, which cannot reach the grader's loopback servers; this is not what is graded.
+
+class LocalHTTPServer(HTTPServer):
+    """HTTPServer.server_bind calls socket.getfqdn(), which hung for 20s+ on CI macOS images.
+    The grader's loopback server does not need its hostname, so skip the lookup."""
+
+    def server_bind(self):
+        socketserver.TCPServer.server_bind(self)
+        self.server_name, self.server_port = self.server_address[:2]
+
+# Defensive: the test servers are on 127.0.0.1, and a system proxy (if one is configured) must
+# not sit between the client under test and them; proxies are not what is graded.
 os.environ["no_proxy"] = os.environ["NO_PROXY"] = "*"
 
 
@@ -71,7 +80,7 @@ class OK(BaseHTTPRequestHandler):
 
 
 def _ok_server():
-    srv = HTTPServer(("127.0.0.1", 0), OK)
+    srv = LocalHTTPServer(("127.0.0.1", 0), OK)
     threading.Thread(target=srv.serve_forever, daemon=True).start()
     return f"http://127.0.0.1:{srv.server_address[1]}/status"
 

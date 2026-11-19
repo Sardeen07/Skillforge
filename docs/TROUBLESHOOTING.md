@@ -35,7 +35,9 @@ root, then the PATH. Create a venv: `python3 -m venv .venv`.
 
 **`npm run graders` is slow or skips the Postgres mode.** The `pg-queue-throughput` grader
 uses an embedded Postgres from `requirements-dev.txt`; without it, that task is validated in
-static mode only. Other graders need only the standard library.
+static mode only. Other graders need only the standard library. The embedded Postgres did not
+run on GitHub's Windows images (2026-11-19), so CI validates that task in static mode there;
+behavioral grading on Windows is unverified.
 
 **`validate:library --verify-links` reports 403s.** Some documentation hosts reject
 automated requests (dev.mysql.com did). Check those links in a browser.

@@ -26,7 +26,8 @@ jobs:
         with:
           node-version: '22'
       # Embedded Postgres for the behavioral pg grader; graders fall back to static mode without it.
-      - if: matrix.python == '3.12'
+      # Not installed on Windows: it failed to run there (2026-11-19) and is unverified on Windows.
+      - if: matrix.python == '3.12' && runner.os != 'Windows'
         run: python -m pip install -r requirements-dev.txt
       - run: npm test
       - run: npm run validate:library
