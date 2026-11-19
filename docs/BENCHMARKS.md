@@ -243,3 +243,41 @@ and the hook delivers `i18n/unicode-normalization` for this prompt.
 **Discriminating tasks so far: 3 of 13 trap tasks** (`csv-export`, `reset-token-hardening`,
 `unique-usernames`), each failed on every attempt, and the hook delivers the covering rule for
 all three. Across all 43 tasks, unguided Opus 5.5 fails 3.
+
+## 6. First controlled comparison (2026-11-18): none vs native vs sf-hook
+
+Opus 5.5, the three tasks that unguided Opus 5.5 fails (`csv-export`, `reset-token-hardening`,
+`unique-usernames`), 5 attempts per task and arm, 45 sessions, `--isolation flags` (no
+contamination in any session), conditions frozen in `data/freeze-compare-3.json`. Every
+sf-hook session received its rules byte-identical. $5.35 in total.
+
+| Arm | Tasks fully solved | Checks passed | Mean cost / session | Mean input tokens (incl. cache) | Mean turns |
+|---|---:|---:|---:|---:|---:|
+| none | 0/15 | 31/50 | $0.097 | 45,594 | 4.7 |
+| native (63+ modules as skills) | 5/15 | 40/50 | $0.145 | 71,985 | 5.5 |
+| **sf-hook** | **11/15** | **46/50** | **$0.115** | 56,000 | 5.1 |
+
+| Task | none | native | sf-hook |
+|---|---|---|---|
+| `csv-export` | 0/5 | 0/5 | **5/5** |
+| `reset-token-hardening` | 0/5 (3.2/5 checks avg) | 0/5 (4/5 each: revoked old links, still stored raw tokens) | 1/5 (4.2/5 avg) |
+| `unique-usernames` | 0/5 | 5/5 | 5/5 |
+
+Two-sided Fisher exact tests on full solves: sf-hook vs none p = 0.00005; sf-hook vs native
+p = 0.066; native vs none p = 0.042.
+
+**What this shows.** On these three tasks, delivering the matching rule turned consistent
+failures into passes, and SkillForge did so in more tasks than loading the same library as
+native skills, at about 21% lower cost per session than native (and 18% more than no
+guidance). In native sessions no Skill tool call was recorded: the always-present skill list
+(e.g. the i18n module's description) was itself enough of a nudge for `unique-usernames`, and
+not enough for the other two. `reset-token-hardening` stayed mostly unsolved in every arm: the
+model followed the rule's revocation advice but not "store only their hash".
+
+**What it does not show.** The three tasks were *selected* because unguided Opus 5.5 fails them
+and were *designed* around rules in this library (one rule, `security/csv-formula-injection`,
+was written for its task). That is the most favorable setting for SkillForge, chosen on purpose
+to test whether delivery can matter at all. It says nothing about the 40 tasks the model already
+solves (where guidance only added cost), about other models, or about real projects. Three
+tasks and 5 attempts each is a small sample: the sf-hook vs native difference is not
+significant at 0.05.

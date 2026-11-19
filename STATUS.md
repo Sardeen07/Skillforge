@@ -52,6 +52,12 @@ A 4-session smoke test on Opus 5.5 (`pg-queue-throughput`, one session per arm):
 scored 4/4, costs $0.20-0.27 per session, and the no-guidance arm was cheapest. The task no
 longer discriminates on this model. Details: docs/BENCHMARKS.md §4.
 
+## First controlled comparison (2026-11-18)
+
+On the 3 tasks unguided Opus 5.5 fails (5 attempts each): sf-hook solved 11/15, native
+skills 5/15, no guidance 0/15; mean cost $0.115 / $0.145 / $0.097 per session. Favorable,
+self-selected conditions; see docs/BENCHMARKS.md §6 before quoting it.
+
 ## Next feedback loop
 
 0. **Compare arms on the discriminating tasks.** The `none` arm solved all 30 original tasks

@@ -1,0 +1,911 @@
+[
+  {
+    "task": "csv-export",
+    "arm": "native",
+    "status": "ok",
+    "score": "1/2",
+    "cost": 0.1392624,
+    "turns": 5,
+    "input_tokens": 10,
+    "output_tokens": 1754,
+    "cache_read": 66952,
+    "cache_write": 11344,
+    "elapsed_seconds": 22.15,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "neutralizes-spreadsheet-formulas"
+    ]
+  },
+  {
+    "task": "csv-export",
+    "arm": "sf-hook",
+    "status": "ok",
+    "score": "2/2",
+    "cost": 0.1104562,
+    "turns": 5,
+    "input_tokens": 8,
+    "output_tokens": 1886,
+    "cache_read": 40481,
+    "cache_write": 8076,
+    "elapsed_seconds": 22.524,
+    "delivered_rules": [
+      "security/csv-formula-injection",
+      "sql/select-only-needed-columns"
+    ],
+    "delivery_check": "ok",
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": []
+  },
+  {
+    "task": "csv-export",
+    "arm": "none",
+    "status": "ok",
+    "score": "1/2",
+    "cost": 0.09614339999999999,
+    "turns": 5,
+    "input_tokens": 8,
+    "output_tokens": 1695,
+    "cache_read": 37697,
+    "cache_write": 6834,
+    "elapsed_seconds": 20.996,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "neutralizes-spreadsheet-formulas"
+    ]
+  },
+  {
+    "task": "csv-export",
+    "arm": "native",
+    "status": "ok",
+    "score": "1/2",
+    "cost": 0.132967,
+    "turns": 5,
+    "input_tokens": 8,
+    "output_tokens": 1638,
+    "cache_read": 50755,
+    "cache_write": 11253,
+    "elapsed_seconds": 19.551,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "neutralizes-spreadsheet-formulas"
+    ]
+  },
+  {
+    "task": "csv-export",
+    "arm": "sf-hook",
+    "status": "ok",
+    "score": "2/2",
+    "cost": 0.11126079999999999,
+    "turns": 5,
+    "input_tokens": 8,
+    "output_tokens": 1904,
+    "cache_read": 40544,
+    "cache_write": 8130,
+    "elapsed_seconds": 21.291,
+    "delivered_rules": [
+      "security/csv-formula-injection",
+      "sql/select-only-needed-columns"
+    ],
+    "delivery_check": "ok",
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": []
+  },
+  {
+    "task": "csv-export",
+    "arm": "none",
+    "status": "ok",
+    "score": "1/2",
+    "cost": 0.09415559999999999,
+    "turns": 5,
+    "input_tokens": 8,
+    "output_tokens": 1626,
+    "cache_read": 37698,
+    "cache_write": 6758,
+    "elapsed_seconds": 19.235,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "neutralizes-spreadsheet-formulas"
+    ]
+  },
+  {
+    "task": "csv-export",
+    "arm": "native",
+    "status": "ok",
+    "score": "1/2",
+    "cost": 0.14438020000000001,
+    "turns": 5,
+    "input_tokens": 10,
+    "output_tokens": 1961,
+    "cache_read": 67241,
+    "cache_write": 11459,
+    "elapsed_seconds": 24.117,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "neutralizes-spreadsheet-formulas"
+    ]
+  },
+  {
+    "task": "csv-export",
+    "arm": "sf-hook",
+    "status": "ok",
+    "score": "2/2",
+    "cost": 0.1160784,
+    "turns": 5,
+    "input_tokens": 10,
+    "output_tokens": 2021,
+    "cache_read": 53412,
+    "cache_write": 8117,
+    "elapsed_seconds": 22.806,
+    "delivered_rules": [
+      "security/csv-formula-injection",
+      "sql/select-only-needed-columns"
+    ],
+    "delivery_check": "ok",
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": []
+  },
+  {
+    "task": "csv-export",
+    "arm": "none",
+    "status": "ok",
+    "score": "1/2",
+    "cost": 0.09942200000000001,
+    "turns": 5,
+    "input_tokens": 8,
+    "output_tokens": 1853,
+    "cache_read": 37770,
+    "cache_write": 6847,
+    "elapsed_seconds": 21.999,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "neutralizes-spreadsheet-formulas"
+    ]
+  },
+  {
+    "task": "csv-export",
+    "arm": "sf-hook",
+    "status": "ok",
+    "score": "2/2",
+    "cost": 0.11222560000000001,
+    "turns": 5,
+    "input_tokens": 10,
+    "output_tokens": 1885,
+    "cache_read": 53188,
+    "cache_write": 7981,
+    "elapsed_seconds": 22.417,
+    "delivered_rules": [
+      "security/csv-formula-injection",
+      "sql/select-only-needed-columns"
+    ],
+    "delivery_check": "ok",
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": []
+  },
+  {
+    "task": "csv-export",
+    "arm": "none",
+    "status": "ok",
+    "score": "1/2",
+    "cost": 0.0895702,
+    "turns": 4,
+    "input_tokens": 6,
+    "output_tokens": 1498,
+    "cache_read": 26571,
+    "cache_write": 6784,
+    "elapsed_seconds": 17.622,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "neutralizes-spreadsheet-formulas"
+    ]
+  },
+  {
+    "task": "csv-export",
+    "arm": "native",
+    "status": "ok",
+    "score": "1/2",
+    "cost": 0.1397088,
+    "turns": 5,
+    "input_tokens": 10,
+    "output_tokens": 1805,
+    "cache_read": 66884,
+    "cache_write": 11274,
+    "elapsed_seconds": 22.154,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "neutralizes-spreadsheet-formulas"
+    ]
+  },
+  {
+    "task": "csv-export",
+    "arm": "native",
+    "status": "ok",
+    "score": "1/2",
+    "cost": 0.1421976,
+    "turns": 5,
+    "input_tokens": 10,
+    "output_tokens": 1864,
+    "cache_read": 67188,
+    "cache_write": 11430,
+    "elapsed_seconds": 22.036,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "neutralizes-spreadsheet-formulas"
+    ]
+  },
+  {
+    "task": "csv-export",
+    "arm": "none",
+    "status": "ok",
+    "score": "1/2",
+    "cost": 0.0939248,
+    "turns": 4,
+    "input_tokens": 8,
+    "output_tokens": 1594,
+    "cache_read": 38144,
+    "cache_write": 6798,
+    "elapsed_seconds": 19.72,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "neutralizes-spreadsheet-formulas"
+    ]
+  },
+  {
+    "task": "csv-export",
+    "arm": "sf-hook",
+    "status": "ok",
+    "score": "2/2",
+    "cost": 0.1085184,
+    "turns": 5,
+    "input_tokens": 10,
+    "output_tokens": 1730,
+    "cache_read": 53072,
+    "cache_write": 7908,
+    "elapsed_seconds": 21.145,
+    "delivered_rules": [
+      "security/csv-formula-injection",
+      "sql/select-only-needed-columns"
+    ],
+    "delivery_check": "ok",
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": []
+  },
+  {
+    "task": "reset-token-hardening",
+    "arm": "sf-hook",
+    "status": "ok",
+    "score": "4/5",
+    "cost": 0.14637759999999997,
+    "turns": 6,
+    "input_tokens": 12,
+    "output_tokens": 2929,
+    "cache_read": 68188,
+    "cache_write": 9264,
+    "elapsed_seconds": 30.688,
+    "delivered_rules": [
+      "auth/password-reset-tokens"
+    ],
+    "delivery_check": "ok",
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "not-stored-in-plaintext"
+    ]
+  },
+  {
+    "task": "reset-token-hardening",
+    "arm": "native",
+    "status": "ok",
+    "score": "4/5",
+    "cost": 0.18428240000000004,
+    "turns": 8,
+    "input_tokens": 12,
+    "output_tokens": 2348,
+    "cache_read": 77212,
+    "cache_write": 15229,
+    "elapsed_seconds": 23.94,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [
+      "native-skills:auth"
+    ],
+    "contamination": [],
+    "failed_checks": [
+      "not-stored-in-plaintext"
+    ]
+  },
+  {
+    "task": "reset-token-hardening",
+    "arm": "none",
+    "status": "ok",
+    "score": "4/5",
+    "cost": 0.12422259999999999,
+    "turns": 5,
+    "input_tokens": 10,
+    "output_tokens": 2460,
+    "cache_read": 50873,
+    "cache_write": 8101,
+    "elapsed_seconds": 26.412,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "not-stored-in-plaintext"
+    ]
+  },
+  {
+    "task": "reset-token-hardening",
+    "arm": "native",
+    "status": "ok",
+    "score": "4/5",
+    "cost": 0.1597362,
+    "turns": 6,
+    "input_tokens": 10,
+    "output_tokens": 2392,
+    "cache_read": 68161,
+    "cache_write": 12278,
+    "elapsed_seconds": 26.393,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "not-stored-in-plaintext"
+    ]
+  },
+  {
+    "task": "reset-token-hardening",
+    "arm": "none",
+    "status": "ok",
+    "score": "3/5",
+    "cost": 0.1084544,
+    "turns": 5,
+    "input_tokens": 10,
+    "output_tokens": 2058,
+    "cache_read": 49752,
+    "cache_write": 7163,
+    "elapsed_seconds": 22.519,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "not-stored-in-plaintext",
+      "other-tokens-revoked-after-reset"
+    ]
+  },
+  {
+    "task": "reset-token-hardening",
+    "arm": "sf-hook",
+    "status": "ok",
+    "score": "4/5",
+    "cost": 0.12614399999999998,
+    "turns": 4,
+    "input_tokens": 8,
+    "output_tokens": 2445,
+    "cache_read": 39940,
+    "cache_write": 8653,
+    "elapsed_seconds": 26.11,
+    "delivered_rules": [
+      "auth/password-reset-tokens"
+    ],
+    "delivery_check": "ok",
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "not-stored-in-plaintext"
+    ]
+  },
+  {
+    "task": "reset-token-hardening",
+    "arm": "sf-hook",
+    "status": "ok",
+    "score": "4/5",
+    "cost": 0.1158276,
+    "turns": 4,
+    "input_tokens": 8,
+    "output_tokens": 2221,
+    "cache_read": 39758,
+    "cache_write": 7928,
+    "elapsed_seconds": 24.523,
+    "delivered_rules": [
+      "auth/password-reset-tokens"
+    ],
+    "delivery_check": "ok",
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "not-stored-in-plaintext"
+    ]
+  },
+  {
+    "task": "reset-token-hardening",
+    "arm": "native",
+    "status": "ok",
+    "score": "4/5",
+    "cost": 0.1445924,
+    "turns": 5,
+    "input_tokens": 8,
+    "output_tokens": 2086,
+    "cache_read": 50922,
+    "cache_write": 11582,
+    "elapsed_seconds": 22.149,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "not-stored-in-plaintext"
+    ]
+  },
+  {
+    "task": "reset-token-hardening",
+    "arm": "none",
+    "status": "ok",
+    "score": "3/5",
+    "cost": 0.098311,
+    "turns": 4,
+    "input_tokens": 8,
+    "output_tokens": 1782,
+    "cache_read": 37795,
+    "cache_write": 6885,
+    "elapsed_seconds": 19.461,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "not-stored-in-plaintext",
+      "other-tokens-revoked-after-reset"
+    ]
+  },
+  {
+    "task": "reset-token-hardening",
+    "arm": "sf-hook",
+    "status": "ok",
+    "score": "4/5",
+    "cost": 0.1184434,
+    "turns": 4,
+    "input_tokens": 8,
+    "output_tokens": 2154,
+    "cache_read": 39937,
+    "cache_write": 8418,
+    "elapsed_seconds": 23.42,
+    "delivered_rules": [
+      "auth/password-reset-tokens"
+    ],
+    "delivery_check": "ok",
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "not-stored-in-plaintext"
+    ]
+  },
+  {
+    "task": "reset-token-hardening",
+    "arm": "none",
+    "status": "ok",
+    "score": "3/5",
+    "cost": 0.1048916,
+    "turns": 4,
+    "input_tokens": 8,
+    "output_tokens": 1915,
+    "cache_read": 37798,
+    "cache_write": 7375,
+    "elapsed_seconds": 21.895,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "not-stored-in-plaintext",
+      "other-tokens-revoked-after-reset"
+    ]
+  },
+  {
+    "task": "reset-token-hardening",
+    "arm": "native",
+    "status": "ok",
+    "score": "4/5",
+    "cost": 0.1462552,
+    "turns": 5,
+    "input_tokens": 8,
+    "output_tokens": 2134,
+    "cache_read": 50996,
+    "cache_write": 11668,
+    "elapsed_seconds": 23.119,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "not-stored-in-plaintext"
+    ]
+  },
+  {
+    "task": "reset-token-hardening",
+    "arm": "native",
+    "status": "ok",
+    "score": "4/5",
+    "cost": 0.147152,
+    "turns": 5,
+    "input_tokens": 8,
+    "output_tokens": 2150,
+    "cache_read": 50800,
+    "cache_write": 11745,
+    "elapsed_seconds": 25.176,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "not-stored-in-plaintext"
+    ]
+  },
+  {
+    "task": "reset-token-hardening",
+    "arm": "sf-hook",
+    "status": "ok",
+    "score": "5/5",
+    "cost": 0.117439,
+    "turns": 5,
+    "input_tokens": 10,
+    "output_tokens": 2158,
+    "cache_read": 52555,
+    "cache_write": 7966,
+    "elapsed_seconds": 23.506,
+    "delivered_rules": [
+      "auth/password-reset-tokens"
+    ],
+    "delivery_check": "ok",
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": []
+  },
+  {
+    "task": "reset-token-hardening",
+    "arm": "none",
+    "status": "ok",
+    "score": "3/5",
+    "cost": 0.105144,
+    "turns": 4,
+    "input_tokens": 8,
+    "output_tokens": 1927,
+    "cache_read": 37780,
+    "cache_write": 7377,
+    "elapsed_seconds": 21.138,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "not-stored-in-plaintext",
+      "other-tokens-revoked-after-reset"
+    ]
+  },
+  {
+    "task": "unique-usernames",
+    "arm": "sf-hook",
+    "status": "ok",
+    "score": "3/3",
+    "cost": 0.10082619999999999,
+    "turns": 5,
+    "input_tokens": 8,
+    "output_tokens": 1617,
+    "cache_read": 39911,
+    "cache_write": 7559,
+    "elapsed_seconds": 21.926,
+    "delivered_rules": [
+      "i18n/unicode-normalization"
+    ],
+    "delivery_check": "ok",
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": []
+  },
+  {
+    "task": "unique-usernames",
+    "arm": "native",
+    "status": "ok",
+    "score": "3/3",
+    "cost": 0.134034,
+    "turns": 5,
+    "input_tokens": 8,
+    "output_tokens": 1718,
+    "cache_read": 51290,
+    "cache_write": 11173,
+    "elapsed_seconds": 20.674,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": []
+  },
+  {
+    "task": "unique-usernames",
+    "arm": "none",
+    "status": "ok",
+    "score": "2/3",
+    "cost": 0.0860766,
+    "turns": 5,
+    "input_tokens": 8,
+    "output_tokens": 1330,
+    "cache_read": 37583,
+    "cache_write": 6491,
+    "elapsed_seconds": 18.655,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "lookalike-forms-are-the-same-name"
+    ]
+  },
+  {
+    "task": "unique-usernames",
+    "arm": "sf-hook",
+    "status": "ok",
+    "score": "3/3",
+    "cost": 0.10975420000000001,
+    "turns": 5,
+    "input_tokens": 8,
+    "output_tokens": 1983,
+    "cache_read": 39911,
+    "cache_write": 7760,
+    "elapsed_seconds": 23.612,
+    "delivered_rules": [
+      "i18n/unicode-normalization"
+    ],
+    "delivery_check": "ok",
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": []
+  },
+  {
+    "task": "unique-usernames",
+    "arm": "native",
+    "status": "ok",
+    "score": "3/3",
+    "cost": 0.1304638,
+    "turns": 5,
+    "input_tokens": 8,
+    "output_tokens": 1598,
+    "cache_read": 50599,
+    "cache_write": 11044,
+    "elapsed_seconds": 19.196,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": []
+  },
+  {
+    "task": "unique-usernames",
+    "arm": "none",
+    "status": "ok",
+    "score": "2/3",
+    "cost": 0.09066460000000001,
+    "turns": 5,
+    "input_tokens": 8,
+    "output_tokens": 1496,
+    "cache_read": 37763,
+    "cache_write": 6645,
+    "elapsed_seconds": 18.721,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "lookalike-forms-are-the-same-name"
+    ]
+  },
+  {
+    "task": "unique-usernames",
+    "arm": "sf-hook",
+    "status": "ok",
+    "score": "3/3",
+    "cost": 0.1102504,
+    "turns": 6,
+    "input_tokens": 10,
+    "output_tokens": 1878,
+    "cache_read": 52372,
+    "cache_write": 7772,
+    "elapsed_seconds": 22.824,
+    "delivered_rules": [
+      "i18n/unicode-normalization"
+    ],
+    "delivery_check": "ok",
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": []
+  },
+  {
+    "task": "unique-usernames",
+    "arm": "none",
+    "status": "ok",
+    "score": "2/3",
+    "cost": 0.08161180000000001,
+    "turns": 5,
+    "input_tokens": 8,
+    "output_tokens": 1180,
+    "cache_read": 37339,
+    "cache_write": 6314,
+    "elapsed_seconds": 17.648,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "lookalike-forms-are-the-same-name"
+    ]
+  },
+  {
+    "task": "unique-usernames",
+    "arm": "native",
+    "status": "ok",
+    "score": "3/3",
+    "cost": 0.14718540000000002,
+    "turns": 6,
+    "input_tokens": 10,
+    "output_tokens": 2072,
+    "cache_read": 67247,
+    "cache_write": 11532,
+    "elapsed_seconds": 24.772,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": []
+  },
+  {
+    "task": "unique-usernames",
+    "arm": "sf-hook",
+    "status": "ok",
+    "score": "3/3",
+    "cost": 0.1055712,
+    "turns": 6,
+    "input_tokens": 10,
+    "output_tokens": 1694,
+    "cache_read": 52336,
+    "cache_write": 7648,
+    "elapsed_seconds": 21.112,
+    "delivered_rules": [
+      "i18n/unicode-normalization"
+    ],
+    "delivery_check": "ok",
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": []
+  },
+  {
+    "task": "unique-usernames",
+    "arm": "native",
+    "status": "ok",
+    "score": "3/3",
+    "cost": 0.1394188,
+    "turns": 7,
+    "input_tokens": 10,
+    "output_tokens": 1772,
+    "cache_read": 66814,
+    "cache_write": 11322,
+    "elapsed_seconds": 20.538,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": []
+  },
+  {
+    "task": "unique-usernames",
+    "arm": "none",
+    "status": "ok",
+    "score": "2/3",
+    "cost": 0.09085960000000001,
+    "turns": 5,
+    "input_tokens": 8,
+    "output_tokens": 1459,
+    "cache_read": 37798,
+    "cache_write": 6761,
+    "elapsed_seconds": 18.418,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "lookalike-forms-are-the-same-name"
+    ]
+  },
+  {
+    "task": "unique-usernames",
+    "arm": "sf-hook",
+    "status": "ok",
+    "score": "3/3",
+    "cost": 0.118906,
+    "turns": 7,
+    "input_tokens": 10,
+    "output_tokens": 2184,
+    "cache_read": 53010,
+    "cache_write": 8073,
+    "elapsed_seconds": 25.828,
+    "delivered_rules": [
+      "i18n/unicode-normalization"
+    ],
+    "delivery_check": "ok",
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": []
+  },
+  {
+    "task": "unique-usernames",
+    "arm": "native",
+    "status": "ok",
+    "score": "3/3",
+    "cost": 0.1398736,
+    "turns": 5,
+    "input_tokens": 8,
+    "output_tokens": 1924,
+    "cache_read": 50848,
+    "cache_write": 11399,
+    "elapsed_seconds": 21.833,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": []
+  },
+  {
+    "task": "unique-usernames",
+    "arm": "none",
+    "status": "ok",
+    "score": "2/3",
+    "cost": 0.0861634,
+    "turns": 5,
+    "input_tokens": 8,
+    "output_tokens": 1297,
+    "cache_read": 37717,
+    "cache_write": 6581,
+    "elapsed_seconds": 17.664,
+    "delivered_rules": [],
+    "delivery_check": null,
+    "skills_invoked": [],
+    "contamination": [],
+    "failed_checks": [
+      "lookalike-forms-are-the-same-name"
+    ]
+  }
+]
